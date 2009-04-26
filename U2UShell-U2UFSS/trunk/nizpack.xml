@@ -1,0 +1,49 @@
+<installation version="1.0">
+    <info>
+        <appname>U2UShell</appname>
+        <appversion>1.0</appversion>
+        <appsubpath>$APP_NAME $APP_VER</appsubpath>
+        <javaversion>1.5</javaversion>
+        <authors>
+            <author email="irenelizeth@gmail.com" name="Irene Lizeth Manotas"/>
+            <author email="spino327@gmail.com" name="Sergio Pino"/>
+        </authors>
+    </info>
+    <guiprefs height="450" resizable="yes" width="600">
+        <modifier key="useFlags" value="no"/>
+        <modifier key="langDisplayType" value="native"/>
+        <modifier key="allYGap" value="8"/>
+        <modifier key="allXGap" value="4"/>
+        <modifier key="layoutAnchor" value="NORTHWEST"/>
+    </guiprefs>
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+    <native name="ShellLink.dll" type="izpack">
+        <os family="windows"/>
+    </native>
+    <native name="COIOSHelper.dll" stage="both" type="3rdparty">
+        <os family="windows"/>
+    </native>
+    <listeners>
+        <listener installer="RegistryInstallerListener" uninstaller="RegistryUninstallerListener">
+            <os family="windows"/>
+        </listener>
+    </listeners>
+    <variables/>
+    <resources/>
+    <panels>
+        <panel classname="CheckedHelloPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+    <packs>
+        <pack name="Core" required="yes">
+            <description>Core Files</description>
+            <file targetdir="$INSTALL_PATH" src="dist"/>
+        </pack>
+    </packs>
+</installation>
