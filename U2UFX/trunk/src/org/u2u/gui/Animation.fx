@@ -7,35 +7,132 @@
 package org.u2u.gui;
 
 import javafx.animation.transition.RotateTransition;
+import javafx.animation.transition.TranslateTransition;
 import javafx.scene.Node;
+import javafx.animation.*;
+import javafx.scene.effect.*;
+import javafx.scene.effect.light.*;
+import javafx.scene.paint.Color;
 /**
  * @author sergio
  */
 
  public class Animation {
 
-     public var node:Node;
-     public var repeat:Number;
+    var rotTran = RotateTransition {}
+    var timLinScal = Timeline{}
+    var timLinTranLin = Timeline{}
+    var transTran = TranslateTransition{};
 
+    public var scal: Float;
+    public var blur: Float;
+    public var opacity: Float;
 
-     var rotTransition = RotateTransition {
-         duration: 3s
-         node: bind node
-         fromAngle:0
-         byAngle: 180
-         repeatCount:bind repeat
-         autoReverse: true
-        }
+    /*
+        This function animates a node and to make that node rotates
+    */
+    public function playAnimRotate(dur:Duration, node:Node, fromAng:Float,
+        byAng:Float,repC:Float, rev: Boolean ):Void{
+             println("hola");
 
-     public function playAnimRotate():Void{
-         println("hola");
-         rotTransition.play();
+             rotTran.duration = dur;
+             rotTran.node = node;
+             rotTran.fromAngle = fromAng;
+             rotTran.byAngle= byAng;
+             rotTran.repeatCount = repC;
+             rotTran.autoReverse = rev;
+
+             /*node.effect = Lighting {
+                    light: DistantLight { azimuth: -13 color: Color.WHITE elevation: 50 }
+                    surfaceScale: 1
+                }//MotionBlur { radius: 15 angle: -30 } //GaussianBlur{}*/
+             //init the transition
+             rotTran.play();
 
          }
+
+    /*
+        This animation makes that a node scales its dimentions through binding to scal variable
+    **/
+    public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
+        time1:Duration, time2:Duration,blurNode:Float,repC: Integer):Void
+    {
+        this.scal = scalNode;
+        this.blur = blurNode;
+        
+        timLinScal.repeatCount = repC;
+        timLinScal.autoReverse = true;
+        timLinScal.keyFrames = [
+
+            KeyFrame {
+                time:time1;
+                values: [this.scal =>minScal,
+                        this.blur => 10.0
+                        ]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal =>maxScal tween Interpolator.EASEBOTH,
+                        this.blur =>40.0
+                       ]
+                }
+        ];
+
+        timLinScal.play();
+    }
+
+
+    /*
+        This animation makes that a node appears with a perspective transformation
+    */
+    public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float):Void
+    {
+        this.opacity = opac;
+        timLinTranLin.keyFrames = [
+            KeyFrame{
+                time:3s
+                values: this.opacity => minOpac
+                },
+            KeyFrame{
+                time: 5.9s
+                values: this.opacity => maxOpac
+                }
+
+        ];
+        timLinTranLin.repeatCount = 1;
+        timLinTranLin.autoReverse=true;
+        timLinTranLin.playFromStart();
+    }
+
+    public function playTranslateAnimation(node: Node, fromX:Float, fromY: Float,
+        toX:Float, toY:Float, dur:Duration):Void
+    {
+        transTran.node = node;
+        transTran.fromX= fromX;
+        transTran.fromY = fromY;
+        transTran.toX = toX;
+        transTran.toY = toY;
+
+        transTran.duration = dur;
+        transTran.repeatCount = Timeline.INDEFINITE;
+        transTran.interpolate = Interpolator.LINEAR;
+
+        transTran.playFromStart();
+    }
+
+    public function playTranslateAnimation(node: Node,toY:Float, dur:Duration):Void
+    {
+        transTran.node = node;
+        transTran.toY = toY;
+
+        transTran.duration = dur;
+        transTran.repeatCount = Timeline.INDEFINITE;
+        transTran.interpolate = Interpolator.LINEAR;
+        transTran.time= 7s;
+        transTran.playFromStart();
+    }
+
  }
-
-
-
 
 
 

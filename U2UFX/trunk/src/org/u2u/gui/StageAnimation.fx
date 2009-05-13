@@ -12,14 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.paint.*;
 import javafx.scene.image.*;
 import javafx.scene.effect.*;
-import javafx.scene.shape.*;
-import javafx.scene.input.*;
-
-
-import javafx.animation.*;
-import javafx.animation.transition.*;
 import org.u2u.gui.Animation;
 import javafx.scene.Group;
+import javafx.scene.text.*;
+import javafx.animation.transition.Transition;
+import javafx.animation.Timeline;
 
 /**
  * @author sergio
@@ -27,15 +24,16 @@ import javafx.scene.Group;
 
 var imgStar: Image;
 var imgView1: ImageView;
-var animRotate: Animation = Animation {
-                                node: bind imgView1;
-                                repeat: 4.0;
-                            };
+var imgView2 : ImageView;
+var textIntro: Text;
+var anim: Animation = Animation {};
+
+
 
 Stage {
     title: "U2U FX"
-    width: 250
-    height: 250
+    width: 400
+    height: 400
     style: StageStyle.TRANSPARENT;
 
     scene: Scene {
@@ -43,40 +41,46 @@ Stage {
         content: [
 
             Group {
-                effect:DropShadow {
-                            offsetX: 10
-                            offsetY: 10
-                            color: Color.BLACK
-                            radius: 10
-                        }
+                
                 content: [
                     imgView1 = ImageView{
 
                         image: bind imgStar
+                        scaleX: bind anim.scal;
+                        scaleY: bind anim.scal;
 
+                        effect: GaussianBlur{
+                           radius:bind anim.blur
+                            }
                     },
-                    ImageView{
+                    imgView2 = ImageView{
                         image: bind imgStar
-                        scaleX: 0.2
-                        scaleY: 0.2
-                        x:100
-                        y:50
+                        scaleX: bind anim.scal;
+                        scaleY: bind anim.scal;
+                        x:200
+                        y:70
+                     },
 
-                        },
-                    Rectangle {
-                        height: 250;
-                        width: 400;
-                        fill: Color.BLACK;
-                        opacity: 0.1;
-                        arcHeight: 20;
-                        arcWidth: 20;
+                     textIntro = Text{
+                        opacity: bind anim.opacity;
+                        x:150
+                        y:250
+                        font: Font.font("Verdana",50)
+                        textAlignment: TextAlignment.CENTER
+                        content:"Download\nFiles\nShare\nKnowledge"
+                        fill: Color.BLACK
 
-                    }
+                        effect: PerspectiveTransform {
+                            ulx:  80 uly: 30
+                            urx: 320 ury: 30
+                            lrx: 340 lry: 380
+                            llx:  40 lly: 380
+                        }
+
+                     }
                 ];
 
-            }
-
-            
+            }   
         ]
     }
 }
@@ -91,5 +95,10 @@ function initComponents():Void{
     imgStar = Image{
         url:"{__DIR__}star1.png"
         };
-    animRotate.playAnimRotate();
+
+    anim.playAnimRotate(1s,imgView1,0,180,5,true);
+    anim.playScalAnim(0.3,0.15,0.5,0s,800ms,3,Timeline.INDEFINITE );
+    anim.playOpacityAnimation(0.1, 0.1,0.5);
+    anim.playTranslateAnimation(textIntro,-800, 9s);
+
 }
