@@ -19,6 +19,7 @@ import javafx.scene.input.*;
 import javafx.animation.*;
 import javafx.animation.transition.*;
 import org.u2u.gui.Animation;
+import javafx.scene.Group;
 
 /**
  * @author sergio
@@ -26,69 +27,62 @@ import org.u2u.gui.Animation;
 
 var imgStar: Image;
 var imgView1: ImageView;
-//var animRotate: Animation;
-var node:Rectangle;
-
-var rotTransition = RotateTransition {
-     duration: 4s node: node//imgView1
-     byAngle: 180 
-     repeatCount:Timeline.INDEFINITE
-     autoReverse: true
-
-    }
-
-//animRotate.node = imgView1;
+var animRotate: Animation = Animation {
+                                node: bind imgView1;
+                                repeat: 4.0;
+                            };
 
 Stage {
     title: "U2U FX"
     width: 250
     height: 250
-    //style: StageStyle.TRANSPARENT;
+    style: StageStyle.TRANSPARENT;
 
     scene: Scene {
-        //fill: Color.TRANSPARENT;
+        fill: Color.TRANSPARENT;
         content: [
 
-            /*Rectangle{
-                fill: Color.RED;
-                width:250
-                height:250
-                },*/
-            imgView1 = ImageView{
+            Group {
+                effect:DropShadow {
+                            offsetX: 10
+                            offsetY: 10
+                            color: Color.BLACK
+                            radius: 10
+                        }
+                content: [
+                    imgView1 = ImageView{
 
-                image: bind imgStar
-                //effect: Bloom{}
+                        image: bind imgStar
 
-                onMouseClicked:function(me:MouseEvent):Void{
-                    rotTransition.playFromStart();
+                    },
+                    ImageView{
+                        image: bind imgStar
+                        scaleX: 0.2
+                        scaleY: 0.2
+                        x:100
+                        y:50
+
+                        },
+                    Rectangle {
+                        height: 250;
+                        width: 400;
+                        fill: Color.BLACK;
+                        opacity: 0.1;
+                        arcHeight: 20;
+                        arcWidth: 20;
+
                     }
-                },
-            ImageView{
-                image: bind imgStar
-                scaleX: 0.2
-                scaleY: 0.2
-                x:100
-                y:50
-                },
+                ];
 
-               node = Rectangle {
-                x: 100 y: 40
-                height: 100 width:  100
-                arcHeight: 50 arcWidth: 50
-                fill: Color.VIOLET
-
-                onMouseClicked:function(me:MouseEvent):Void{
-                    rotTransition.playFromStart();
-                    }
             }
 
-
+            
         ]
     }
 }
 
 initComponents();
-rotTransition.play();
+
 /*
     This function initializes the UI components
 */
@@ -97,15 +91,5 @@ function initComponents():Void{
     imgStar = Image{
         url:"{__DIR__}star1.png"
         };
-
-    }
-
-function initAnimation():Void{
-
-    //animRotate.playAnimRotate();
-
-
-     rotTransition.play();
-
-
-    }
+    animRotate.playAnimRotate();
+}

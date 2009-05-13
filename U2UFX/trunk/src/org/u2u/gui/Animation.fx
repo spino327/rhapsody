@@ -14,22 +14,24 @@ import javafx.scene.Node;
 
  public class Animation {
 
- public var node:Node;
+     public var node:Node;
+     public var repeat:Number;
 
- var i = bind node on replace {
-     println("Cambio a : {i}")
-     }
 
- var rotTransition = RotateTransition {
-     duration: 1m node: node
-     byAngle: 180 repeatCount:4 autoReverse: true
-    }
+     var rotTransition = RotateTransition {
+         duration: 3s
+         node: bind node
+         fromAngle:0
+         byAngle: 180
+         repeatCount:bind repeat
+         autoReverse: true
+        }
 
- public function playAnimRotate():Void{
-     println("hola");
-     rotTransition.play();
+     public function playAnimRotate():Void{
+         println("hola");
+         rotTransition.play();
 
-     }
+         }
  }
 
 
