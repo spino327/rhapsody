@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
     var transTran = TranslateTransition{};
 
     public var scal: Float;
+    public var scal2: Float;
     public var blur: Float;
     public var opacity: Float;
 
@@ -54,8 +55,8 @@ import javafx.scene.paint.Color;
     /*
         This animation makes that a node scales its dimentions through binding to scal variable
     **/
-    public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
-        time1:Duration, time2:Duration,blurNode:Float,repC: Integer):Void
+    public function playScalWithBlurAnim(scalNode:Float,minScal:Float, maxScal:Float,
+        minBlur:Number,maxBlur:Number,time1:Duration, time2:Duration,blurNode:Float,repC: Integer):Void
     {
         this.scal = scalNode;
         this.blur = blurNode;
@@ -67,13 +68,13 @@ import javafx.scene.paint.Color;
             KeyFrame {
                 time:time1;
                 values: [this.scal =>minScal,
-                        this.blur => 10.0
+                        this.blur => minBlur
                         ]
             },
             KeyFrame{
                 time:time2
                 values: [this.scal =>maxScal tween Interpolator.EASEBOTH,
-                        this.blur =>40.0
+                        this.blur => maxBlur
                        ]
                 }
         ];
@@ -81,6 +82,58 @@ import javafx.scene.paint.Color;
         timLinScal.play();
     }
 
+    public function playScalWithOpacityAnim(scalNode:Float,minScal:Float, maxScal:Float,
+        minOpac:Number,maxOpac:Number,time1:Duration, time2:Duration,initOpac:Float,repC: Integer):Void
+    {
+        this.scal2 = scalNode;
+        this.opacity= initOpac;
+
+        timLinScal.repeatCount = repC;
+        timLinScal.autoReverse = true;
+        timLinScal.keyFrames = [
+
+            KeyFrame {
+                time:time1;
+                values: [this.scal2 =>minScal,
+                        this.opacity => minOpac
+                        ]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal2 =>maxScal tween Interpolator.EASEBOTH,
+                        this.opacity => maxOpac
+                       ]
+                }
+        ];
+
+        timLinScal.play();
+    }
+
+
+    /*
+    This function animates a node: sale x and y axis of node
+    */
+     public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
+        time1:Duration, time2:Duration,repC: Integer):Void
+    {
+        this.scal2 = scalNode;
+        //this.scal = scalNode;
+
+        timLinScal.repeatCount = repC;
+        timLinScal.autoReverse = true;
+        timLinScal.keyFrames = [
+
+            KeyFrame {
+                time:time1;
+                values: [this.scal2 =>minScal]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal2 =>maxScal tween Interpolator.EASEBOTH ]
+                }
+        ];
+        timLinScal.play();
+    }
 
     /*
         This animation makes that a node appears with a perspective transformation
@@ -114,22 +167,28 @@ import javafx.scene.paint.Color;
         transTran.toY = toY;
 
         transTran.duration = dur;
-        transTran.repeatCount = Timeline.INDEFINITE;
+        transTran.repeatCount = 1;
         transTran.interpolate = Interpolator.LINEAR;
 
         transTran.playFromStart();
     }
-
-    public function playTranslateAnimation(node: Node,toY:Float, dur:Duration):Void
+    /*
+        Stops the animation with scale and blur effects
+    */
+    public function stopScalWithOpacity():Void
     {
-        transTran.node = node;
-        transTran.toY = toY;
+        if(timLinScal.currentRate==10)
+            timLinScal.stop();
+    }
 
-        transTran.duration = dur;
-        transTran.repeatCount = Timeline.INDEFINITE;
-        transTran.interpolate = Interpolator.LINEAR;
-        transTran.time= 7s;
-        transTran.playFromStart();
+    public function stopTranslateAnimation():Void
+    {
+        transTran.stop();
+        var i = bind transTran.currentRate on replace
+        {   println("El nuevo valor de la transiscion es: {i}");
+            if(transTran.currentRate==3)
+            {transTran.stop();}
+        };
     }
 
  }

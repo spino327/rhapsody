@@ -106,9 +106,6 @@ function initComponents():Void{
     anim.playScalWithBlurAnim(0.3,0.15,0.45,1,8,1s,3s,1,10);
     anim.playOpacityAnimation(0.1, 0.1,0.5);
     anim.playTranslateAnimation(textIntro,50,380,50,-500, 14s);
-    anim.stopScalWithOpacity();
-    
-    //animates the logo image
-    //anim.playScalAnim(0.1, 0.1,1,1s,5s,1);
+    //anim.stopScalWithOpacity();
     anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,6s,10s,1,1);
 }
