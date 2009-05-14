@@ -12,8 +12,9 @@ import javafx.scene.Node;
 import javafx.animation.*;
 import javafx.scene.effect.light.*;
 
+import org.u2u.gui.StageAnimation;
 /**
- * @author sergio
+ * @author irene
  */
 
  public class Animation {
