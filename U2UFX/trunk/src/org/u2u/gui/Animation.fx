@@ -10,9 +10,8 @@ import javafx.animation.transition.RotateTransition;
 import javafx.animation.transition.TranslateTransition;
 import javafx.scene.Node;
 import javafx.animation.*;
-import javafx.scene.effect.*;
 import javafx.scene.effect.light.*;
-import javafx.scene.paint.Color;
+
 /**
  * @author sergio
  */
@@ -34,8 +33,7 @@ import javafx.scene.paint.Color;
     */
     public function playAnimRotate(dur:Duration, node:Node, fromAng:Float,
         byAng:Float,repC:Float, rev: Boolean ):Void{
-             println("hola");
-
+             
              rotTran.duration = dur;
              rotTran.node = node;
              rotTran.fromAngle = fromAng;
@@ -49,11 +47,11 @@ import javafx.scene.paint.Color;
                 }//MotionBlur { radius: 15 angle: -30 } //GaussianBlur{}*/
              //init the transition
              rotTran.play();
-
-         }
+    }
 
     /*
-        This animation makes that a node scales its dimentions through binding to scal variable
+        This animation does that a node scales its dimentions through binding to scal variable
+        with a blur effect
     **/
     public function playScalWithBlurAnim(scalNode:Float,minScal:Float, maxScal:Float,
         minBlur:Number,maxBlur:Number,time1:Duration, time2:Duration,blurNode:Float,repC: Integer):Void
@@ -82,6 +80,10 @@ import javafx.scene.paint.Color;
         timLinScal.play();
     }
 
+    /*
+        This animation does that a node scales its dimentions through binding to scal variable
+        with opacity effect
+    **/
     public function playScalWithOpacityAnim(scalNode:Float,minScal:Float, maxScal:Float,
         minOpac:Number,maxOpac:Number,time1:Duration, time2:Duration,initOpac:Float,repC: Integer):Void
     {
@@ -110,7 +112,7 @@ import javafx.scene.paint.Color;
     }
 
 /*
-    This function animates a node: sale x and y axis of node
+    This function animates a node: scale x and y axis of node
     */
      public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
         time1:Duration, time2:Duration,repC: Integer):Void
@@ -135,7 +137,7 @@ import javafx.scene.paint.Color;
     }
 
     /*
-        This animation makes that a node appears with a perspective transformation
+        This animation does that a node has a opacity effect
     */
     public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float):Void
     {
@@ -149,7 +151,6 @@ import javafx.scene.paint.Color;
                 time: 5.9s
                 values: this.opacity => maxOpac
                 }
-
         ];
         timLinTranLin.repeatCount = 1;
         timLinTranLin.autoReverse=true;
@@ -160,7 +161,7 @@ import javafx.scene.paint.Color;
         This animation does a translate transition
     */
     public function playTranslateAnimation(node: Node, fromX:Float, fromY: Float,
-        toX:Float, toY:Float, dur:Duration):Void
+        toX:Float, toY:Float, dur:Duration, repC:Integer):Void
     {
         transTran.node = node;
         transTran.fromX= fromX;
@@ -169,7 +170,7 @@ import javafx.scene.paint.Color;
         transTran.toY = toY;
 
         transTran.duration = dur;
-        transTran.repeatCount = 1;
+        transTran.repeatCount = repC;
         transTran.interpolate = Interpolator.LINEAR;
 
         transTran.playFromStart();
@@ -183,6 +184,9 @@ import javafx.scene.paint.Color;
             timLinScal.stop();
     }
 
+    /*
+
+    */
     public function stopTranslateAnimation():Void
     {
         transTran.stop();
