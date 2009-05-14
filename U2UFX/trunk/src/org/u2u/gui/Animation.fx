@@ -109,8 +109,7 @@ import javafx.scene.paint.Color;
         timLinScal.play();
     }
 
-
-    /*
+/*
     This function animates a node: sale x and y axis of node
     */
      public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
@@ -157,6 +156,9 @@ import javafx.scene.paint.Color;
         timLinTranLin.playFromStart();
     }
 
+    /*
+        This animation does a translate transition
+    */
     public function playTranslateAnimation(node: Node, fromX:Float, fromY: Float,
         toX:Float, toY:Float, dur:Duration):Void
     {

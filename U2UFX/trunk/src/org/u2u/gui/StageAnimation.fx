@@ -102,10 +102,12 @@ function initComponents():Void{
     {
         url:"{__DIR__}u2ulogo.png";
     }
-    anim.playAnimRotate(1s,imgView1,0,180,5,true);
-    anim.playScalWithBlurAnim(0.3,0.15,0.45,1,8,1s,3s,1,10);
-    anim.playOpacityAnimation(0.1, 0.1,0.5);
+    //rotate animation: stars
+    anim.playAnimRotate(5s,imgView1,0,180,5,true);
+    //scal animation with blur effect: stars
+    anim.playScalWithBlurAnim(0.3,0.15,0.45,1,8,1s,8s,1,Timeline.INDEFINITE);
+     //translate animation: text
     anim.playTranslateAnimation(textIntro,50,380,50,-500, 14s);
-    //anim.stopScalWithOpacity();
-    anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,6s,10s,1,1);
+    //scal animation with opacity effect: logoU2U
+    anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,6s,10s,0.0,1);
 }
