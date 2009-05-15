@@ -22,7 +22,7 @@ import javafx.animation.Timeline;
  */
 
 
-public var stage: Stage;
+public var stageAnim: Stage;
 var imgStar: Image;
 var imgLogo: Image;
 var imgView1: ImageView;
@@ -33,7 +33,7 @@ var anim: Animation = Animation {};
 
 function run(args:String[]):Void{
 
-    stage = Stage {
+    stageAnim = Stage {
         title: "U2U FX"
         width: 400
         height: 400
@@ -72,7 +72,7 @@ function run(args:String[]):Void{
                             y:70
                          },
                          textIntro = Text{
-                            opacity: bind anim.opacity;
+                            opacity: bind anim.opacityWithScal;
                             x:150
                             y:250
                             font: Font.font("Verdana",50)
@@ -112,9 +112,12 @@ function initComponents():Void{
     //rotate animation: stars
     anim.playAnimRotate(3s,imgView1,0,180,20,true);
     //scal animation with blur effect: stars
-    anim.playScalWithBlurAnim(0.2,0.15,0.45,1,8,2s,8s,1,Timeline.INDEFINITE);
+    anim.playScalWithBlurAnim(0.2,0.15,0.45,1,6,0.5s,1.5s,1,20);
      //translate animation: text
     anim.playTranslateAnimation(textIntro,50,380,50,-500, 10s,2);
     //scal animation with opacity effect: logoU2U
-    anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,10s,15s,0.0,1);
+    //anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,10s,15s,0.0,1);
+    //anim.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
+    //opcity animation, it does that the logo image desappears
+    //anim.playOpacityAnimation(1, 1, 0.0,16s,18s);
 }

@@ -21,14 +21,13 @@ import org.u2u.gui.StageAnimation;
 
     var rotTran = RotateTransition {}
     var timLinScal = Timeline{}
-    var timLinTranLin = Timeline{}
     var transTran = TranslateTransition{};
 
     public var scal: Float;
     public var scal2: Float;
     public var blur: Float;
+    public var opacityWithScal: Float;
     public var opacity: Float;
-
     /*
         This function animates a node and to make that node rotates
     */
@@ -75,6 +74,14 @@ import org.u2u.gui.StageAnimation;
                 values: [this.scal =>maxScal tween Interpolator.EASEBOTH,
                         this.blur => maxBlur
                        ]
+                },
+            KeyFrame{
+                time: 10s
+                values: this.opacityWithScal => 0.1
+                },
+            KeyFrame{
+                time: 15s
+                values: this.opacityWithScal => 1
                 }
         ];
 
@@ -89,7 +96,7 @@ import org.u2u.gui.StageAnimation;
         minOpac:Number,maxOpac:Number,time1:Duration, time2:Duration,initOpac:Float,repC: Integer):Void
     {
         this.scal2 = scalNode;
-        this.opacity= initOpac;
+        this.opacityWithScal = initOpac;
 
         timLinScal.repeatCount = repC;
         timLinScal.autoReverse = true;
@@ -98,13 +105,13 @@ import org.u2u.gui.StageAnimation;
             KeyFrame {
                 time:time1;
                 values: [this.scal2 =>minScal,
-                        this.opacity => minOpac
+                        this.opacityWithScal => minOpac
                         ]
             },
             KeyFrame{
                 time:time2
                 values: [this.scal2 =>maxScal tween Interpolator.EASEBOTH,
-                        this.opacity => maxOpac
+                        this.opacityWithScal => maxOpac
                        ]
                 }
         ];
@@ -140,22 +147,23 @@ import org.u2u.gui.StageAnimation;
     /*
         This animation does that a node has a opacity effect
     */
-    public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float):Void
+    public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float,
+        time1:Duration, time2:Duration):Void
     {
-        this.opacity = opac;
-        timLinTranLin.keyFrames = [
+        this.opacityWithScal = opac;
+        timLinScal.keyFrames = [
             KeyFrame{
-                time:3s
-                values: this.opacity => minOpac
+                time: time1
+                values: this.opacityWithScal => minOpac
                 },
             KeyFrame{
-                time: 5.9s
-                values: this.opacity => maxOpac
+                time: time2
+                values: this.opacityWithScal => maxOpac
                 }
         ];
-        timLinTranLin.repeatCount = 1;
-        timLinTranLin.autoReverse=true;
-        timLinTranLin.playFromStart();
+        timLinScal.repeatCount = 1;
+        timLinScal.autoReverse=false;
+        timLinScal.playFromStart();
     }
 
     /*

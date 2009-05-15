@@ -6,24 +6,28 @@
 
 package org.u2u.gui;
 
-import javafx.stage.Stage;
+
 import javafx.stage.*;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.*;
 import org.u2u.gui.StageAnimation;
+import javafx.scene.effect.Reflection;
+
 /**
  * @author Irene
  */
 
 var stage: Stage;
 
-stage = StageAnimation.stage;
-stage.visible = false;
-var imgView:ImageView;
-var img:Image;
+/*stage = StageAnimation.stage;
+stage.visible = false;*/
+var imgViewBac:ImageView;
+var imgViewCon: ImageView;
+var imgBac:Image;
+var imgCon:Image;
 
-    Stage   {
+stage = Stage   {
 
     style:StageStyle.TRANSPARENT;
     width:650;
@@ -32,20 +36,24 @@ var img:Image;
     scene: Scene {
            content: [
 
-                imgView = ImageView{
-                    image:bind img;
+                imgViewBac = ImageView{
+                    image: bind imgBac;
+                    scaleY:1.6
+
                 },
-                Rectangle
-                {
-                    clip: bind imgView;
-                    width:500
-                    height:600
-                    smooth: true
-                }
+                imgViewCon = ImageView{
+                    translateX:210
+                    translateY:30
+                    image: bind imgCon;
+                },
+
            ]
         }
     }
 
-    img = Image{
-            url: "{__DIR__}metal3.png";
+    imgBac = Image{
+            url: "{__DIR__}Earth-Horizon.png";
+        }
+     imgCon = Image{
+            url: "{__DIR__}content.png";
         }
