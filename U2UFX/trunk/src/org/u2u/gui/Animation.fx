@@ -96,6 +96,7 @@ import org.u2u.gui.StageAnimation;
         transTran.playFromStart();
 
        //this.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
+       this.playOpacityAnimation(0.0, 0.1, 1, 10s, 13s,14s,17s);
     }
 
 
@@ -103,7 +104,7 @@ import org.u2u.gui.StageAnimation;
         This animation does that a node has a opacity effect
     */
     public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float,
-        time1:Duration, time2:Duration):Void
+        time1:Duration, time2:Duration, time3:Duration, time4:Duration):Void
     {
         this.opacityWithScal = opac;
 
@@ -115,15 +116,15 @@ import org.u2u.gui.StageAnimation;
             KeyFrame{
                 time: time2
                 values: this.opacityWithScal => maxOpac
-                }/*,
+                },
             KeyFrame{
                 time: time3
                 values: this.opacityWithScal => maxOpac
                 },
              KeyFrame{
                 time: time4
-                values: this.opacityWithScal => minOp
-            },*/
+                values: this.opacityWithScal => minOpac
+            }
         ];
 
         timLin.keyFrames = keys;
