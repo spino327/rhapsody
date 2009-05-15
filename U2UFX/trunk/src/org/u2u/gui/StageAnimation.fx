@@ -112,12 +112,10 @@ function initComponents():Void{
     //rotate animation: stars
     anim.playAnimRotate(3s,imgView1,0,180,20,true);
     //scal animation with blur effect: stars
-    anim.playScalWithBlurAnim(0.2,0.15,0.45,1,6,0.5s,1.5s,1,20);
-     //translate animation: text
+    anim.playScalWithBlurAnim(0.2,0.15,0.45,1,6,0.5s,1s,1,Timeline.INDEFINITE);
+     //translate animation: text with opacity effect
     anim.playTranslateAnimation(textIntro,50,380,50,-500, 10s,2);
     //scal animation with opacity effect: logoU2U
-    //anim.playScalWithOpacityAnim(0.1,0.1,1.1,0.1,1,10s,15s,0.0,1);
-    //anim.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
-    //opcity animation, it does that the logo image desappears
-    //anim.playOpacityAnimation(1, 1, 0.0,16s,18s);
+    anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 9.5s, 15s,0.0 , 1);
+    
 }

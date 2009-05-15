@@ -19,8 +19,10 @@ import org.u2u.gui.StageAnimation;
 
  public class Animation {
 
-    var rotTran = RotateTransition {}
-    var timLinScal = Timeline{}
+    var rotTran = RotateTransition {};
+    var timLinScal = Timeline{};
+    var timLin = Timeline{};
+    var timLinScalOpc = Timeline{};
     var transTran = TranslateTransition{};
 
     public var scal: Float;
@@ -40,11 +42,6 @@ import org.u2u.gui.StageAnimation;
              rotTran.byAngle= byAng;
              rotTran.repeatCount = repC;
              rotTran.autoReverse = rev;
-
-             /*node.effect = Lighting {
-                    light: DistantLight { azimuth: -13 color: Color.WHITE elevation: 50 }
-                    surfaceScale: 1
-                }//MotionBlur { radius: 15 angle: -30 } //GaussianBlur{}*/
              //init the transition
              rotTran.play();
     }
@@ -71,23 +68,70 @@ import org.u2u.gui.StageAnimation;
             },
             KeyFrame{
                 time:time2
-                values: [this.scal =>maxScal tween Interpolator.EASEBOTH,
+                values: [this.scal =>maxScal tween Interpolator.LINEAR,
                         this.blur => maxBlur
                        ]
                 },
-            KeyFrame{
-                time: 10s
-                values: this.opacityWithScal => 0.1
-                },
-            KeyFrame{
-                time: 15s
-                values: this.opacityWithScal => 1
-                }
         ];
 
-        timLinScal.play();
+        timLinScal.playFromStart();
     }
 
+ /*
+        This animation does a translate transition
+    */
+    public function playTranslateAnimation(node: Node, fromX:Float, fromY: Float,
+        toX:Float, toY:Float, dur:Duration, repC:Integer):Void
+    {
+        transTran.node = node;
+        transTran.fromX= fromX;
+        transTran.fromY = fromY;
+        transTran.toX = toX;
+        transTran.toY = toY;
+
+        transTran.duration = dur;
+        transTran.repeatCount = repC;
+        transTran.interpolate = Interpolator.LINEAR;
+
+        transTran.playFromStart();
+
+       //this.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
+    }
+
+
+/*
+        This animation does that a node has a opacity effect
+    */
+    public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float,
+        time1:Duration, time2:Duration):Void
+    {
+        this.opacityWithScal = opac;
+
+        var keys:KeyFrame[] = [
+            KeyFrame{
+                time: time1
+                values: this.opacityWithScal => minOpac
+                },
+            KeyFrame{
+                time: time2
+                values: this.opacityWithScal => maxOpac
+                }/*,
+            KeyFrame{
+                time: time3
+                values: this.opacityWithScal => maxOpac
+                },
+             KeyFrame{
+                time: time4
+                values: this.opacityWithScal => minOp
+            },*/
+        ];
+
+        timLin.keyFrames = keys;
+        timLin.repeatCount =1;
+        timLin.autoReverse = true;
+        timLin.playFromStart();
+
+    }
     /*
         This animation does that a node scales its dimentions through binding to scal variable
         with opacity effect
@@ -96,6 +140,28 @@ import org.u2u.gui.StageAnimation;
         minOpac:Number,maxOpac:Number,time1:Duration, time2:Duration,initOpac:Float,repC: Integer):Void
     {
         this.scal2 = scalNode;
+        this.opacity = initOpac;
+
+        timLinScalOpc.repeatCount = repC;
+        timLinScalOpc.autoReverse = true;
+        timLinScalOpc.keyFrames = [
+
+            KeyFrame {
+                time:time1;
+                values: [this.scal2 =>minScal,
+                        this.opacity => minOpac
+                        ]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal2 =>maxScal tween Interpolator.EASEBOTH,
+                        this.opacity => maxOpac
+                       ]
+                }
+        ];
+        timLinScalOpc.playFromStart();
+
+        /*this.scal2 = scalNode;
         this.opacityWithScal = initOpac;
 
         timLinScal.repeatCount = repC;
@@ -115,11 +181,34 @@ import org.u2u.gui.StageAnimation;
                        ]
                 }
         ];
-
-        timLinScal.play();
+        timLinScal.play();*/
     }
 
-/*
+
+    
+   
+    /*
+        Stops the animation with scale and blur effects
+    */
+    /*public function stopScalWithOpacity():Void
+    {
+        if(timLinScal.currentRate==10)
+            timLinScal.stop();
+    }
+    */
+    /*
+    public function stopTranslateAnimation():Void
+    {
+        transTran.stop();
+        var i = bind transTran.currentRate on replace
+        {   println("El nuevo valor de la transiscion es: {i}");
+            if(transTran.currentRate==3)
+            {transTran.stop();}
+        };
+    }
+    */
+
+    /*
     This function animates a node: scale x and y axis of node
     */
      public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,
@@ -144,67 +233,8 @@ import org.u2u.gui.StageAnimation;
         timLinScal.play();
     }
 
-    /*
-        This animation does that a node has a opacity effect
-    */
-    public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float,
-        time1:Duration, time2:Duration):Void
-    {
-        this.opacityWithScal = opac;
-        timLinScal.keyFrames = [
-            KeyFrame{
-                time: time1
-                values: this.opacityWithScal => minOpac
-                },
-            KeyFrame{
-                time: time2
-                values: this.opacityWithScal => maxOpac
-                }
-        ];
-        timLinScal.repeatCount = 1;
-        timLinScal.autoReverse=false;
-        timLinScal.playFromStart();
-    }
 
-    /*
-        This animation does a translate transition
-    */
-    public function playTranslateAnimation(node: Node, fromX:Float, fromY: Float,
-        toX:Float, toY:Float, dur:Duration, repC:Integer):Void
-    {
-        transTran.node = node;
-        transTran.fromX= fromX;
-        transTran.fromY = fromY;
-        transTran.toX = toX;
-        transTran.toY = toY;
 
-        transTran.duration = dur;
-        transTran.repeatCount = repC;
-        transTran.interpolate = Interpolator.LINEAR;
-
-        transTran.playFromStart();
-    }
-    /*
-        Stops the animation with scale and blur effects
-    */
-    public function stopScalWithOpacity():Void
-    {
-        if(timLinScal.currentRate==10)
-            timLinScal.stop();
-    }
-
-    /*
-
-    */
-    public function stopTranslateAnimation():Void
-    {
-        transTran.stop();
-        var i = bind transTran.currentRate on replace
-        {   println("El nuevo valor de la transiscion es: {i}");
-            if(transTran.currentRate==3)
-            {transTran.stop();}
-        };
-    }
 
  }
 
