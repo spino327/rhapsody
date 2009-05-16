@@ -21,15 +21,21 @@ import javafx.animation.Timeline;
  * @author irene
  */
 
-
 public var stageAnim: Stage;
+public var scene:Scene;
+
 var imgStar: Image;
 var imgLogo: Image;
+var imgBac : Image;
 var imgView1: ImageView;
 var imgView2 : ImageView;
 var imgViewLogo: ImageView;
+var imgViewBac: ImageView;
 var textIntro: Text;
 var anim: Animation = Animation {};
+
+var fromx: Number;
+var fromy: Number;
 
 function run(args:String[]):Void{
 
@@ -39,16 +45,26 @@ function run(args:String[]):Void{
         height: 400
         style: StageStyle.TRANSPARENT;
 
-        scene: Scene {
+        scene: scene = Scene {
             fill: Color.TRANSPARENT;
             content: [
 
                 Group {
 
                     content: [
+
+                        imgViewBac = ImageView{
+                            translateX:bind (scene.width - imgViewBac.layoutBounds.width)/2
+                            translateY: bind (scene.height - imgViewBac.layoutBounds.height)/2
+                            image: bind imgBac;
+                            scaleX: bind anim.scal3
+                            scaleY: bind anim.scal3
+                            opacity: bind anim.opacityWithScal2
+                        },
                         imgViewLogo = ImageView{
-                            x:150
-                            y:100
+                           
+                            translateX:bind (scene.width - imgViewLogo.layoutBounds.width)/2
+                            translateY: bind (scene.height - imgViewLogo.layoutBounds.height)/2
                             image: bind imgLogo
                             scaleX: bind anim.scal2
                             scaleY: bind anim.scal2
@@ -73,8 +89,7 @@ function run(args:String[]):Void{
                          },
                          textIntro = Text{
                             opacity: bind anim.opacityWithScal;
-                            x:150
-                            y:250
+
                             font: Font.font("Verdana",50)
                             textAlignment: TextAlignment.CENTER
                             content:"Download\nFiles\nShare\nKnowledge"
@@ -86,6 +101,7 @@ function run(args:String[]):Void{
                                 llx:  40 lly: 280
                             }
                          },
+                         
                      ];
                 }
             ]
@@ -108,14 +124,23 @@ function initComponents():Void{
     imgLogo = Image
     {
         url:"{__DIR__}u2ulogo.png";
-    }
+    };
+
+    imgBac = Image{
+            url: "{__DIR__}Earth-Horizon.png";
+     };
+
+    fromx = (scene.width-textIntro.layoutBounds.width)/2;
+    fromy = (scene.height-textIntro.layoutBounds.height)/2;
     //rotate animation: stars
     anim.playAnimRotate(3s,imgView1,0,180,20,true);
     //scal animation with blur effect: stars
     anim.playScalWithBlurAnim(0.2,0.15,0.45,1,6,0.5s,1s,1,Timeline.INDEFINITE);
      //translate animation: text with opacity effect
-    anim.playTranslateAnimation(textIntro,50,380,50,-500, 10s,2);
+    anim.playTranslateAnimation(textIntro,fromx,380,fromx,-500, 10s,2);
     //scal animation with opacity effect: logoU2U
     anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 9.5s, 15s,0.0 , 1);
-    
+    //scal and opcaity the background of the application
+    anim.playScalWithOpacityAnim(14s, 19s);
+
 }

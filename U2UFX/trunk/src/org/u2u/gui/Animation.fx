@@ -23,12 +23,16 @@ import org.u2u.gui.StageAnimation;
     var timLinScal = Timeline{};
     var timLin = Timeline{};
     var timLinScalOpc = Timeline{};
+    var timLinScalOpc2 = Timeline{};
     var transTran = TranslateTransition{};
 
     public var scal: Float;
     public var scal2: Float;
+    public var scal3: Float;
     public var blur: Float;
     public var opacityWithScal: Float;
+    public var opacityWithScal2:Float;
+
     public var opacity: Float;
     /*
         This function animates a node and to make that node rotates
@@ -99,8 +103,7 @@ import org.u2u.gui.StageAnimation;
        this.playOpacityAnimation(0.0, 0.1, 1, 10s, 13s,14s,17s);
     }
 
-
-/*
+    /*
         This animation does that a node has a opacity effect
     */
     public function playOpacityAnimation(opac:Float, minOpac:Float, maxOpac:Float,
@@ -185,31 +188,32 @@ import org.u2u.gui.StageAnimation;
         timLinScal.play();*/
     }
 
+public function playScalWithOpacityAnim(time1:Duration, time2:Duration):Void{
+        this.scal3 = 0.0;
+        this.opacityWithScal2 = 0.0;
 
-    
-   
-    /*
-        Stops the animation with scale and blur effects
-    */
-    /*public function stopScalWithOpacity():Void
-    {
-        if(timLinScal.currentRate==10)
-            timLinScal.stop();
-    }
-    */
-    /*
-    public function stopTranslateAnimation():Void
-    {
-        transTran.stop();
-        var i = bind transTran.currentRate on replace
-        {   println("El nuevo valor de la transiscion es: {i}");
-            if(transTran.currentRate==3)
-            {transTran.stop();}
-        };
-    }
-    */
+        timLinScalOpc2.repeatCount = 1;
+        timLinScalOpc2.autoReverse = true;
+        timLinScalOpc2.keyFrames = [
 
-    /*
+            KeyFrame {
+                time:time1;
+                values: [this.scal3 =>0.1,
+                        this.opacityWithScal2 => 0.1
+                        ]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal2 =>1 tween Interpolator.EASEBOTH,
+                        this.opacity => 1
+                       ]
+                }
+        ];
+        timLinScalOpc2.playFromStart();
+
+    }
+
+        /*
     This function animates a node: scale x and y axis of node
     */
      public function playScalAnim(scalNode:Float,minScal:Float, maxScal:Float,

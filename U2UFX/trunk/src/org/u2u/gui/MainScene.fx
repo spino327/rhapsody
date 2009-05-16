@@ -27,18 +27,17 @@ var imgViewCon: ImageView;
 var imgBac:Image;
 var imgCon:Image;
 
-stage = Stage   {
+public var sceneContent:Scene;
 
-    style:StageStyle.TRANSPARENT;
-    width:650;
-    height:500;
-
-    scene: Scene {
+public function run(args:String[])
+{
+     sceneContent = Scene {
            content: [
 
                 imgViewBac = ImageView{
                     image: bind imgBac;
                     scaleY:1.6
+                    effect: Reflection {fraction: 0.65  topOpacity: 0.45 }
 
                 },
                 imgViewCon = ImageView{
@@ -48,12 +47,24 @@ stage = Stage   {
                 },
 
            ]
-        }
-    }
+    };
+ }
+/**stage = Stage   {
 
+    style:StageStyle.TRANSPARENT;
+    width:650;
+    height:500;
+
+
+
+ }**/
+
+
+/*
     imgBac = Image{
             url: "{__DIR__}Earth-Horizon.png";
         }
      imgCon = Image{
             url: "{__DIR__}content.png";
         }
+*/
