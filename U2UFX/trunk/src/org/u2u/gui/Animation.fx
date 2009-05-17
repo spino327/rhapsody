@@ -11,8 +11,10 @@ import javafx.animation.transition.TranslateTransition;
 import javafx.scene.Node;
 import javafx.animation.*;
 import javafx.scene.effect.light.*;
+import javafx.scene.Scene;
 
 import org.u2u.gui.StageAnimation;
+import org.u2u.gui.MainScene;
 /**
  * @author irene
  */
@@ -34,6 +36,7 @@ import org.u2u.gui.StageAnimation;
     public var opacityWithScal2:Float;
 
     public var opacity: Float;
+    public var sceneChanged:Scene;
     /*
         This function animates a node and to make that node rotates
     */
@@ -239,6 +242,28 @@ public function playScalWithOpacityAnim(time1:Duration, time2:Duration):Void{
     }
 
 
+    public function playChangeAnim(time1:Duration, time2:Duration):Void
+    {
+
+
+        timLinScalOpc2.repeatCount = 1;
+        timLinScalOpc2.autoReverse = true;
+        timLinScalOpc2.keyFrames = [
+
+            KeyFrame {
+                time:time1;
+                values: [this.scal3 =>0.1,
+                        ]
+            },
+            KeyFrame{
+                time:time2
+                values: [this.scal3 =>1 tween Interpolator.EASEBOTH,
+                         this.sceneChanged => MainScene.sceneContent
+                       ]
+                }
+        ];
+        timLinScalOpc2.playFromStart();
+    }
 
 
  }

@@ -12,10 +12,17 @@ import javafx.scene.Scene;
 import javafx.scene.paint.*;
 import javafx.scene.image.*;
 import javafx.scene.effect.*;
-import org.u2u.gui.Animation;
+import javafx.scene.effect.light.*;
 import javafx.scene.Group;
 import javafx.scene.text.*;
 import javafx.animation.Timeline;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.input.KeyCode.*;
+
+import org.u2u.gui.MainScene;
+import org.u2u.gui.Animation;
+import javafx.scene.input.KeyEvent;
+
 
 /**
  * @author irene
@@ -45,9 +52,9 @@ function run(args:String[]):Void{
         height: 400
         style: StageStyle.TRANSPARENT;
 
-        scene: scene = Scene {
+        scene: bind scene = Scene {
             fill: Color.TRANSPARENT;
-            content: [
+            content: bind [
 
                 Group {
 
@@ -57,9 +64,24 @@ function run(args:String[]):Void{
                             translateX:bind (scene.width - imgViewBac.layoutBounds.width)/2
                             translateY: bind (scene.height - imgViewBac.layoutBounds.height)/2
                             image: bind imgBac;
-                            scaleX: bind anim.scal3
+                            clip: Rectangle{//arcHeight:30 arcWidth:30
+                                            width:400//imgViewBac.layoutBounds.width
+                                            height:300//imgViewBac.layoutBounds.height}*/
+                                            arcHeight:30
+                                            arcWidth:30
+                                            }
+
+                            scaleX: bind anim.scal2
+                            scaleY: bind anim.scal2
+                            opacity: bind anim.opacity
+                            /*scaleX: bind anim.scal3
                             scaleY: bind anim.scal3
-                            opacity: bind anim.opacityWithScal2
+                            opacity: bind anim.opacityWithScal2*/
+                            onKeyPressed:function(ke:KeyEvent):Void{
+
+                    
+                            }
+                            
                         },
                         imgViewLogo = ImageView{
                            
@@ -141,6 +163,12 @@ function initComponents():Void{
     //scal animation with opacity effect: logoU2U
     anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 9.5s, 15s,0.0 , 1);
     //scal and opcaity the background of the application
-    anim.playScalWithOpacityAnim(14s, 19s);
+    //anim.playScalWithOpacityAnim(14s, 19s);
+    anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 14s, 18s,0.0 , 1);
+
+
+
+     //anim.playChangeAnim(19s, 21s);
+     //scene = MainScene.sceneContent;
 
 }
