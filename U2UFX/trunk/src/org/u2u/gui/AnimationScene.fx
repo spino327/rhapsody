@@ -14,6 +14,9 @@ import javafx.scene.paint.*;
 import javafx.scene.text.*;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
+
+import org.u2u.app.U2UFXApp;
 
 /**
  * @author Irene
@@ -42,7 +45,7 @@ public class AnimationScene extends MainScene{
      init{
          anim = Animation{};
          content = [
-                            imgViewBac = ImageView{
+                        imgViewBac = ImageView{
                             translateX:bind (this.width - imgViewBac.layoutBounds.width)/2
                             translateY: bind (this.height - imgViewBac.layoutBounds.height)/2
                             image: bind imgBac
@@ -60,7 +63,10 @@ public class AnimationScene extends MainScene{
                             opacity: bind anim.opacityWithScal2*/
                             effect: InnerShadow { offsetX: 3 offsetY: 3 color: Color.WHITE }
 
-
+                            onKeyPressed:function(ke:KeyEvent)
+                            {
+                                U2UFXApp.changeMainScene();
+                            }
                         },
                         imgViewLogo = ImageView{
 
@@ -107,9 +113,6 @@ public class AnimationScene extends MainScene{
 
         }
         
-
-    
-
     /*public function initComponents():Void{*/
 
     postinit {
@@ -132,14 +135,15 @@ public class AnimationScene extends MainScene{
         //rotate animation: stars
         anim.playAnimRotate(3s,imgView1,0,180,20,true);
         //scal animation with blur effect: stars
-        anim.playScalWithBlurAnim(0.2,0.15,0.45,1,6,0.5s,1s,1,Timeline.INDEFINITE);
+        anim.playScalWithBlurAnim(0.2,0.10,0.2,1,6,1s,2.5s,1,10);
+ 
          //translate animation: text with opacity effect
-        anim.playTranslateAnimation(textIntro,fromx,380,fromx,-500, 10s,2);
+        anim.playTranslateAnimation(textIntro,fromx,380,fromx,-500, 6s,1);
         //scal animation with opacity effect: logoU2U
-        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 9.5s, 15s,0.0 , 1);
+        anim.playScalWithOpacityAnim(0.0, 0.3, 1, 0.3, 1, 7s, 12s,0.0 , 1);
         //scal and opcaity the background of the application
         //anim.playScalWithOpacityAnim(14s, 19s);
-        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 14s, 18s,0.0 , 1);
+        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 13s, 14.5s,0.0, 1);
 
     }
     

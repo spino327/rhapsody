@@ -15,19 +15,25 @@ import javafx.animation.Timeline;
  * @author Irene
  */
 var animScene:AnimationScene;
-// place your code here
+public var shareScene:ShareScene;
+public var stage:ContentStage;
+
 function run(args:String[])
 {
-    
-  
-    var share: ShareScene = ShareScene{width:400 height:500}
+    shareScene = ShareScene{width:650 height:500};
+    /*var share: ShareScene = ShareScene{width:400 height:500}
     animScene = AnimationScene{width:600 height:550};
      // var anim:Animation=animScene.anim;
     Stage {
         style:StageStyle.TRANSPARENT;
           
             scene: bind animScene;
-    }
+    }*/
+   stage = ContentStage{style:StageStyle.TRANSPARENT;};
+   
+}
 
-    
+public function changeMainScene()
+{
+    stage.setCurrentScene(shareScene);
 }

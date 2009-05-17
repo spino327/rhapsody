@@ -7,6 +7,8 @@
 package org.u2u.gui;
 
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+
 
 /**
  * @author Irene
@@ -14,8 +16,16 @@ import javafx.stage.Stage;
 
 public class ContentStage extends Stage{
 
-var animation:MainScene;
 
-override var scene = animation;
+    var shareScene: ShareScene;
+    var animScene: AnimationScene = AnimationScene{width:650 height:500};
+    var currentScene: Scene = animScene;
+
+    override var scene = bind currentScene;
+
+    public function setCurrentScene(scene:Scene):Void
+    {
+        this.currentScene = scene;
+    }
 
 }
