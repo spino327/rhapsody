@@ -13,8 +13,7 @@ import javafx.animation.*;
 import javafx.scene.effect.light.*;
 import javafx.scene.Scene;
 
-import org.u2u.gui.StageAnimation;
-import org.u2u.gui.MainScene;
+//import org.u2u.gui.MainScene;
 /**
  * @author irene
  */
@@ -241,6 +240,15 @@ public function playScalWithOpacityAnim(time1:Duration, time2:Duration):Void{
         timLinScal.play();
     }
 
+    public function stopAllAnimations():Void
+    {
+        this.rotTran.stop();
+        this.transTran.stop();
+        this.timLin.stop();
+        this.timLinScal.stop();
+        this.timLinScalOpc.stop();
+        this.timLinScalOpc2.stop();
+    }
 
     public function playChangeAnim(time1:Duration, time2:Duration):Void
     {
@@ -258,7 +266,7 @@ public function playScalWithOpacityAnim(time1:Duration, time2:Duration):Void{
             KeyFrame{
                 time:time2
                 values: [this.scal3 =>1 tween Interpolator.EASEBOTH,
-                         this.sceneChanged => MainScene.sceneContent
+                         //this.sceneChanged => MainScene.sceneContent
                        ]
                 }
         ];
