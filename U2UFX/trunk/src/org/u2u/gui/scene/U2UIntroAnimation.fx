@@ -8,8 +8,6 @@ package org.u2u.gui.scene;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-import javafx.scene.input.MouseEvent;
-import org.u2u.gui.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
 import javafx.scene.effect.InnerShadow;
@@ -18,6 +16,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.Group;
 
+import org.u2u.gui.*;
 
 /**
  * @author sergio
@@ -145,12 +144,12 @@ public class U2UIntroAnimation extends U2UAbstractScene {
         anim.playScalWithBlurAnim(0.2,0.10,0.2,1,6,1s,2.5s,1,10);
 
          //translate animation: text with opacity effect
-        anim.playTranslateAnimation(textIntro,fromx-200,380,fromx,-500,4s,2);
+        anim.playTranslateAnimation(textIntro,fromx,380,fromx,-500,7s,1);
         //scal animation with opacity effect: logoU2U
-        anim.playScalWithOpacityAnim(0.5, 0.5, 1, 0.4, 1, 6s, 8s,0.0 , 1);
+        anim.playScalWithOpacityAnim(0.5, 0.5, 1, 0.4, 1, 5s, 6.5s,0.0 , 1);
         //scal and opcaity the background of the application
         //anim.playScalWithOpacityAnim(14s, 19s);
-        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 8s, 10s,0.0, 1);
+        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 6.5s, 7s,0.0, 1);
 
     }
 }

@@ -9,6 +9,8 @@ package org.u2u.gui.scene;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 /**
@@ -18,7 +20,11 @@ import javafx.scene.Node;
  */
 public class U2UAbstractMain extends U2UAbstractScene {
 
-    var optionPane: U2ULeftPaneUI;
+    //var optionPane: U2ULeftPaneUI;
+    var imgLP:Image;
+    var imgLeftPane:ImageView;
+    var img:Image;
+    var imgV:ImageView;
     protected var contentPane: Node;
 
     override var content = bind [
@@ -27,23 +33,43 @@ public class U2UAbstractMain extends U2UAbstractScene {
 
     init {
 
-        optionPane = U2ULeftPaneUI{
-
+        /*optionPane = U2ULeftPaneUI{
+        };*/
+        imgLP = Image{
+            url: "{__DIR__}leftpane.png";
         };
+        img = Image {
+            url:"{__DIR__}Earth-Horizon.png";
+        }
     }
 
     bound function updateContentPane():Node {
 
-         VBox {
-            spacing:400;
-            content: [
-                optionPane,
-                contentPane
+        Group {
+            content:[
+                imgV = ImageView{
+                    image:bind img;
+
+                },
+
+                imgLeftPane = ImageView{
+                    image:bind imgLP;
+                    translateX:15;
+                    translateY:25;
+                    opacity: 0.7;
+                },
+
+                 VBox {
+                    content: [
+                        //optionPane,
+                        contentPane
+                    ];
+                 }
+
+
             ];
-         }
-
+        }
     }
-
 
 }
 

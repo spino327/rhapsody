@@ -20,14 +20,16 @@ import javafx.scene.paint.Color;
 public class ContentStage extends Stage {
 
 
-    var shareScene: U2UTest;
+    //var shareScene: U2UTest;
+    var shareScene: U2UShareScene;
     var animScene: U2UIntroAnimation;
     var currentScene: U2UAbstractScene;
     override var scene = bind currentScene;
 
     init {
 
-        //Show intro 
+        this.resizeStage(650, 500);
+        //Show intro
         this.showIntro();
     }
 
@@ -42,11 +44,19 @@ public class ContentStage extends Stage {
 
     public function showShare():Void {
 
-        shareScene = U2UTest {
+        /*shareScene = U2UTest {
             
-        };
+        };*/
+        shareScene = U2UShareScene {
 
+        };
         currentScene = shareScene;
+    }
+
+    function resizeStage(w:Number,h:Number):Void{
+
+        this.width = w;
+        this.height = h;
     }
 
 

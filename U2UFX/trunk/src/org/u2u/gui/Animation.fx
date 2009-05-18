@@ -106,7 +106,7 @@ import javafx.scene.Scene;
         var dur4= dur3+1s;
         var dur5 = dur4 + 2s;
        //this.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
-       this.playOpacityAnimation(0.0, 0.1, 1, dur,dur3 ,dur4,dur5);
+       this.playOpacityAnimation(0.0, 0.5, 1, dur,dur3 ,dur4,dur5);
     }
 
     /*
