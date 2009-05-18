@@ -35,7 +35,7 @@ public class ContentStage extends Stage {
     function showIntro():Void {
         
         animScene = U2UAbstractScene.getU2UIntroAnimation(this);
-
+        
         currentScene = animScene;
 
     }

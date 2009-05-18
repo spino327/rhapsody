@@ -16,6 +16,8 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.PerspectiveTransform;
+import javafx.scene.Group;
+
 
 /**
  * @author sergio
@@ -36,27 +38,76 @@ public class U2UIntroAnimation extends U2UAbstractScene {
 
     init {
 
+        
         anim = Animation{};
         fill = Color.TRANSPARENT;
+        
 
         content = [
-            imgViewBac = ImageView {
-                translateX:bind (this.width - imgViewBac.layoutBounds.width)/2
-                translateY: bind (this.height - imgViewBac.layoutBounds.height)/2
-                image: bind imgBac
-                clip: Rectangle{//arcHeight:30 arcWidth:30
-                                width:400//imgViewBac.layoutBounds.width
-                                height:300//imgViewBac.layoutBounds.height}*/
-                                arcHeight:30
-                                arcWidth:30
-                                }
-                scaleX: bind anim.scal2
-                scaleY: bind anim.scal2
-                opacity: bind anim.opacity
-                /*scaleX: bind anim.scal3
-                scaleY: bind anim.scal3
-                opacity: bind anim.opacityWithScal2*/
-                effect: InnerShadow { offsetX: 3 offsetY: 3 color: Color.WHITE }
+            Group{
+                content: [
+
+                imgViewBac = ImageView {
+                    translateX:bind (this.width - imgViewBac.layoutBounds.width)/2
+                    translateY: bind (this.height - imgViewBac.layoutBounds.height)/2
+                    image: bind imgBac
+                    clip: Rectangle{//arcHeight:30 arcWidth:30
+                                    width:400//imgViewBac.layoutBounds.width
+                                    height:300//imgViewBac.layoutBounds.height}*/
+                                    arcHeight:30
+                                    arcWidth:30
+                                    }
+                    scaleX: bind anim.scal2
+                    scaleY: bind anim.scal2
+                    opacity: bind anim.opacity
+                    /*scaleX: bind anim.scal3
+                    scaleY: bind anim.scal3
+                    opacity: bind anim.opacityWithScal2*/
+                    effect: InnerShadow { offsetX: 3 offsetY: 3 color: Color.WHITE }
+
+                },
+                imgViewLogo = ImageView{
+
+                    translateX:bind (this.width - imgViewLogo.layoutBounds.width)/2
+                    translateY: bind (this.height - imgViewLogo.layoutBounds.height)/2
+                    image: bind imgLogo
+                    scaleX: bind anim.scal2
+                    scaleY: bind anim.scal2
+                    opacity: bind anim.opacity
+                },
+                imgView1 = ImageView{
+
+                    image: bind imgStar;
+                    scaleX: bind anim.scal;
+                    scaleY: bind anim.scal;
+
+                    effect: GaussianBlur{
+                       radius:bind anim.blur;
+                    };
+                },
+                imgView2 = ImageView{
+                    image: bind imgStar
+                    scaleX: bind anim.scal;
+                    scaleY: bind anim.scal;
+                    x:200
+                    y:70
+                },
+                textIntro = Text{
+                    opacity: bind anim.opacityWithScal;
+
+                    font: Font.font("Verdana",50);
+                    textAlignment: TextAlignment.CENTER;
+                    content:"Download\nFiles\nShare\nKnowledge"
+                    fill: Color.BLACK
+                    effect: PerspectiveTransform {
+                        ulx:  120 uly: 30
+                        urx: 280 ury: 30
+                        lrx: 340 lry: 280
+                        llx:  40 lly: 280
+                    }
+                 }
+
+                ];
 
                 onKeyPressed:function(ke:KeyEvent)
                 {
@@ -64,48 +115,7 @@ public class U2UIntroAnimation extends U2UAbstractScene {
                     println("Estamos en onKeyPressed");
                     this.contentStage.showShare();
                 }
-            },
-            imgViewLogo = ImageView{
-
-                translateX:bind (this.width - imgViewLogo.layoutBounds.width)/2
-                translateY: bind (this.height - imgViewLogo.layoutBounds.height)/2
-                image: bind imgLogo
-                scaleX: bind anim.scal2
-                scaleY: bind anim.scal2
-                opacity: bind anim.opacity
-            },
-            imgView1 = ImageView{
-
-                image: bind imgStar;
-                scaleX: bind anim.scal;
-                scaleY: bind anim.scal;
-
-                effect: GaussianBlur{
-                   radius:bind anim.blur;
-                };
-            },
-            imgView2 = ImageView{
-                image: bind imgStar
-                scaleX: bind anim.scal;
-                scaleY: bind anim.scal;
-                x:200
-                y:70
-            },
-            textIntro = Text{
-                opacity: bind anim.opacityWithScal;
-
-                font: Font.font("Verdana",50);
-                textAlignment: TextAlignment.CENTER;
-                content:"Download\nFiles\nShare\nKnowledge"
-                fill: Color.BLACK
-                effect: PerspectiveTransform {
-                    ulx:  120 uly: 30
-                    urx: 280 ury: 30
-                    lrx: 340 lry: 280
-                    llx:  40 lly: 280
-                }
-             }
-
+            }
         ];
 
         }
@@ -135,12 +145,12 @@ public class U2UIntroAnimation extends U2UAbstractScene {
         anim.playScalWithBlurAnim(0.2,0.10,0.2,1,6,1s,2.5s,1,10);
 
          //translate animation: text with opacity effect
-        anim.playTranslateAnimation(textIntro,fromx,380,fromx,-500, 6s,1);
+        anim.playTranslateAnimation(textIntro,fromx-200,380,fromx,-500,4s,2);
         //scal animation with opacity effect: logoU2U
-        anim.playScalWithOpacityAnim(0.0, 0.3, 1, 0.3, 1, 7s, 12s,0.0 , 1);
+        anim.playScalWithOpacityAnim(0.5, 0.5, 1, 0.4, 1, 6s, 8s,0.0 , 1);
         //scal and opcaity the background of the application
         //anim.playScalWithOpacityAnim(14s, 19s);
-        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 13s, 14.5s,0.0, 1);
+        anim.playScalWithOpacityAnim(0.0, 0.1, 1, 0.1, 1, 8s, 10s,0.0, 1);
 
     }
 }

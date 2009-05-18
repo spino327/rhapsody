@@ -35,6 +35,7 @@ public class U2UAbstractMain extends U2UAbstractScene {
     bound function updateContentPane():Node {
 
          VBox {
+            spacing:400;
             content: [
                 optionPane,
                 contentPane

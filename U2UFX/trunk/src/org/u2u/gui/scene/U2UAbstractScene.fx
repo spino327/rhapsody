@@ -27,5 +27,7 @@ public function getU2UIntroAnimation(cont: ContentStage): U2UIntroAnimation {
 
     return U2UIntroAnimation {
         contentStage: cont;
+        width:650;
+        height:500;
     }
 }

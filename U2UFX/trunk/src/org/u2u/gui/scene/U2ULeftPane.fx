@@ -11,5 +11,6 @@ package org.u2u.gui.scene;
  */
 
 public class U2ULeftPane extends U2ULeftPaneUI {
+  
 
 }

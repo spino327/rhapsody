@@ -101,8 +101,12 @@ import javafx.scene.Scene;
 
         transTran.playFromStart();
 
+        var dur2=dur;
+        var dur3 = dur2 + 5s;
+        var dur4= dur3+1s;
+        var dur5 = dur4 + 2s;
        //this.playOpacityAnimation(0.0, 0.1, 1, 10s, 15s);
-       this.playOpacityAnimation(0.0, 0.1, 1, 10s, 13s,14s,17s);
+       this.playOpacityAnimation(0.0, 0.1, 1, dur,dur3 ,dur4,dur5);
     }
 
     /*
