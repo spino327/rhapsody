@@ -39,6 +39,9 @@ public class AnimationScene extends MainScene{
      var textIntro:Text;
      var fromx: Number;
      var fromy: Number;
+
+     
+
      override var fill = Color.TRANSPARENT;
      override var content;
 
@@ -65,7 +68,7 @@ public class AnimationScene extends MainScene{
 
                             onKeyPressed:function(ke:KeyEvent)
                             {
-                                U2UFXApp.changeMainScene();
+                                
                             }
                         },
                         imgViewLogo = ImageView{

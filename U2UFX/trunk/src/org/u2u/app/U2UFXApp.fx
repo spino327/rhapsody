@@ -1,7 +1,7 @@
 /*
  * U2UFXApp.fx
  *
- * Created on 16-may-2009, 22:22:50
+ * Created on 17-may-2009, 11:17:06
  */
 
 package org.u2u.app;
@@ -9,31 +9,123 @@ package org.u2u.app;
 import org.u2u.gui.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.Scene;
-import javafx.animation.Timeline;
-/**
- * @author Irene
+import java.lang.System;
+
+/*
+ * @author sergio
  */
-var animScene:AnimationScene;
-public var shareScene:ShareScene;
-public var stage:ContentStage;
+
+public class U2UFXApp {
+
+    var mainStage : Stage;
+    public var stage:ContentStage;
+
+    /**
+     * Responsible for starting the application; for creating and showing
+     * the initial GUI.
+     * <p>
+     * This method is called by the "static" launch method (script function launch),
+     * subclasses must override it.  It runs on the event dispatching
+     * thread.
+     *
+     */
+    protected function startup():Void
+    {
+        println("Hola start");
+
+        var ini:Long = System.currentTimeMillis();
+
+        stage = ContentStage{
+            width: 500;
+            height: 500;
+            style: StageStyle.TRANSPARENT;
+            visible: true;
+        };
+        /*Stage {
+
+            style: StageStyle.TRANSPARENT;
+            scene: AnimationScene {
+                width: 650;
+                height: 550;
+            };
+            visible: true;
+        }
+
+        println("despues de llamar al Stage = {System.currentTimeMillis() - ini} [ms]");
+
+        var miScene : MiScene = MiScene{
+
+        };
+
+        mainStage = Stage {
+            title: "Mi Stage";
+            scene: miScene;
+            visible: true;
+        }*/
+
+
+    }
+
+    /**
+     * Called after the startup() method has returned.
+     * When this method is called, the application's GUI is ready
+     * to use.
+     * <p>
+     * It's usually important for an application to start up as
+     * quickly as possible.  Applications can override this method
+     * to do some additional start up work, after the GUI is up
+     * and ready to use.
+     *
+     */
+    protected function ready():Void
+    {
+        println("Hola ready");
+    }
+
+
+
+    /**
+     * Called when the application {@link #exit exits}.
+     * Subclasses may override this method to do any cleanup
+     * tasks that are neccessary before exiting.  Obviously, you'll want to try
+     * and do as little as possible at this point.  This method runs
+     * on the event dispatching thread.
+     *
+     * @see #startup
+     * @see #ready
+     * @see #exit
+     * @see #addExitListener
+     */
+    protected function shutdown():Void
+    {
+        // TBD should call TaskService#shutdownNow() on each TaskService
+    }
+}
+
+//static methods
+
+/**
+ * Creates an instance of the specified {@code Application}
+ * subclass, sets the {@code ApplicationContext} {@code
+ * application} property, and then calls the new {@code
+ * Application's} {@code startup} method.  The {@code launch} method is
+ * typically called from the Application's {@code main}:
+ * <pre>
+ *     public static void main(String[] args) {
+ *         Application.launch(MyApplication.class, args);
+ *     }
+ * </pre>
+ * The {@code applicationClass} constructor and {@code startup} methods
+ * run on the event dispatching thread.
+ *
+ */
+function launch(app:U2UFXApp)
+{
+    app.startup();
+    app.ready();
+}
 
 function run(args:String[])
 {
-    shareScene = ShareScene{width:650 height:500};
-    /*var share: ShareScene = ShareScene{width:400 height:500}
-    animScene = AnimationScene{width:600 height:550};
-     // var anim:Animation=animScene.anim;
-    Stage {
-        style:StageStyle.TRANSPARENT;
-          
-            scene: bind animScene;
-    }*/
-   stage = ContentStage{style:StageStyle.TRANSPARENT;};
-   
-}
-
-public function changeMainScene()
-{
-    stage.setCurrentScene(shareScene);
+    launch(U2UFXApp {});
 }

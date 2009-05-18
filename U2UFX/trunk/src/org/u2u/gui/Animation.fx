@@ -250,28 +250,28 @@ public function playScalWithOpacityAnim(time1:Duration, time2:Duration):Void{
         this.timLinScalOpc2.stop();
     }
 
-    public function playChangeAnim(time1:Duration, time2:Duration):Void
-    {
-
-
-        timLinScalOpc2.repeatCount = 1;
-        timLinScalOpc2.autoReverse = true;
-        timLinScalOpc2.keyFrames = [
-
-            KeyFrame {
-                time:time1;
-                values: [this.scal3 =>0.1,
-                        ]
-            },
-            KeyFrame{
-                time:time2
-                values: [this.scal3 =>1 tween Interpolator.EASEBOTH,
-                         //this.sceneChanged => MainScene.sceneContent
-                       ]
-                }
-        ];
-        timLinScalOpc2.playFromStart();
-    }
+//    public function playChangeAnim(time1:Duration, time2:Duration):Void
+//    {
+//
+//
+//        timLinScalOpc2.repeatCount = 1;
+//        timLinScalOpc2.autoReverse = true;
+//        timLinScalOpc2.keyFrames = [
+//
+//            KeyFrame {
+//                time:time1;
+//                values: [this.scal3 =>0.1,
+//                        ]
+//            },
+//            KeyFrame{
+//                time:time2
+//                values: [this.scal3 =>1 tween Interpolator.EASEBOTH,
+//                         this.sceneChanged => MainScene.sceneContent
+//                       ]
+//                }
+//        ];
+//        timLinScalOpc2.playFromStart();
+//    }
 
 
  }
