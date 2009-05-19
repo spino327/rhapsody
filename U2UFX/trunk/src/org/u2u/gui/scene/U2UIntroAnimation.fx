@@ -112,7 +112,8 @@ public class U2UIntroAnimation extends U2UAbstractScene {
                 {
                     //force the change of the stage
                     println("Estamos en onKeyPressed");
-                    this.contentStage.showShare();
+                    //this.contentStage.showShare();
+                    this.contentStage.showDownload();
                 }
             }
         ];

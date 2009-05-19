@@ -9,6 +9,9 @@ package org.u2u.gui.scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.ArrayList;
+import org.u2u.data.U2UDataDownload;
+import javafx.scene.Group;
+import javafx.scene.layout.VBox;
 
 /**
  * @author sergio
@@ -17,7 +20,10 @@ import java.util.ArrayList;
 public class U2UDownloadScene extends U2UAbstractMain{
 
 var imgBackground:Image;
+var imgDown:Image;
 var imgBackView:ImageView;
+var model:U2UDataDownload;
+var vbox:VBox;
 
 var seqDownloads: ArrayList;
 
@@ -26,14 +32,37 @@ var seqDownloads: ArrayList;
 
         imgBackground = Image{
             url:"{__DIR__}content.png";
-        }
+        };
 
-        this.contentPane = ImageView{
-                            image:imgBackground;
-                            translateX:210;
-                            translateY:25;
+        imgDown = Image{
+            url:"{__DIR__}piece.png";
+        };
 
-                           };
+        model = U2UDataDownload{};
+        model.initDataDonwload(this);
+
+        this.contentPane = Group{
+                                content: [
+                                    ImageView{
+                                    image:imgBackground;
+                                    translateX:210;
+                                    translateY:25;
+
+                                   },
+                                   this.vbox = VBox
+                                   {
+                                       translateX:225;
+                                       translateY:40;
+                                       content:[
+                                            ImageView
+                                            {
+                                                image:bind imgDown;
+                                            }
+                                       ]
+                                   }
+                               ];
+                           }
+
     }
 
 

@@ -6,8 +6,9 @@
 
 package org.u2u.gui.scene;
 
-import javafx.scene.Scene;
 import org.u2u.gui.ContentStage;
+import javafx.scene.Scene;
+
 
 /**
  * This class is the Root class of the U2U Scene pool of classes
