@@ -77,8 +77,6 @@ public class U2UList extends Group {
 
         for(x in [firstPos..firstPos+2])
         {
-            var hNode = model.getNodeAt(x).getNodeView().
-            model.getNodeAt(x).getNodeView().translateY = *x;
             insert model.getNodeAt(x).getNodeView() into con;
         }
 
@@ -91,43 +89,28 @@ public class U2UList extends Group {
     function dragg(me:MouseEvent): Void {
         //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
         var g:Node[] = this.groupList.content;
-        var delta:Number = 5;
+        var delta:Number = 0;
 
+        println("new = {me.dragY} and old = {this.memoryDragLength}");
 
         if(this.memoryDragPoint == me.dragAnchorY)
         {
             println("equals");
 
-            if(Math.abs(this.memoryDragLength) < Math.abs(me.dragY))
-            {
-                delta = -1*delta;
-            }
+            //delta = delta * Math.signum(me.dragY - this.memoryDragLength);
 
+            delta = me.dragY - this.memoryDragLength;
+            this.memoryDragLength = me.dragY;
         }
         else
         {
             println("differents");
             this.memoryDragPoint = me.dragAnchorY;
             this.memoryDragLength = me.dragY;
-
-            delta = if(this.memoryDragLength < 0) then (-1*delta) else delta;
         }
 
 
         g[1].translateY = g[1].translateY + delta;
-
-
-
-        /*if(me.dragY > 0)
-        {
-            println("me.dragY = {me.dragY} => +3");
-            g[0].translateY = g[0].translateY + 3;
-        }
-        else
-        {
-            println("me.dragY = {me.dragY} => -3");
-            g[0].translateY = g[0].translateY - 3;
-        }*/
 
     }
 
