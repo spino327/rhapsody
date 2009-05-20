@@ -23,7 +23,7 @@ public class U2UList extends Group {
     //instance variables
     var model: U2UAbstractListModel;
     var imgBackground:Image = Image{
-            url:"{__DIR__}content.png";
+            url:"{__DIR__}resources/content.png";
     };
 
     /** represents the current position in the model of the first node of the this list*/
@@ -32,21 +32,7 @@ public class U2UList extends Group {
     var memoryDragPoint: Number = 0;
     var memoryDragLength: Number = 0;
 
-    /** group of nodes*/
-    var groupList:Group = Group {
-
-        
-        //boundsInLocal:
-        onMouseClicked:function(me:MouseEvent) {
-            this.click(me);
-        }
-
-        onMouseDragged:function(me:MouseEvent) {
-            this.dragg(me);
-        }
-    };
-
-    /**
+     /**
     * background image of the List
     */
     var imgBackView:ImageView = ImageView{
@@ -60,10 +46,23 @@ public class U2UList extends Group {
         this.translateX = 210;
         this.translateY = 25;
     }
+    /** group of nodes*/
+    var groupList:Group = Group {
+        
+        onMouseClicked:function(me:MouseEvent) {
+            this.click(me);
+        }
+
+        onMouseDragged:function(me:MouseEvent) {
+            this.dragg(me);
+        }
+    };
+
+   
 
     //instance functions
-    public function setModel(m:U2UAbstractListModel):Void {
-        this.model = m;
+    public function setModel(model:U2UAbstractListModel):Void {
+        this.model = model;
     }
 
     /** this methods force the re-drawing of the Lisr*/
@@ -73,12 +72,17 @@ public class U2UList extends Group {
 
         var con:Node[] = [];
 
+        //translation axis Y
+        var transY = 4;
+
         for(x in [firstPos..firstPos+2])
         {
+            var hNode = model.getNodeAt(x).getNodeView().
+            model.getNodeAt(x).getNodeView().translateY = *x;
             insert model.getNodeAt(x).getNodeView() into con;
         }
 
-        this.groupList.content = con;
+        this.groupList.content = [imgBackView,con];
 
         this.content = this.groupList;
 
@@ -110,7 +114,7 @@ public class U2UList extends Group {
         }
 
 
-        g[0].translateY = g[0].translateY + delta;
+        g[1].translateY = g[1].translateY + delta;
 
 
 
