@@ -21,7 +21,7 @@ public class ContentStage extends Stage {
 
     //var shareScene: U2UTest;
     var shareScene: U2UShareScene;
-    var downScene:U2UDownloadScene;
+    //var downScene:U2UDownloadScene;
     var animScene: U2UIntroAnimation;
     var currentScene: U2UAbstractScene;
     override var scene = bind currentScene;
@@ -30,7 +30,8 @@ public class ContentStage extends Stage {
 
         this.resizeStage(650, 500);
         //Show intro
-        this.showIntro();
+        //this.showIntro();
+        this.showShare();
     }
 
 
@@ -53,8 +54,8 @@ public class ContentStage extends Stage {
 
     public function showDownload():Void
     {
-        downScene = U2UDownloadScene{};   
-        currentScene = downScene;
+        //downScene = U2UDownloadScene{};
+        //currentScene = downScene;
     }
 
     function resizeStage(w:Number,h:Number):Void{

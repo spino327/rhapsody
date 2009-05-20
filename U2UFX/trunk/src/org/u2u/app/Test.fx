@@ -6,13 +6,8 @@
 
 package org.u2u.app;
 
-import javafx.stage.Stage;
-import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.input.MouseEvent;
+import org.u2u.data.U2UDownloadNode;
 import javafx.scene.Scene;
-import org.u2u.app.MiScene;
 
 /**
  * @author sergio
@@ -21,10 +16,14 @@ import org.u2u.app.MiScene;
 function run(args: String[])
 {
 
-    MiScene {
-        width: 500;
-        height: 500;
+    var tmp: U2UDownloadNode = U2UDownloadNode {
+        
+    };
+
+    Scene {
+        content: [tmp.getNodeView()];
     }
+
 
 
 
