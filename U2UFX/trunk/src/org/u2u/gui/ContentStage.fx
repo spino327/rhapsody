@@ -22,42 +22,50 @@ public class ContentStage extends Stage {
 
     //var shareScene: U2UTest;
     var shareScene: U2UShareScene;
-    var search: U2USearchScene;
+    var searchScene: U2USearchScene;
     var downScene:U2UDownloadScene;
     var animScene: U2UIntroAnimation;
     var currentScene: U2UAbstractScene;
+    
     override var scene = bind currentScene;
 
     init {
-
+        this.title = "U2U FX";
         this.resizeStage(650, 500);
+        animScene = U2UAbstractScene.getU2UIntroAnimation(this);
+        shareScene =  U2UAbstractScene.getU2UShareScene(this);
+        searchScene = U2UAbstractScene.getU2USearchScene(this);
+        downScene = U2UAbstractScene.getU2UDownloadScene(this);
         //Show intro
         //this.showIntro();
+       
         this.showShare();
     }
 
 
     function showIntro():Void {
-        
-        animScene = U2UAbstractScene.getU2UIntroAnimation(this);
-        
+
         currentScene = animScene;
 
     }
 
     public function showShare():Void {
-
-        /*shareScene = U2UTest {
-            
-        };*/
-        shareScene = U2UShareScene {};
-        currentScene = shareScene;
+        if(currentScene != shareScene){
+            currentScene = shareScene;
+        }
     }
 
-    public function showDownload():Void
-    {
-        //downScene = U2UDownloadScene{};
-        //currentScene = downScene;
+    public function showDownload():Void{
+        if(currentScene != downScene ){
+            currentScene = downScene;
+        }
+    }
+
+    public function showSearch():Void{
+        if(currentScene != searchScene){
+
+            currentScene = searchScene;
+        }
     }
 
     function resizeStage(w:Number,h:Number):Void{
@@ -66,16 +74,15 @@ public class ContentStage extends Stage {
         this.height = h;
     }
 
-
      /**
      * Inicia la descarga de un archivo seleccionado en el panel de busquedas e
      * Inserta una nueva fila de descarga en el panel de descargas
      */
     function downloadFile():Void
     {
-       var advDown:U2UContentAdvertisementImpl  = this.search.getAdvSelected();
+       //var advDown:U2UContentAdvertisementImpl  = this.search.getAdvSelected();
 
-       if(advDown != null)
+       /*if(advDown != null)
        {
 //           if(download.executeDownload(advDown))
 //           {
@@ -89,7 +96,7 @@ public class ContentStage extends Stage {
 //           }
        }
        else
-       {}
+       {}*/
          
     }
 

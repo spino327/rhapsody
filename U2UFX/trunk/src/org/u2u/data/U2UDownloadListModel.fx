@@ -60,9 +60,6 @@ public class U2UDownloadListModel extends U2UAbstractListModel {
             return;
 
         }else{
-
-
-
             
             var node:U2UDownloadNode = U2UDownloadNode{
                 name: adv.getName();

@@ -52,9 +52,11 @@ public class U2UList extends Group {
 
 
     init {
+
         this.translateX = 210;
         this.translateY = 25;
-        
+
+        this.updateUI();
     }
 
 
@@ -180,8 +182,6 @@ public class U2UList extends Group {
 
     function click(me:MouseEvent): Void {
         println("click function execute");
-
-        
 
     }
 

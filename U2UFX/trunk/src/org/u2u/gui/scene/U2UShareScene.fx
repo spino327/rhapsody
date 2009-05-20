@@ -8,8 +8,9 @@ package org.u2u.gui.scene;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.u2u.gui.U2UList;
 import org.u2u.data.U2UDownloadListModel;
+import javafx.scene.Group;
+
 
 /**
  * @author sergio
@@ -27,13 +28,19 @@ public class U2UShareScene extends U2UAbstractMain{
             url:"{__DIR__}content.png";
         }
 
-        var list: U2UList = U2UList{};
-        list.setModel(U2UDownloadListModel{});
+        this.contentPane = Group{
+            content: [
 
-        this.contentPane = list;
-        list.updateUI();
+                ImageView {
+                    translateX:210;
+                    translateY:25;
+                    image:imgBackground;
+                }
+            ]
+        };
 
     }
+
 
 
 }

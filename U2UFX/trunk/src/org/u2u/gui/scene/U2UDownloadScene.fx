@@ -19,7 +19,6 @@ import org.u2u.gui.U2UList;
 public class U2UDownloadScene extends U2UAbstractMain{
 
 var imgBackground:Image;
-var imgDown:Image;
 var imgBackView:ImageView;
 var listNodes:U2UList;
 var vbox:VBox;
@@ -30,13 +29,7 @@ var vbox:VBox;
         imgBackground = Image{
             url:"{__DIR__}content.png";
         };
-
-        imgDown = Image{
-            url:"{__DIR__}piece.png";
-        };
-
         listNodes = U2UList{};
-
 
         this.contentPane = Group{
             content: [
@@ -46,7 +39,7 @@ var vbox:VBox;
                 translateY:25;
 
                },
-               this.listNodes
+               listNodes
            ];
         }
 
