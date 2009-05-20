@@ -8,6 +8,7 @@ package org.u2u.data;
 
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import javafx.scene.Node;
+import net.jxta.share.ContentId;
 
 
 //class varibles, static
@@ -26,7 +27,7 @@ public abstract class U2UAbstractNode {
     /** content name (required)*/
     protected var name: String;
     /** content id (required)*/
-    protected var cid: String;
+    protected var cid: ContentId;
     /** content length (optional)*/
     protected var length: Long;
     /** content description (optional)*/
@@ -37,8 +38,8 @@ public abstract class U2UAbstractNode {
     protected var chunksize: Short;
     /** real advertisement*/
     protected var adv: U2UContentAdvertisementImpl;
-    //
-
+    /** level of download of this node [max:200- min:0] */
+    protected var level:Integer;
     /** rect size*/
     protected var width: Integer = 390;
     protected var height: Integer = 107;
@@ -54,5 +55,9 @@ public abstract class U2UAbstractNode {
      * return the GUI Node representation of this Instance, it can be an instance of a subclass of javafx.scene.Node
      */
     public abstract function getNodeView(): Node;
-    
+
+    /**
+    * Change the level of download of the node
+    */
+    public abstract function updateLevel(lev:Integer):Void;
 }

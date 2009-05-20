@@ -8,6 +8,8 @@ package org.u2u.app;
 
 import org.u2u.data.U2UDownloadNode;
 import javafx.scene.Scene;
+import javafx.scene.image.*;
+import javafx.scene.effect.PerspectiveTransform;
 
 /**
  * @author sergio
@@ -21,7 +23,24 @@ function run(args: String[])
     };
 
     Scene {
-        content: [tmp.getNodeView()];
+        content: [
+
+            ImageView {
+                image: Image {
+                    url: "{__DIR__}video.png";
+                }
+
+                effect: PerspectiveTransform {
+                    llx: 13.4, lly: 210.0
+                    lrx: 186.6, lry: 190.0
+                    ulx: 117.4, uly: -10.0
+                    urx: 156.6, ury: 10.0
+                }
+
+
+            }
+
+        ];
     }
 
 

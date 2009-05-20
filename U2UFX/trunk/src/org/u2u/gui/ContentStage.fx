@@ -12,6 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
 import org.u2u.gui.scene.*;
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
 /**
  * @author Irene
  */
@@ -21,7 +22,8 @@ public class ContentStage extends Stage {
 
     //var shareScene: U2UTest;
     var shareScene: U2UShareScene;
-    //var downScene:U2UDownloadScene;
+    var search: U2USearchScene;
+    var downScene:U2UDownloadScene;
     var animScene: U2UIntroAnimation;
     var currentScene: U2UAbstractScene;
     override var scene = bind currentScene;
@@ -64,5 +66,31 @@ public class ContentStage extends Stage {
         this.height = h;
     }
 
+
+     /**
+     * Inicia la descarga de un archivo seleccionado en el panel de busquedas e
+     * Inserta una nueva fila de descarga en el panel de descargas
+     */
+    function downloadFile():Void
+    {
+       var advDown:U2UContentAdvertisementImpl  = this.search.getAdvSelected();
+
+       if(advDown != null)
+       {
+//           if(download.executeDownload(advDown))
+//           {
+//               String name = generateVariableEnv();
+//               //Se guarda la referencia de la variable de entorno y el anuncio
+//               download.saveVarReference(name, advDown);
+//               U2U4UApp.shell.createVarEnvU2UAdvertisement(advDown,name);
+//               //se inicia la descarga del archivo por medio del shell U2U
+//               U2U4UApp.shell.executeCmd("u2ufss -download "+name);
+//               JOptionPane.showMessageDialog(this, "Inicia busqueda de fuentes para descarga...");
+//           }
+       }
+       else
+       {}
+         
+    }
 
 }

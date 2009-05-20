@@ -6,6 +6,8 @@
 
 package org.u2u.data;
 
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
+
 /**
  * This interface link the model with the List view, manage the nodes.
  *
@@ -18,5 +20,12 @@ public abstract class U2UAbstractListModel {
 
     /** Returns the length of the list*/
     public abstract function getSize():Integer;
+
+    /** Inserts a file into the model*/
+    public abstract function insertFileIntoModel(adv: U2UContentAdvertisementImpl):Void;
+
+    /**Delete a file of the model*/
+    public abstract function deleteFileOfModel(selIndex:Integer):Void;
+
 
 }

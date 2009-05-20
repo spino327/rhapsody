@@ -33,8 +33,6 @@ public class U2UAbstractMain extends U2UAbstractScene {
 
     init {
 
-        /*optionPane = U2ULeftPaneUI{
-        };*/
         imgLP = Image{
             url: "{__DIR__}leftpane.png";
         };
@@ -61,7 +59,6 @@ public class U2UAbstractMain extends U2UAbstractScene {
 
                  VBox {
                     content: [
-                        //optionPane,
                         contentPane
                     ];
                  }

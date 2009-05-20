@@ -29,27 +29,27 @@ public def MUSIC:String  = "music";
 public def VIDEO:String  = "video";
 public def OTHER:String  = "other";
 
-public function getIconImage():Image
+public function getImage():Image
 {
     return types[0];
 }
 
-public function getIconText():Image
+public function getText():Image
 {
     return types[1];
 }
 
-public function getIconMusic():Image
+public function getMusic():Image
 {
     return types[2];
 }
 
-public function getIconVideo():Image
+public function getVideo():Image
 {
     return types[3];
 }
 
-public function getIconOthers():Image
+public function getOthers():Image
 {
     return types[4];
 }
@@ -141,6 +141,23 @@ public function getTypeFile(file: File): String
     }
     else {
         return TypeFile.OTHER;
+    }
+
+}
+
+public function getImageTypeFile(type:String):Image{
+
+    if(type.equals(TypeFile.IMAGE))
+    {
+        return types[0];
+    }else if(type.equals(TypeFile.TEXT)){
+        return types[1];
+    }else if(type.equals(TypeFile.MUSIC)){
+        return types[2];
+    }else if(type.equals(TypeFile.VIDEO)){
+        return types[3];
+    }else {
+        return types[4];
     }
 
 }
