@@ -45,6 +45,11 @@ var vbox:VBox;
 
     }
 
+    override function updateButtons() {
+        imgDownView.opacity = 0.5;
 
+        imgSearchView.opacity = 1;
+        imgShareView.opacity = 1;
+    }
 
 }

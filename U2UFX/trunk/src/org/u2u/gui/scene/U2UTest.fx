@@ -13,17 +13,17 @@ import javafx.scene.paint.Color;
  * @author sergio
  */
 
-public class U2UTest extends U2UAbstractMain {
-
-    init {
-        this.contentPane = Rectangle {
-            translateX:100
-            translateY:50
-            width: 100;
-            height: 100;
-            fill: Color.CHOCOLATE;
-        }
-
-    }
-
-}
+//public class U2UTest extends U2UAbstractMain {
+//
+//    init {
+//        this.contentPane = Rectangle {
+//            translateX:100
+//            translateY:50
+//            width: 100;
+//            height: 100;
+//            fill: Color.CHOCOLATE;
+//        }
+//
+//    }
+//
+//}

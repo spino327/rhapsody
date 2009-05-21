@@ -10,8 +10,6 @@ import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
-
 
 
 /**
@@ -49,4 +47,9 @@ public class U2USearchScene extends U2UAbstractMain{
         return adv;
     }
 
+    override function updateButtons() {
+        imgSearchView.opacity = 0.5;
+        imgShareView.opacity = 1;
+        imgDownView.opacity = 1;
+    }
 }

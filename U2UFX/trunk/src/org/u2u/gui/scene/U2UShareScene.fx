@@ -8,9 +8,7 @@ package org.u2u.gui.scene;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.u2u.data.U2UDownloadListModel;
 import javafx.scene.Group;
-
 
 /**
  * @author sergio
@@ -25,7 +23,7 @@ public class U2UShareScene extends U2UAbstractMain{
     init {
 
         imgBackground = Image{
-            url:"{__DIR__}content.png";
+            url:"{__DIR__}config-button.png";
         }
 
         this.contentPane = Group{
@@ -41,6 +39,11 @@ public class U2UShareScene extends U2UAbstractMain{
 
     }
 
+    override function updateButtons() {
+        imgShareView.opacity = 0.5;
 
+        imgSearchView.opacity = 1;
+        imgDownView.opacity = 1;
+    }
 
 }

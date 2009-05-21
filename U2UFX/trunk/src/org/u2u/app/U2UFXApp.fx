@@ -18,7 +18,7 @@ import java.lang.System;
 public class U2UFXApp {
 
     var mainStage : Stage;
-    public var stage:ContentStage;
+    public var stage: U2UContentStage;
 
     /**
      * Responsible for starting the application; for creating and showing
@@ -35,10 +35,10 @@ public class U2UFXApp {
 
         var ini:Long = System.currentTimeMillis();
 
-        stage = ContentStage{
+        stage = U2UContentStage{
             width: 500;
             height: 500;
-            style: StageStyle.TRANSPARENT;
+            style: StageStyle.DECORATED;
             visible: true;
         };
         /*Stage {

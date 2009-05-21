@@ -7,12 +7,9 @@
 package org.u2u.gui.scene;
 
 import javafx.scene.Group;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.effect.Reflection;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 
@@ -22,7 +19,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author sergio
  */
-public class U2UAbstractMain extends U2UAbstractScene {
+public abstract class U2UAbstractMain extends U2UAbstractScene {
 
     
     var imgLeft:Image;
@@ -35,15 +32,15 @@ public class U2UAbstractMain extends U2UAbstractScene {
 
     var imgBackView:ImageView;
     var imgLeftView:ImageView;
-    var imgShareView:ImageView;
-    var imgSearchView:ImageView;
-    var imgDownView:ImageView;
+    protected var imgShareView:ImageView;
+    protected var imgSearchView:ImageView;
+    protected var imgDownView:ImageView;
     var imgConfView:ImageView;
     var imgHelpView: ImageView;
 
     var groupButtons:Node[];
 
-    protected var contentPane: Node;
+    protected var contentPane: Node = Group{};
 
     override var content = bind [
         updateContentPane()
@@ -77,41 +74,55 @@ public class U2UAbstractMain extends U2UAbstractScene {
                 translateX:10.5;
                 translateY:26;
                 content: [
-                    VBox{
-                        spacing:36;
+                    Group {
+                        //spacing:36;
                         translateX:10.5;
                         translateY:26;
                         
                         content: [
                             imgShareView = ImageView{
-                                image:bind imgBShare;
-                                onMouseClicked:function(me:MouseEvent):Void{
+                                translateX:10.5;
+                                translateY:26;
+                                image: imgBShare;
+                                onMousePressed:function(me:MouseEvent):Void{
+                                    println("imgShareView");
+                                    
                                     this.contentStage.showShare();
-                                    imgShareView.opacity=0.7;
+                                    
                                 }
                             },
                             imgSearchView = ImageView{
-                                image: bind imgBSearch;
-                                onMouseClicked:function(me:MouseEvent):Void{
+                                translateX:10.5;
+                                translateY:135;
+                                image: imgBSearch;
+                                onMousePressed:function(me:MouseEvent):Void{
+                                    println("imgSearchView");
+                                    
                                     this.contentStage.showSearch();
-                                    imgSearchView.opacity = 0.7;
                                 }
                             },
                             imgDownView = ImageView{
-                                image: bind imgBDown;
-                                onMouseClicked:function(me:MouseEvent):Void{
+                                translateX:10.5;
+                                translateY:244;
+                                image: imgBDown;
+                                onMousePressed:function(me:MouseEvent):Void{
+                                    println("imgDownView");
+                                   
                                     this.contentStage.showDownload();
+                                    
                                 }
                             },
-                            HBox{
+                            Group {
                                 translateX:2.5;
-                                spacing:12;
+                                translateY:353;
+                                //spacing:12;
                                 effect: InnerShadow { offsetX: 4 offsetY: 4 }
                                 content: [
                                     imgConfView = ImageView{
                                         image: bind imgConfig;
                                      },
                                      imgHelpView = ImageView{
+                                        translateX: 81;
                                         image: bind imgHelp;
                                      }
                                 ]
@@ -122,7 +133,7 @@ public class U2UAbstractMain extends U2UAbstractScene {
                 ]
 
             }
-   }
+    }
 
     bound function updateContentPane():Node {
 
@@ -141,10 +152,12 @@ public class U2UAbstractMain extends U2UAbstractScene {
 
                 groupButtons,
 
-                this.contentPane
+                contentPane
             ];
         }
     }
+
+    public abstract function updateButtons(): Void;
 
 }
 

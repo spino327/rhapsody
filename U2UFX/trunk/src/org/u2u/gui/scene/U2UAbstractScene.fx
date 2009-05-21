@@ -6,7 +6,7 @@
 
 package org.u2u.gui.scene;
 
-import org.u2u.gui.ContentStage;
+import org.u2u.gui.U2UContentStage;
 import javafx.scene.Scene;
 import org.u2u.gui.scene.U2UShareScene;
 import org.u2u.gui.scene.U2UDownloadScene;
@@ -20,13 +20,13 @@ import org.u2u.gui.scene.U2UDownloadScene;
  */
 public abstract class U2UAbstractScene extends Scene {
 
-    protected var contentStage : ContentStage;
+    protected var contentStage : U2UContentStage;
 }
 
 /**
  *Methods static
  */
-public function getU2UIntroAnimation(cont: ContentStage): U2UIntroAnimation {
+public function getU2UIntroAnimation(cont: U2UContentStage): U2UIntroAnimation {
 
     return U2UIntroAnimation {
         contentStage:cont;
@@ -35,30 +35,30 @@ public function getU2UIntroAnimation(cont: ContentStage): U2UIntroAnimation {
     }
 }
 
-public function getU2UShareScene(cont:ContentStage):U2UShareScene{
+public function getU2UShareScene(cont:U2UContentStage):U2UShareScene{
 
     return U2UShareScene{
         contentStage:cont;
         width:650;
         height:500
-        }
+    }
 }
 
-public function getU2USearchScene(cont:ContentStage):U2USearchScene{
+public function getU2USearchScene(cont:U2UContentStage):U2USearchScene{
 
     return U2USearchScene{
         contentStage:cont;
         width:650;
         height:500
-        }
+    }
 }
 
-public function getU2UDownloadScene(cont:ContentStage):U2UDownloadScene{
+public function getU2UDownloadScene(cont:U2UContentStage):U2UDownloadScene{
 
     return U2UDownloadScene{
         contentStage:cont;
         width:650;
         height:500
-        }
+    }
 }
 

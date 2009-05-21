@@ -7,40 +7,36 @@
 package org.u2u.gui;
 
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
 
 import org.u2u.gui.scene.*;
-import org.u2u.filesharing.U2UContentAdvertisementImpl;
 /**
  * @author Irene
  */
 
-public class ContentStage extends Stage {
+public class U2UContentStage extends Stage {
 
 
     //var shareScene: U2UTest;
-    var shareScene: U2UShareScene;
-    var searchScene: U2USearchScene;
-    var downScene:U2UDownloadScene;
-    var animScene: U2UIntroAnimation;
-    var currentScene: U2UAbstractScene;
-    
-    override var scene = bind currentScene;
+    var shareScene: U2UShareScene = U2UAbstractScene.getU2UShareScene(this);
+    var searchScene: U2USearchScene = U2UAbstractScene.getU2USearchScene(this);
+    var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
+    var animScene: U2UIntroAnimation = null;
+    var currentScene: U2UAbstractScene = null on replace {
+        println("cambio la scene: {currentScene.getClass().toString()}");
+        this.scene = currentScene;
+    };
 
     init {
         this.title = "U2U FX";
         this.resizeStage(650, 500);
-        animScene = U2UAbstractScene.getU2UIntroAnimation(this);
-        shareScene =  U2UAbstractScene.getU2UShareScene(this);
-        searchScene = U2UAbstractScene.getU2USearchScene(this);
-        downScene = U2UAbstractScene.getU2UDownloadScene(this);
         //Show intro
         //this.showIntro();
-       
+    }
+
+    postinit {
         this.showShare();
     }
+
 
 
     function showIntro():Void {
@@ -50,14 +46,20 @@ public class ContentStage extends Stage {
     }
 
     public function showShare():Void {
-        if(currentScene != shareScene){
+
+        if(currentScene != shareScene) {
+            
             currentScene = shareScene;
+            (currentScene as U2UAbstractMain).updateButtons();
         }
+        
     }
 
     public function showDownload():Void{
-        if(currentScene != downScene ){
+        if(currentScene != downScene ) {
+
             currentScene = downScene;
+            (currentScene as U2UAbstractMain).updateButtons();
         }
     }
 
@@ -65,6 +67,7 @@ public class ContentStage extends Stage {
         if(currentScene != searchScene){
 
             currentScene = searchScene;
+            (currentScene as U2UAbstractMain).updateButtons();
         }
     }
 
