@@ -41,29 +41,6 @@ public class U2UFXApp {
             style: StageStyle.DECORATED;
             visible: true;
         };
-        /*Stage {
-
-            style: StageStyle.TRANSPARENT;
-            scene: AnimationScene {
-                width: 650;
-                height: 550;
-            };
-            visible: true;
-        }
-
-        println("despues de llamar al Stage = {System.currentTimeMillis() - ini} [ms]");
-
-        var miScene : MiScene = MiScene{
-
-        };
-
-        mainStage = Stage {
-            title: "Mi Stage";
-            scene: miScene;
-            visible: true;
-        }*/
-
-
     }
 
     /**
