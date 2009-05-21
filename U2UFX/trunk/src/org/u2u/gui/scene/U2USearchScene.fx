@@ -10,6 +10,9 @@ import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.light.DistantLight;
+import javafx.scene.effect.Glow;
 
 
 /**
@@ -25,13 +28,14 @@ public class U2USearchScene extends U2UAbstractMain{
     init {
 
         imgBackground = Image{
-            url:"{__DIR__}content.png";
+            url:"{__DIR__}resources/content.png";
         }
 
         this.contentPane = Group{
             content: [
 
                 ImageView {
+                    effect: Glow{level:0.8}
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
@@ -48,8 +52,9 @@ public class U2USearchScene extends U2UAbstractMain{
     }
 
     override function updateButtons() {
-        imgSearchView.opacity = 0.5;
-        imgShareView.opacity = 1;
-        imgDownView.opacity = 1;
+        butSearch.aplyPressed = Glow{level:0.7};
+        butShare.aplyPressed =  null;
+        butDown.aplyPressed =  null;
+       
     }
 }

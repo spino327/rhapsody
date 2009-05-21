@@ -11,6 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import org.u2u.gui.U2UList;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.light.DistantLight;
+import javafx.scene.effect.Glow;
+import org.u2u.data.U2UDownloadListModel;
 
 /**
  * @author sergio
@@ -21,19 +25,27 @@ public class U2UDownloadScene extends U2UAbstractMain{
 var imgBackground:Image;
 var imgBackView:ImageView;
 var listNodes:U2UList;
+var model:U2UDownloadListModel;
 var vbox:VBox;
 
 
     init {
 
         imgBackground = Image{
-            url:"{__DIR__}content.png";
+            url:"{__DIR__}resources/content.png";
         };
+
+        model = U2UDownloadListModel{};
+
         listNodes = U2UList{};
+
+        listNodes.setModel(this.model);
+
 
         this.contentPane = Group{
             content: [
                 ImageView{
+                effect: Glow{level:0.8}
                 image:imgBackground;
                 translateX:210;
                 translateY:25;
@@ -46,10 +58,10 @@ var vbox:VBox;
     }
 
     override function updateButtons() {
-        imgDownView.opacity = 0.5;
-
-        imgSearchView.opacity = 1;
-        imgShareView.opacity = 1;
+        butDown.aplyPressed = Glow{level:0.7};
+        butShare.aplyPressed = null;
+        butSearch.aplyPressed = null;
+        
     }
 
 }

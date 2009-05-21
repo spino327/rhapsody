@@ -26,10 +26,10 @@ import org.u2u.data.U2UDownloadNode;
 public class U2UList extends Group {
 
     //instance variables
-    var model: U2UAbstractListModel;
-    var imgBackground:Image = Image{
-            url:"{__DIR__}resources/content.png";
-    };
+    var model: U2UAbstractListModel = null on replace{
+            this.updateUI();
+        };
+    
 
     /** represents the current position in the model of the first node of the this list*/
     var firstPos: Integer = 0;
@@ -39,12 +39,6 @@ public class U2UList extends Group {
 
     var yPrimero: Number;
 
-     /**
-    * background image of the List
-    */
-    var imgBackView:ImageView = ImageView{
-        image: bind imgBackground;
-    };
     /** spacing between nodes*/
     var spacingNodes: Number;
     /** */
@@ -55,8 +49,6 @@ public class U2UList extends Group {
 
         this.translateX = 210;
         this.translateY = 25;
-
-        this.updateUI();
     }
 
 
@@ -81,7 +73,7 @@ public class U2UList extends Group {
     }
 
     /** this methods force the re-drawing of the Lisr*/
-    public function updateUI():Void {
+    function updateUI():Void {
 
         var size:Integer = model.getSize();
 
@@ -114,7 +106,7 @@ public class U2UList extends Group {
            insert model.getNodeAt(size-1).getNodeView() into con;
         }
 
-        this.groupList.content = [imgBackView,con];
+        this.groupList.content = [con];
 
         this.content = this.groupList;
 

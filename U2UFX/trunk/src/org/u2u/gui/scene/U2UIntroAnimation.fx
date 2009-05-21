@@ -125,15 +125,15 @@ public class U2UIntroAnimation extends U2UAbstractScene {
     postinit {
 
         imgStar = Image{
-            url:"{__DIR__}star1.png"
+            url:"{__DIR__}resources/star1.png"
             };
         imgLogo = Image
         {
-            url:"{__DIR__}u2ulogo.png";
+            url:"{__DIR__}resources/u2ulogo.png";
         };
 
         imgBac = Image{
-                url: "{__DIR__}Earth-Horizon.png";
+                url: "{__DIR__}resources/Earth-Horizon.png";
          };
 
         fromx = (this.width-textIntro.layoutBounds.width)/2;

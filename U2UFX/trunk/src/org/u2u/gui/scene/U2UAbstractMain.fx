@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -24,19 +26,15 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
     
     var imgLeft:Image;
     var imgBack:Image;
-    var imgBShare:Image;
-    var imgBSearch:Image;
-    var imgBDown:Image;
-    var imgConfig:Image;
-    var imgHelp: Image;
-
+    
     var imgBackView:ImageView;
     var imgLeftView:ImageView;
-    protected var imgShareView:ImageView;
-    protected var imgSearchView:ImageView;
-    protected var imgDownView:ImageView;
-    var imgConfView:ImageView;
-    var imgHelpView: ImageView;
+
+    protected var butShare:ButtonNode;
+    protected var butSearch:ButtonNode;
+    protected var butDown:ButtonNode;
+    var butConfig:ButtonNode;
+    var butHelp:ButtonNode;
 
     var groupButtons:Node[];
 
@@ -49,82 +47,71 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
     init {
 
         imgLeft = Image{
-            url: "{__DIR__}leftpane.png";
+            url: "{__DIR__}resources/leftpane.png";
         };
         imgBack = Image {
-            url:"{__DIR__}Earth-Horizon.png";
+            url:"{__DIR__}resources/Earth-Horizon.png";
         }
-        imgBShare = Image{
-             url: "{__DIR__}share-button.png";
-        };
-        imgBSearch= Image{
-             url: "{__DIR__}search-button.png";
-        };
-        imgBDown= Image{
-             url: "{__DIR__}download-button.png";
-        };
-        imgConfig= Image{
-             url: "{__DIR__}config-button.png";
-        };
-        imgHelp= Image{
-             url: "{__DIR__}help-button.png";
-        };
+       
 
         groupButtons = Group{
                 translateX:10.5;
                 translateY:26;
                 content: [
                     Group {
-                        //spacing:36;
+                        
                         translateX:10.5;
                         translateY:26;
                         
                         content: [
-                            imgShareView = ImageView{
+                            butShare = ButtonNode{
                                 translateX:10.5;
-                                translateY:26;
-                                image: imgBShare;
-                                onMousePressed:function(me:MouseEvent):Void{
+                                translateY:16;
+                                imageURL:"{__DIR__}resources/share-button.png"
+                                
+                                action:function():Void{
                                     println("imgShareView");
-                                    
                                     this.contentStage.showShare();
-                                    
                                 }
+                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
-                            imgSearchView = ImageView{
+                            butSearch = ButtonNode{
                                 translateX:10.5;
-                                translateY:135;
-                                image: imgBSearch;
-                                onMousePressed:function(me:MouseEvent):Void{
+                                translateY:125;
+                                imageURL: "{__DIR__}resources/search-button.png";
+                                action:function():Void{
                                     println("imgSearchView");
-                                    
                                     this.contentStage.showSearch();
                                 }
+                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
-                            imgDownView = ImageView{
+                            butDown = ButtonNode{
                                 translateX:10.5;
-                                translateY:244;
-                                image: imgBDown;
-                                onMousePressed:function(me:MouseEvent):Void{
+                                translateY:234;
+                                imageURL:"{__DIR__}resources/download-button.png";
+                                action:function():Void{
                                     println("imgDownView");
-                                   
                                     this.contentStage.showDownload();
-                                    
                                 }
+                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
                             Group {
                                 translateX:2.5;
-                                translateY:353;
-                                //spacing:12;
-                                effect: InnerShadow { offsetX: 4 offsetY: 4 }
+                                translateY:335;
+                                
                                 content: [
-                                    imgConfView = ImageView{
-                                        image: bind imgConfig;
-                                     },
-                                     imgHelpView = ImageView{
-                                        translateX: 81;
-                                        image: bind imgHelp;
-                                     }
+                                    
+                                    butConfig = ButtonNode{
+                                        translateX:12;
+                                        title:"Preferences";
+                                        imageURL:"{__DIR__}resources/config.png"
+                                        },
+
+                                     butHelp = ButtonNode{
+                                        translateX:81;
+                                        title:"Help";
+                                        imageURL:"{__DIR__}resources/help.png"
+                                        }
                                 ]
                             }
                         ]
