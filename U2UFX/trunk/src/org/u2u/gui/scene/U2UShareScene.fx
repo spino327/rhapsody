@@ -18,6 +18,7 @@ import javax.swing.*;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.text.*;
 import javafx.scene.paint.Color;
+import org.u2u.common.db.SharedFiles;
 /**
  * @author sergio
  */
@@ -29,53 +30,44 @@ public class U2UShareScene extends U2UAbstractMain{
     var fileChooser:JFileChooser;
     var selectedFile:String;
     var swing:SwingComponent;
+    //table that shows the files shared for the user
+    var table:ShareFilesTable;
 
-
-
-    init {
-
+init {
+    
         imgBackground = Image{
-            url:"{__DIR__}resources/content.png";
+            url:"{__DIR__}resources/content2.png";
         }
 
         this.contentPane = Group{
             content: [
 
                 ImageView {
-                    effect: Glow{level:0.8}
+                    //effect: Glow{level:0.8}
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
                 },
-                ImageView{
-                    translateX: 550;
-                    translateY: 35;
-                    image: Image{url:"{__DIR__}resources/share.png"}
-                    onMouseClicked:function(me:MouseEvent):Void{
 
-                        fileChooser = new JFileChooser();
-                        if ( fileChooser.showOpenDialog(swing.getRootJComponent()) == JFileChooser.APPROVE_OPTION){
-                            selectedFile = fileChooser.getSelectedFile().getName();
-                        }
-                    }
-                    onMouseMoved:function(me:MouseEvent):Void{
-                        me.node.effect = Glow{level:0.5}
-                    }
-                    onMouseExited:function(me:MouseEvent):Void{
-                        me.node.effect = null;
-                    }
-                },
-                Text{
-                    translateX: 230;
-                    translateY: 50;
-                    content:bind selectedFile;
-                    font: Font.font("Verdana",FontWeight.BOLD,15);
-                    fill: Color.SNOW;
-                }
+                table = ShareFilesTable{}
 
+//                
             ]
         };
 
+    }
+
+    function isFileShared(name:String):Boolean{
+
+        var files:ShareFilesTable.SharedFile[] = table.shared as ShareFilesTable.SharedFile[];;
+        for(x in [0..sizeof files])
+        {
+            if(files[x].name.equals(name))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     override function updateButtons() {

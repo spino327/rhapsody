@@ -24,7 +24,6 @@ public class U2USearchScene extends U2UAbstractMain{
     var imgBackground:Image;
     var imgBackView:ImageView;
 
-
     init {
 
         imgBackground = Image{

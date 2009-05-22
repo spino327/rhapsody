@@ -10,6 +10,7 @@ import org.u2u.gui.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.lang.System;
+import net.jxta.platform.NetworkManager;
 
 /*
  * @author sergio
@@ -36,8 +37,8 @@ public class U2UFXApp {
         var ini:Long = System.currentTimeMillis();
 
         stage = U2UContentStage{
-            width: 500;
-            height: 500;
+            width: 650;
+            height: 520;
             style: StageStyle.DECORATED;
             visible: true;
         };
@@ -100,6 +101,10 @@ function launch(app:U2UFXApp)
 {
     app.startup();
     app.ready();
+
+    var manager: NetworkManager = new NetworkManager(NetworkManager.ConfigMode.EDGE, "test");
+    
+    //var conf: NetworkConfigurator = manager.getConfigurator();
 }
 
 function run(args:String[])

@@ -67,7 +67,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             butShare = ButtonNode{
                                 translateX:10.5;
                                 translateY:16;
-                                imageURL:"{__DIR__}resources/share-button.png"
+                                imageURL:"{__DIR__}resources/share-button2.png"
                                 
                                 action:function():Void{
                                     println("imgShareView");

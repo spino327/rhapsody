@@ -39,8 +39,8 @@ public function getU2UShareScene(cont:U2UContentStage):U2UShareScene{
 
     return U2UShareScene{
         contentStage:cont;
-        width:650;
-        height:500
+        width:660;
+        height:550;
     }
 }
 

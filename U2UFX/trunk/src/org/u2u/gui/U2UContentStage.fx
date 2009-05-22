@@ -28,10 +28,9 @@ public class U2UContentStage extends Stage {
 
     init {
         this.title = "U2U FX";
-        this.resizeStage(650, 500);
-        
+        this.fullScreen = false;
         //Show intro
-        //this.showIntro();
+        this.showIntro();
     }
 
     postinit {
