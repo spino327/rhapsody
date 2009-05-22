@@ -16,13 +16,12 @@ import javax.swing.event.ListSelectionListener;
 /**
  * @author Irene
  */
-
 //class SwingTable extends SwingComponent{
 public class SwingTable extends SwingComponent{
 
     var table: JTable;
     var model: DefaultTableModel;
-
+    var basura:String;
     public var selection: Integer;
 
 

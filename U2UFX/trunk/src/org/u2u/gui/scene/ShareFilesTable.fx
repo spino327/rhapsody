@@ -33,7 +33,6 @@ public class ShareFilesTable extends CustomNode{
     public var shared:SharedFile[];
 
     override function create():Node{
-
         Group{
             content: [
                 Text{
