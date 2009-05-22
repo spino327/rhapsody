@@ -6,21 +6,62 @@
 
 package org.u2u.app;
 
-import org.u2u.gui.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.lang.System;
-import net.jxta.platform.NetworkManager;
 
-/*
+import org.jfxtras.async.JFXWorker;
+import org.u2u.gui.*;
+
+import java.util.concurrent.ExecutionException;
+import java.io.File;
+import java.lang.System;
+import java.io.IOException;
+
+import net.jxta.platform.*;
+import net.jxta.impl.shell.bin.Shell.Shell;
+import java.lang.Exception;
+import net.jxta.peergroup.NetPeerGroupFactory;
+import net.jxta.peergroup.PeerGroup;
+import java.lang.Thread;
+import java.lang.InterruptedException;
+
+
+
+//static variables(class variables)
+
+public-read var APP: U2UFXApp;
+
+/** State connect*/
+public-read var CONNECT: Integer = 1;
+/** State disconnect*/
+public-read var DISCONNECT: Integer = 0;
+/** Service U2UFSS started*/
+public-read var U2UFSS_INIT: Integer = 1;
+/** Service U2UFSS stopped*/
+public-read var U2UFSS_STOP: Integer = 0; 
+/**
+ * 
  * @author sergio
  */
-
 public class U2UFXApp {
 
     var mainStage : Stage;
-    public var stage: U2UContentStage;
+    var stage: U2UContentStage;
+    /** task that init the network*/
+    var initTask: JFXWorker;
+    /** task that stop the network*/
+    var stopTask: JFXWorker;
 
+    var status: Integer;
+    var status_u2ufss:Integer = 0; //the service is stoped
+
+    /** U2UShell's instance that run the p2p commands*/
+    public-read var shell: Shell;
+    /** Peer's peergroup*/
+    var netPeerGroup: PeerGroup;
+
+    //lifecycle
+    
     /**
      * Responsible for starting the application; for creating and showing
      * the initial GUI.
@@ -36,12 +77,19 @@ public class U2UFXApp {
 
         var ini:Long = System.currentTimeMillis();
 
-        stage = U2UContentStage{
+        stage = U2UContentStage {
             width: 650;
             height: 520;
             style: StageStyle.DECORATED;
             visible: true;
+//            onClose:function():Void {
+//                println("Se cerro noooooooooooooo");
+//            }
+
         };
+
+        this.initShell();
+
     }
 
     /**
@@ -60,8 +108,6 @@ public class U2UFXApp {
         println("Hola ready");
     }
 
-
-
     /**
      * Called when the application {@link #exit exits}.
      * Subclasses may override this method to do any cleanup
@@ -78,6 +124,226 @@ public class U2UFXApp {
     {
         // TBD should call TaskService#shutdownNow() on each TaskService
     }
+    //EO Life cycle
+
+    //P2P
+
+    /**
+     * Return the U2UFSS's state
+     * @return 1 init, 0 stop
+     */
+    public function getStatusServiceU2UFSS(): Integer {
+        return status_u2ufss;
+    }
+
+    /**
+     * Return the Peer's state in the P2P Network
+     * @return peer's state: CONNECT or DISCONNECT
+     */
+    public function getStatus(): Integer {
+        return status;
+    }
+
+    /**
+     * try to config the peer
+     */
+    public function peerConfig(): Void {
+
+        this.shell.executeCmd("peerconfig");
+        this.stopShell();
+
+        try {
+            Thread.sleep(2000);
+        } catch (ex: InterruptedException) {
+            ex.printStackTrace();
+        }
+
+        this.initShell();
+    }
+
+
+    /**
+     * Connect the peer to the P2P network and init the U2UShell
+     */
+    public function initShell(): Void {
+//
+//        viewPpal.setStatusBarProgress(true);
+//        viewPpal.disableConnect();
+
+        if(initTask != null)
+        {
+            if(not initTask.cancelled)
+            {
+                initTask.cancel();
+                initTask = null;
+            }
+
+        }
+
+        initTask = JFXWorker {
+            
+            inBackground: function():Object {
+                // Establish the default store location via long established hackery.
+                var jxta_home: String = System.getProperty("JXTA_HOME", ".jxta");
+
+                if (not jxta_home.endsWith(File.separator)) {
+                    jxta_home += File.separator;
+                }
+
+                var homedir: File = new File(jxta_home);
+                if (not homedir.exists()) {
+                    homedir.mkdirs();
+                }
+//
+//              //init JXTA building a Peer Group instance
+                initTask.publish(["setting the p2p network...", 0.2]);
+                var netPeerGroupFactory: NetPeerGroupFactory = new NetPeerGroupFactory();
+                initTask.publish(["initializing the p2p network...", 0.4]);
+                netPeerGroup = netPeerGroupFactory.getInterface();
+                initTask.publish(["waiting for U2UShell...", 0.8]);
+                shell = new Shell(netPeerGroup);
+                initTask.publish(["ok...", 1.0]);
+                
+                
+                if ((netPeerGroup != null) and (shell != null))
+                {
+                    status = U2UFXApp.CONNECT; // new state connected
+                }
+                
+                return status;
+            }
+            
+            process: function(data) {
+//                var files = data as File[];
+//                insert files[0..(24-count)] into searchResults;
+//                count += sizeof data;
+//                resultText = "Found {count} files";
+                println(data);
+            }
+            
+            onDone: function(result) {
+                
+                var res: Integer = result as Integer;
+
+                if(res == U2UFXApp.CONNECT)
+                {
+                    //viewPpal.setStatusMenusItems(true);
+
+                    //init the service u2ufss
+                    //shell.executeCmd("u2ufss -init "+ config.getConfigMode().toString());
+                    shell.executeCmd("u2ufss -init" 
+                        " {if (netPeerGroup.isRendezvous()) then ("RENDEZVOUS") else ("EDGE")}");
+                    status_u2ufss = U2UFSS_INIT;
+
+                    //registerSearchListener();
+                    //registerServiceListeners();
+                    //Show the sharedfiles
+                    shell.executeCmd("u2ufss -showsf ");
+                }
+
+                //peerId = netPeerGroup.getPeerID().toString();
+                //peerId = netPeerGroup.substring(peerId.length() - 4 );
+
+                //viewPpal.setPeerID(peerId);
+                //viewPpal.setSocketID();
+
+            }
+            
+            onFailure: function(ex:ExecutionException):Void {
+                ex.printStackTrace();
+            }
+        };
+    }
+
+    /**
+     * Disconnect the peer to the P2P network and init the U2UShell
+     */
+    public function stopShell(): Void {
+//        viewPpal.setStatusBarProgress(false);
+//        viewPpal.disableDisconnect();
+//        viewPpal.stopedAllActivities();
+
+        if(null != stopTask) {
+            stopTask.cancel();
+            stopTask = null;
+        }
+
+        stopTask = JFXWorker {
+
+            inBackground: function():Object {
+
+                stopTask.publish(["disconnecting for the network...", 0.4]);
+
+                if(null != initTask)
+                {
+                    initTask.cancel();
+                }
+
+                if(status == U2UFXApp.CONNECT) {
+//                    viewPpal.disableDisconnect();
+//                    viewPpal.setStatusMenusItems(false);
+
+                    if(shell != null) {
+                        
+                        println("shell != null");
+
+                        shell.executeCmd("u2ufss -stop");
+                        shell.executeCmd("search -f");//flush all the contents' advertisements
+                        shell.executeCmd("peers -f");//flush all the peers' advertisements
+                        shell.executeCmd("exit");
+                        status_u2ufss = U2UFSS_STOP;
+                    }
+
+                    status= U2UFXApp.DISCONNECT;
+                    netPeerGroup.stopApp();
+                    
+
+                }
+                else if(status == U2UFXApp.DISCONNECT) {
+                    
+                    println("already disconnected");
+                }
+
+                shell = null;
+                netPeerGroup = null;
+
+                println("Stopped service was successful!");
+
+                return status;
+            }
+            
+            process: function(data) {
+//                var files = data as File[];
+//                insert files[0..(24-count)] into searchResults;
+//                count += sizeof data;
+//                resultText = "Found {count} files";
+                println(data);
+            }
+            
+            onDone: function(result) {
+
+                var res: Integer = result as Integer;
+
+                //viewPpal.changeStatus(res);
+
+                if(res == U2UFXApp.DISCONNECT) {
+                    //viewPpal.setStatusMenusItems(false);
+                }
+
+                //viewPpal.setStatusBarProgress(false);
+
+                //gc
+                System.gc();
+            }
+            
+            onFailure: function(ex:ExecutionException):Void {
+                ex.printStackTrace();
+            }
+
+        };
+    }
+    //EO P2P
+
 }
 
 //static methods
@@ -109,5 +375,6 @@ function launch(app:U2UFXApp)
 
 function run(args:String[])
 {
-    launch(U2UFXApp {});
+    APP = U2UFXApp {};
+    launch(APP);
 }
