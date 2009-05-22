@@ -13,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.light.DistantLight;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.DropShadow;
 
 
 /**
@@ -34,7 +35,7 @@ public class U2USearchScene extends U2UAbstractMain{
             content: [
 
                 ImageView {
-                    effect: Glow{level:0.8}
+                    //effect: Glow{level:0.8}
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
@@ -51,7 +52,8 @@ public class U2USearchScene extends U2UAbstractMain{
     }
 
     override function updateButtons() {
-        butSearch.aplyPressed = Glow{level:0.7};
+        butSearch.aplyPressed = Glow{level:0.7 
+        input:DropShadow{offsetX:3 color:Color.}};
         butShare.aplyPressed =  null;
         butDown.aplyPressed =  null;
        

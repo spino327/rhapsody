@@ -45,24 +45,19 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
     ];
 
     init {
-
         imgLeft = Image{
             url: "{__DIR__}resources/leftpane.png";
         };
         imgBack = Image {
             url:"{__DIR__}resources/Earth-Horizon.png";
         }
-       
-
         groupButtons = Group{
                 translateX:10.5;
                 translateY:26;
                 content: [
                     Group {
-                        
                         translateX:10.5;
                         translateY:26;
-                        
                         content: [
                             butShare = ButtonNode{
                                 translateX:10.5;
@@ -73,7 +68,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                     println("imgShareView");
                                     this.contentStage.showShare();
                                 }
-                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
+                                //aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
                             butSearch = ButtonNode{
                                 translateX:10.5;
