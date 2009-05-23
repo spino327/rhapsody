@@ -86,7 +86,7 @@ public class U2UFXApp {
 //                println("Se cerro noooooooooooooo");
 //            }
         };
-        //this.initShell();
+        this.initShell();
     }
 
     /**
@@ -120,6 +120,38 @@ public class U2UFXApp {
     protected function shutdown():Void
     {
         // TBD should call TaskService#shutdownNow() on each TaskService
+    }
+
+    public function quit(): Void {
+        /*viewPpal.setVisible(false);
+        //this.stopNetwork();
+        if(status == U2U4UApp.CONNECT)
+        {
+            viewPpal.disableDisconnect();
+            viewPpal.setStatusMenusItems(false);
+
+            if(U2U4UApp.shell != null)
+            {
+                shell.executeCmd("search -f");//borra los anuncios  de este igual
+                shell.executeCmd("peers -f");//borra los anuncios de iguales de este igual
+                shell.executeCmd("exit");
+                //shell.executeCmd("u2ufss -stop");//Not implemented yet
+                //status_u2ufss = U2UFSS_STOP;
+            }
+            if(manager != null)
+            {
+                manager.stopNetwork();
+            }
+            status= U2U4UApp.DISCONNECT;
+
+        }else if(status == U2U4UApp.DISCONNECT)
+        {
+            if(manager != null)
+            {
+                manager.stopNetwork();
+            }
+        }
+        super.quit(e);*/
     }
     //EO Life cycle
 
@@ -162,7 +194,7 @@ public class U2UFXApp {
     /**
      * Connect the peer to the P2P network and init the U2UShell
      */
-    public function initShell(): Void {
+    protected function initShell(): Void {
 //
 //        viewPpal.setStatusBarProgress(true);
 //        viewPpal.disableConnect();
@@ -255,7 +287,7 @@ public class U2UFXApp {
     /**
      * Disconnect the peer to the P2P network and init the U2UShell
      */
-    public function stopShell(): Void {
+    protected function stopShell(): Void {
 //        viewPpal.setStatusBarProgress(false);
 //        viewPpal.disableDisconnect();
 //        viewPpal.stopedAllActivities();

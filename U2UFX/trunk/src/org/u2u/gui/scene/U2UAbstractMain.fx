@@ -46,7 +46,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
 
     init {
         imgLeft = Image{
-            url: "{__DIR__}resources/leftpane2.png";
+            url: "{__DIR__}resources/leftpane.png";
         };
         imgBack = Image {
             url:"{__DIR__}resources/Earth-Horizon.png";

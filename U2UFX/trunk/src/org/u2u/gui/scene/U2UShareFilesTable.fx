@@ -25,6 +25,8 @@ import org.jfxtras.stage.JFXDialog;
 import javafx.scene.Scene;
 import javafx.ext.swing.SwingTextField;
 import javafx.ext.swing.SwingButton;
+import javax.swing.JOptionPane;
+import org.u2u.app.U2UFXApp;
 
 
 /**
@@ -138,42 +140,8 @@ public class U2UShareFilesTable extends CustomNode {
             //shows a dialog where the user can insert a description for the file
             //var desc:String = null;
             var desTextField:SwingTextField;
-            inputDialog = JFXDialog{
-                modal:true;
-                alwaysOnTop:true;
-                width:350;
-                height:150;
 
-                scene:Scene{
-                   fill:Color.LIGHTGRAY;
-                   content: [
-                     Text{
-                        translateX:20;
-                        translateY:30;
-                        font: Font.font("Verdana", 12);
-                        textAlignment: TextAlignment.JUSTIFY;
-                        content:"Please, Insert a description for your shared file:"
-                     }
-                     desTextField= SwingTextField{
-                        translateX:40;
-                        translateY:45;
-                        width:270;
-                     }
-                     SwingButton {
-                        translateX:127.5;
-                        translateY:75;
-                        width:95;
-                        text:"Accept";
-                        action: function():Void{
-                            desc = desTextField.text;
-                            println("la descripcion es: {desc}");
-
-                            inputDialog.close();
-                        }
-                     }
-                   ]
-                }
-            }
+            var resInput :String = JOptionPane.showInputDialog(null);
 
             var res:Boolean = this.isFileShared(selectedFile.getName());
             if(not res){
@@ -182,14 +150,14 @@ public class U2UShareFilesTable extends CustomNode {
                            path: selectedFile.getPath();
                            type: selectedFile.getName();
                 }
-                /*
+                
                 //inform to the U2UFSS that it must share the file
                 if(desc.equals("") or desc == null or desc.equals(" ") or desc.startsWith(" ")) {
-                    U2UFXApp.shell.executeCmd("u2ufss -share -p {  file.toURI().getPath()});
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -share -p {  selectedFile.toURI().getPath()}");
                 }
                else {
-                    U2U4UApp.shell.executeCmd("u2ufss -share -p { file.toURI().getPath() } -d { desc });
-               }*/
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -share -p { selectedFile.toURI().getPath() } -d { desc }");
+               }
                 //Insert the file to the list of shared files
                 insert sharedFile into shared;
             }else{

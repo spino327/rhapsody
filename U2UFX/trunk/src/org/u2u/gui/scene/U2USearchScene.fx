@@ -47,7 +47,6 @@ public class U2USearchScene extends U2UAbstractMain{
             content: [
 
                 ImageView {
-                    //effect: Glow{level:0.8}
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
@@ -62,14 +61,27 @@ public class U2USearchScene extends U2UAbstractMain{
                     translateX:this.width-110;
                     translateY:120;
                     icon:bind icon;
-                    //action: searchFiles("");
+                    action: function():Void{
+                        searchFiles(textField.text);
+                    }
                 },
                 table = U2USearchTable{}
             ]
         };
     }
 
+
+    /**
+    * This function thwow a search in the P2P network thought JXTA. It search files
+    * containing the key work value.
+    */
     function searchFiles(value:String):Void{
+
+        if(value == null or value.equals("") or value.length()<=0){
+            //show a message: value isn't nothing
+        }else{
+
+        }
     }
 
     /**

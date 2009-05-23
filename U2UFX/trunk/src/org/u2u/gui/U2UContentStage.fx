@@ -9,6 +9,7 @@ package org.u2u.gui;
 import javafx.stage.Stage;
 
 import org.u2u.gui.scene.*;
+import org.u2u.app.U2UFXApp;
 /**
  * @author Irene
  */
@@ -25,6 +26,12 @@ public class U2UContentStage extends Stage {
         println("cambio la scene: {currentScene.getClass().toString()}");
         this.scene = currentScene;
     };
+
+    override var onClose = function() {
+        println("Closing the application");
+        U2UFXApp.APP.quit();
+    };
+
 
     init {
         this.title = "U2U FX";
