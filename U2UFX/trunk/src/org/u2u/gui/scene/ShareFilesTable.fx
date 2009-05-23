@@ -21,6 +21,10 @@ import javafx.scene.paint.*;
 
 import java.io.File;
 import javafx.scene.effect.DropShadow;
+import org.jfxtras.stage.JFXDialog;
+import javafx.scene.Scene;
+import javafx.ext.swing.SwingTextField;
+import javafx.ext.swing.SwingButton;
 
 /**
  * @author Irene
@@ -28,6 +32,7 @@ import javafx.scene.effect.DropShadow;
 public class ShareFilesTable extends CustomNode {
     public var selection: Integer;
     public var shared:SharedFile[];
+    public var inputDialog:JFXDialog;
 
     override function create():Node{
         Group{
@@ -132,6 +137,34 @@ public class ShareFilesTable extends CustomNode {
 
             //shows a dialog where the user can insert a description for the file
             //var desc:String = null;
+            var desTextField:SwingTextField;
+            inputDialog = JFXDialog{
+                    modal:true;
+                    alwaysOnTop:true;
+                    scene:Scene{
+                           content: [
+                           
+                             Text{
+                                content:"Please, Insert a description for a shared file:"
+                             }
+                             
+                             desTextField= SwingTextField{
+                                translateX:20;
+                                translateY:50;
+                                width:100;
+                             }
+                             
+                             SwingButton {
+                                text:"Acept"; 
+                             }
+                           
+                           ]
+                          
+                        }
+            }
+
+            
+
             var res:Boolean = this.isFileShared(selectedFile.getName());
             if(not res){
                 var sharedFile:SharedFile =

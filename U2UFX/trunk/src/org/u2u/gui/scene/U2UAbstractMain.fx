@@ -46,7 +46,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
 
     init {
         imgLeft = Image{
-            url: "{__DIR__}resources/leftpane.png";
+            url: "{__DIR__}resources/leftpane2.png";
         };
         imgBack = Image {
             url:"{__DIR__}resources/Earth-Horizon.png";
@@ -129,7 +129,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                     image:bind imgLeft;
                     translateX:15;
                     translateY:25;
-                    opacity: 0.7;
+                    //opacity: 0.7;
                 },
 
                 groupButtons,
