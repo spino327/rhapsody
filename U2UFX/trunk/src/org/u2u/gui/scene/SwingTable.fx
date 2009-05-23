@@ -21,9 +21,7 @@ public class SwingTable extends SwingComponent{
 
     var table: JTable;
     var model: DefaultTableModel;
-    var basura:String;
     public var selection: Integer;
-
 
     public var columns: TableColumn[] on replace{
         model = new DefaultTableModel(for(column in columns) column.text, 0);

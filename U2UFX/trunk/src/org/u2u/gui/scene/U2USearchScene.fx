@@ -53,7 +53,7 @@ public class U2USearchScene extends U2UAbstractMain{
     }
 
     override function updateButtons() {
-        butSearch.aplyPressed = Glow{level:0.7 
+        butSearch.aplyPressed = Glow{level:0.3
         input:DropShadow{offsetX:3 color:Color.BLACK}};
         butShare.aplyPressed =  null;
         butDown.aplyPressed =  null;

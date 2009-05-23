@@ -52,7 +52,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
             url:"{__DIR__}resources/Earth-Horizon.png";
         }
         groupButtons = Group{
-                translateX:10.5;
+                translateX:8;
                 translateY:26;
                 content: [
                     Group {
@@ -60,7 +60,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                         translateY:26;
                         content: [
                             butShare = ButtonNode{
-                                translateX:10.5;
+                                translateX:5;
                                 translateY:16;
                                 imageURL:"{__DIR__}resources/share-button2.png"
                                 
@@ -68,10 +68,10 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                     println("imgShareView");
                                     this.contentStage.showShare();
                                 }
-                                //aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
+                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
                             butSearch = ButtonNode{
-                                translateX:10.5;
+                                translateX:5;
                                 translateY:125;
                                 imageURL: "{__DIR__}resources/search-button.png";
                                 action:function():Void{
@@ -81,7 +81,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                 aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
                             },
                             butDown = ButtonNode{
-                                translateX:10.5;
+                                translateX:5;
                                 translateY:234;
                                 imageURL:"{__DIR__}resources/download-button.png";
                                 action:function():Void{

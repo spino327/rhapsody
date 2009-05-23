@@ -72,7 +72,7 @@ init {
 
     override function updateButtons() {
 
-        butShare.aplyPressed = Glow{level:0.7};
+        butShare.aplyPressed = Glow{level:0.3};
         butDown.aplyPressed =  null;
         butSearch.aplyPressed =  null;
       

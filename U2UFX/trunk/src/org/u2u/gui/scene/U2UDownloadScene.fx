@@ -58,7 +58,7 @@ var vbox:VBox;
     }
 
     override function updateButtons() {
-        butDown.aplyPressed = Glow{level:0.7};
+        butDown.aplyPressed = Glow{level:0.3};
         butShare.aplyPressed = null;
         butSearch.aplyPressed = null;
         
