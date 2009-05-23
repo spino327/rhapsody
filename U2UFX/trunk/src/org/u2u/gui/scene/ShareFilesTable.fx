@@ -22,11 +22,10 @@ import javafx.scene.paint.*;
 import java.io.File;
 import javafx.scene.effect.DropShadow;
 
-
 /**
  * @author Irene
  */
-public class ShareFilesTable extends CustomNode{
+public class ShareFilesTable extends CustomNode {
     public var selection: Integer;
     public var shared:SharedFile[];
 
