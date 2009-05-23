@@ -26,9 +26,7 @@ import javafx.scene.effect.DropShadow;
 /**
  * @author Irene
  */
-
 public class ShareFilesTable extends CustomNode{
-
     public var selection: Integer;
     public var shared:SharedFile[];
 
@@ -41,7 +39,6 @@ public class ShareFilesTable extends CustomNode{
                     content:"SHARE FILES";
                     font: Font.font("Arial",FontWeight.BOLD,20);
                     effect:DropShadow { offsetY: 3 color: Color.LIGHTBLUE };
-
                 },
                 SwingTable{
                     width:380;
