@@ -28,7 +28,7 @@ public class U2UList extends Group {
     //instance variables
     var model: U2UAbstractListModel = null on replace{
             this.updateUI();
-        };
+    };
     
 
     /** represents the current position in the model of the first node of the this list*/
