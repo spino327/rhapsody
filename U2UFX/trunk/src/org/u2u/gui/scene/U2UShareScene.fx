@@ -10,19 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;
 import javafx.scene.effect.Glow;
-import javafx.ext.swing.SwingButton;
-import javax.swing.JFileChooser;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 
 import javax.swing.*;
 import javafx.ext.swing.SwingComponent;
-import javafx.scene.text.*;
-import javafx.scene.paint.Color;
 import org.u2u.common.db.SharedFiles;
+
 /**
  * @author sergio
  */
-
 public class U2UShareScene extends U2UAbstractMain{
 
     var imgBackground:Image;
@@ -31,10 +28,9 @@ public class U2UShareScene extends U2UAbstractMain{
     var selectedFile:String;
     var swing:SwingComponent;
     //table that shows the files shared for the user
-    var table:ShareFilesTable;
+    var table:U2UShareFilesTable;
 
 init {
-    
         imgBackground = Image{
             url:"{__DIR__}resources/content2.png";
         }
@@ -49,33 +45,17 @@ init {
                     image:imgBackground;
                 },
 
-                table = ShareFilesTable{}
-
-//                
+                table = U2UShareFilesTable{}
             ]
         };
-
-    }
-
-    function isFileShared(name:String):Boolean{
-
-        var files:ShareFilesTable.SharedFile[] = table.shared as ShareFilesTable.SharedFile[];;
-        for(x in [0..sizeof files])
-        {
-            if(files[x].name.equals(name))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     override function updateButtons() {
 
-        butShare.aplyPressed = Glow{level:0.3};
+        butShare.aplyPressed = Glow{level:0.3
+         input:DropShadow{offsetX:3 color:Color.BLACK}};
         butDown.aplyPressed =  null;
         butSearch.aplyPressed =  null;
-      
     }
 
 }

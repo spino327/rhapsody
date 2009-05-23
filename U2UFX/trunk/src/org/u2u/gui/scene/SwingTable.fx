@@ -12,6 +12,7 @@ import javafx.ext.swing.SwingComponent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.metal.*;
 
 /**
  * @author Irene
@@ -42,7 +43,7 @@ public class SwingTable extends SwingComponent{
         table = new JTable();
         model =
         table.getModel() as DefaultTableModel;
-
+   
         var selectionModel = table.getSelectionModel();
         selectionModel.addListSelectionListener(
         ListSelectionListener{

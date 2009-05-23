@@ -85,11 +85,8 @@ public class U2UFXApp {
 //            onClose:function():Void {
 //                println("Se cerro noooooooooooooo");
 //            }
-
         };
-
-        this.initShell();
-
+        //this.initShell();
     }
 
     /**

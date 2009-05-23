@@ -62,7 +62,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             butShare = ButtonNode{
                                 translateX:5;
                                 translateY:16;
-                                imageURL:"{__DIR__}resources/share-button2.png"
+                                imageURL:"{__DIR__}resources/share-button3.png"
                                 
                                 action:function():Void{
                                     println("imgShareView");
@@ -73,7 +73,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             butSearch = ButtonNode{
                                 translateX:5;
                                 translateY:125;
-                                imageURL: "{__DIR__}resources/search-button.png";
+                                imageURL: "{__DIR__}resources/search-button3.png";
                                 action:function():Void{
                                     println("imgSearchView");
                                     this.contentStage.showSearch();
@@ -83,7 +83,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             butDown = ButtonNode{
                                 translateX:5;
                                 translateY:234;
-                                imageURL:"{__DIR__}resources/download-button.png";
+                                imageURL:"{__DIR__}resources/download-button3.png";
                                 action:function():Void{
                                     println("imgDownView");
                                     this.contentStage.showDownload();

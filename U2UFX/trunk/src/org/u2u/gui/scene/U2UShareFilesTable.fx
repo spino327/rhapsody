@@ -26,10 +26,11 @@ import javafx.scene.Scene;
 import javafx.ext.swing.SwingTextField;
 import javafx.ext.swing.SwingButton;
 
+
 /**
  * @author Irene
  */
-public class ShareFilesTable extends CustomNode {
+public class U2UShareFilesTable extends CustomNode {
     public var selection: Integer;
     public var shared:SharedFile[];
     public var inputDialog:JFXDialog;
@@ -38,11 +39,10 @@ public class ShareFilesTable extends CustomNode {
         Group{
             content: [
                 Text{
-                    translateX:330;
+                    translateX:350;
                     translateY:70;
                     content:"SHARE FILES";
                     font: Font.font("Arial",FontWeight.BOLD,20);
-                    effect:DropShadow { offsetY: 3 color: Color.LIGHTBLUE };
                 },
                 SwingTable{
                     width:380;
@@ -130,7 +130,7 @@ public class ShareFilesTable extends CustomNode {
         var fileChooser:JFileChooser;
         var swing:SwingComponent;
         var selectedFile:File;
-
+        var desc:String;
         fileChooser = new JFileChooser();
         if ( fileChooser.showOpenDialog(swing.getRootJComponent()) == JFileChooser.APPROVE_OPTION){
             selectedFile = fileChooser.getSelectedFile();
@@ -139,31 +139,41 @@ public class ShareFilesTable extends CustomNode {
             //var desc:String = null;
             var desTextField:SwingTextField;
             inputDialog = JFXDialog{
-                    modal:true;
-                    alwaysOnTop:true;
-                    scene:Scene{
-                           content: [
-                           
-                             Text{
-                                content:"Please, Insert a description for a shared file:"
-                             }
-                             
-                             desTextField= SwingTextField{
-                                translateX:20;
-                                translateY:50;
-                                width:100;
-                             }
-                             
-                             SwingButton {
-                                text:"Acept"; 
-                             }
-                           
-                           ]
-                          
-                        }
-            }
+                modal:true;
+                alwaysOnTop:true;
+                width:350;
+                height:150;
 
-            
+                scene:Scene{
+                   fill:Color.LIGHTGRAY;
+                   content: [
+                     Text{
+                        translateX:20;
+                        translateY:30;
+                        font: Font.font("Verdana", 12);
+                        textAlignment: TextAlignment.JUSTIFY;
+                        content:"Please, Insert a description for your shared file:"
+                     }
+                     desTextField= SwingTextField{
+                        translateX:40;
+                        translateY:45;
+                        width:270;
+                     }
+                     SwingButton {
+                        translateX:127.5;
+                        translateY:75;
+                        width:95;
+                        text:"Accept";
+                        action: function():Void{
+                            desc = desTextField.text;
+                            println("la descripcion es: {desc}");
+
+                            inputDialog.close();
+                        }
+                     }
+                   ]
+                }
+            }
 
             var res:Boolean = this.isFileShared(selectedFile.getName());
             if(not res){
@@ -185,9 +195,7 @@ public class ShareFilesTable extends CustomNode {
             }else{
                 //show a dialog that says that the file is already sahred
             }
-
         }
-
     }
 
     /**
@@ -195,7 +203,7 @@ public class ShareFilesTable extends CustomNode {
     */
     function isFileShared(name:String):Boolean{
 
-        var files:ShareFilesTable.SharedFile[] = shared;
+        var files:U2UShareFilesTable.SharedFile[] = shared;
         for(x in [0..sizeof files])
         {
             if(files[x].name.equals(name))

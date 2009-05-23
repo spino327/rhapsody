@@ -10,29 +10,40 @@ import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;
-import javafx.scene.effect.Lighting;
-import javafx.scene.effect.light.DistantLight;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.*;
-
+import javafx.ext.swing.SwingTextField;
+import javafx.ext.swing.SwingButton;
+import javafx.scene.shape.Circle;
+import javafx.scene.input.MouseEvent;
+import javafx.ext.swing.SwingIcon;
 
 /**
  * @author sergio
  */
-
 public class U2USearchScene extends U2UAbstractMain{
 
     var imgBackground:Image;
+
     var imgBackView:ImageView;
+    var table:U2USearchTable;
+    var textField: SwingTextField;
+    var icon: SwingIcon;
 
     init {
 
         imgBackground = Image{
-            url:"{__DIR__}resources/content.png";
+            url:"{__DIR__}resources/content2.png";
         }
 
+        icon = SwingIcon{
+            image:Image{
+                url:"{__DIR__}resources/search.png";
+            }
+        }
         this.contentPane = Group{
+            var buttonSearch:SwingButton;
             content: [
 
                 ImageView {
@@ -40,10 +51,27 @@ public class U2USearchScene extends U2UAbstractMain{
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
-                }
+                },
+                textField = SwingTextField{
+                    width: 270;
+                    translateX:this.width/2 - textField.width-70;
+                    translateY:120;
+                },
+
+                buttonSearch =  SwingButton{
+                    translateX:this.width-110;
+                    translateY:120;
+                    icon:bind icon;
+                    //action: searchFiles("");
+                },
+                table = U2USearchTable{}
             ]
         };
     }
+
+    function searchFiles(value:String):Void{
+    }
+
     /**
     *@return the index of the node selected in the scene
     */
@@ -57,6 +85,6 @@ public class U2USearchScene extends U2UAbstractMain{
         input:DropShadow{offsetX:3 color:Color.BLACK}};
         butShare.aplyPressed =  null;
         butDown.aplyPressed =  null;
-       
     }
+
 }

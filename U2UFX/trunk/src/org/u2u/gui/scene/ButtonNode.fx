@@ -153,7 +153,6 @@ public class ButtonNode extends CustomNode {
                       me.node.effect = Glow {
                         level: 0.7
                       };
-                      
                     }
                   onMouseReleased:
                     function(me:MouseEvent):Void {
@@ -166,13 +165,13 @@ public class ButtonNode extends CustomNode {
                 },
                 textRef = Text {
                   translateX: bind (buttonImage.width / 2) - 16
-                  translateY: bind buttonImage.height+12
+                  translateY: bind buttonImage.height+20
                   textOrigin: TextOrigin.BOTTOM
                   content: title
-                  fill: Color.SNOW
+                  fill: Color.BLACK
                   scaleX:bind textScale
                   scaleY: bind textScale
-                  font:Font.font("Sans serif", FontWeight.BOLD,16);
+                  font:Font.font("Sans serif", FontWeight.BOLD,14);
                 },
               ]
             };

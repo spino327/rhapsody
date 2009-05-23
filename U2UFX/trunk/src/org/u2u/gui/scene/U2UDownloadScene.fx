@@ -11,9 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import org.u2u.gui.U2UList;
-import javafx.scene.effect.Lighting;
-import javafx.scene.effect.light.DistantLight;
+import javafx.scene.paint.Color;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.DropShadow;
 import org.u2u.data.U2UDownloadListModel;
 
 /**
@@ -41,7 +41,6 @@ var vbox:VBox;
 
         listNodes.setModel(this.model);
 
-
         this.contentPane = Group{
             content: [
                 ImageView{
@@ -54,14 +53,13 @@ var vbox:VBox;
                listNodes
            ];
         }
-
     }
 
     override function updateButtons() {
-        butDown.aplyPressed = Glow{level:0.3};
+        butDown.aplyPressed = Glow{level:0.3
+        input:DropShadow{offsetX:3 color: Color.BLACK}};
         butShare.aplyPressed = null;
         butSearch.aplyPressed = null;
-        
     }
 
 }
