@@ -18,6 +18,8 @@ import javafx.ext.swing.SwingButton;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.ext.swing.SwingIcon;
+import org.u2u.app.U2UFXApp;
+import org.u2u.gui.scene.U2USearchTable;
 
 /**
  * @author sergio
@@ -59,7 +61,7 @@ public class U2USearchScene extends U2UAbstractMain{
 
                 buttonSearch =  SwingButton{
                     translateX:this.width-110;
-                    translateY:120;
+                    translateY:118;
                     icon:bind icon;
                     action: function():Void{
                         searchFiles(textField.text);
@@ -79,8 +81,9 @@ public class U2USearchScene extends U2UAbstractMain{
 
         if(value == null or value.equals("") or value.length()<=0){
             //show a message: value isn't nothing
-        }else{
 
+        }else{
+                U2USearchTable.runsSearch(value);
         }
     }
 
@@ -90,6 +93,11 @@ public class U2USearchScene extends U2UAbstractMain{
     public function getAdvSelected():U2UContentAdvertisementImpl{
         var adv:U2UContentAdvertisementImpl = null;
         return adv;
+    }
+
+
+    public function getSearchListener():U2USearchTable{
+        return table;
     }
 
     override function updateButtons() {

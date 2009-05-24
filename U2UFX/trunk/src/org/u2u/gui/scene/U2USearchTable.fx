@@ -10,16 +10,25 @@ import javafx.scene.Node;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.text.*;
+import org.u2u.filesharing.downloadpeer.U2UContentDiscoveryEvent;
+import org.u2u.filesharing.downloadpeer.U2USearchListener;
+import java.util.Enumeration;
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
+import org.u2u.app.U2UFXApp;
 
 /**
  * @author Irene
  */
 
-public class U2USearchTable extends CustomNode {
+public class U2USearchTable extends CustomNode, U2USearchListener{
 
     public var results:ResultFile[];
     public var selection:Integer;
     public var height:Number = 260;
+
+
+
+
     override function create():Node{
 
         Group{
@@ -61,7 +70,34 @@ public class U2USearchTable extends CustomNode {
         }
     }
 
+    /**
+     * U2USearchListener interface's event for manages advertisement arrives because
+     * it has a search through U2U File Sharing Service's Request Manager module
+     * @param event generated because arrives a advertisement
+     */
+    override function contentAdvertisementEvent(event:U2UContentDiscoveryEvent ):Void {
 
+        var ressta:Enumeration  =  event.getResponseAdv();
+
+        while(ressta.hasMoreElements())
+        {
+            var adv:U2UContentAdvertisementImpl  = ressta.nextElement() as U2UContentAdvertisementImpl;
+            insertResultInTable(adv);
+
+        }
+        println("LLEGO ANUNCIO");
+    }
+
+    function insertResultInTable(adv:U2UContentAdvertisementImpl):Void{
+
+        var res:ResultFile = ResultFile{
+            name: adv.getName();
+            size: adv.getLength();
+            containers:1;
+        }
+
+        insert res into results;
+    }
 
 }
 
@@ -72,3 +108,11 @@ protected class ResultFile{
    public-init var containers:Integer;
 
 }
+
+
+
+public function runsSearch(value:String):Void{
+
+    U2UFXApp.APP.shell.executeCmd("u2ufss -search {value} -n");
+}
+

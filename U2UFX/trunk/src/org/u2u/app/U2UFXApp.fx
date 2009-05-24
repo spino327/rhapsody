@@ -87,6 +87,7 @@ public class U2UFXApp {
 //            }
         };
         this.initShell();
+        
     }
 
     /**
@@ -103,6 +104,7 @@ public class U2UFXApp {
     protected function ready():Void
     {
         println("Hola ready");
+        stage.registerSearchListener();
     }
 
     /**
@@ -275,6 +277,7 @@ public class U2UFXApp {
 
                 //viewPpal.setPeerID(peerId);
                 //viewPpal.setSocketID();
+                this.ready();
 
             }
             
@@ -395,7 +398,7 @@ public class U2UFXApp {
 function launch(app:U2UFXApp)
 {
     app.startup();
-    app.ready();
+    //app.ready();
 
     var manager: NetworkManager = new NetworkManager(NetworkManager.ConfigMode.EDGE, "test");
     

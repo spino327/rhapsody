@@ -111,4 +111,13 @@ public class U2UContentStage extends Stage {
          
     }
 
+    public function registerSearchListener():Void{
+        
+         //It creates a new enviroment variable that corresponds to the listener
+         U2UFXApp.APP.shell.createVarEnvSearchListener(searchScene.getSearchListener());
+         //runs the command to register the search listener
+         U2UFXApp.APP.shell.executeCmd("u2ufss -register");
+         println("SE REGISTRO EL LISTENER PARA BUSQUEDAS");
+    }
+
 }
