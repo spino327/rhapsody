@@ -15,8 +15,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.Group;
+import javafx.stage.*;
 
 import org.u2u.gui.*;
+import java.lang.System;
 
 /**
  * @author sergio
@@ -32,16 +34,17 @@ public class U2UIntroAnimation extends U2UAbstractScene {
     var imgView1:ImageView;
     var imgView2:ImageView;
     var textIntro:Text;
+    var textKey:Text;
     var fromx: Number;
     var fromy: Number;
+    public-init var initStage: Stage;
 
     init {
 
-        
+        //contentStage.style = StageStyle.TRANSPARENT;
         anim = Animation{};
         fill = Color.TRANSPARENT;
         
-
         content = [
             Group{
                 content: [
@@ -64,6 +67,14 @@ public class U2UIntroAnimation extends U2UAbstractScene {
                     opacity: bind anim.opacityWithScal2*/
                     effect: InnerShadow { offsetX: 3 offsetY: 3 color: Color.WHITE }
 
+                },
+                textKey = Text{
+                    content:"Press any key to continue..."
+                    translateX:bind ((this.width/2)-100);
+                    translateY: bind (this.height - imgViewBac.layoutBounds.height/2);
+                    font: Font.font("Verdana",FontWeight.BOLD,15);
+                    fill: Color.SNOW;
+                   
                 },
                 imgViewLogo = ImageView{
 
@@ -105,15 +116,17 @@ public class U2UIntroAnimation extends U2UAbstractScene {
                         llx:  40 lly: 280
                     }
                  }
-
                 ];
 
                 onKeyPressed:function(ke:KeyEvent)
                 {
                     //force the change of the stage
                     println("Estamos en onKeyPressed");
-                    //this.contentStage.showShare();
-                    this.contentStage.showDownload();
+                    this.initStage.visible = false;
+                    this.contentStage.showShare();
+                    this.contentStage.visible = true;
+
+                    System.gc();
                 }
             }
         ];

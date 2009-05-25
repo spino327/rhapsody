@@ -30,16 +30,21 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
     var imgBackView:ImageView;
     var imgLeftView:ImageView;
 
+    //Buttons that appear in the Group groupButtons
     protected var butShare:ButtonNode;
     protected var butSearch:ButtonNode;
     protected var butDown:ButtonNode;
+
+    public var active:Boolean = false;
+
     var butConfig:ButtonNode;
     var butHelp:ButtonNode;
 
+    //Group of nodes that appear in the left side of the scenes
     var groupButtons:Node[];
-
+    //Group that represent the scene choicen by the user
     protected var contentPane: Node = Group{};
-
+    //update the content of the stage
     override var content = bind [
         updateContentPane()
     ];
@@ -93,15 +98,12 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             Group {
                                 translateX:2.5;
                                 translateY:335;
-                                
                                 content: [
-                                    
                                     butConfig = ButtonNode{
-                                        translateX:12;
+                                        translateX:17;
                                         title:"Preferences";
                                         imageURL:"{__DIR__}resources/config.png"
                                         },
-
                                      butHelp = ButtonNode{
                                         translateX:81;
                                         title:"Help";
@@ -111,29 +113,25 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             }
                         ]
                     },
-
                 ]
-
             }
     }
 
     bound function updateContentPane():Node {
 
         Group {
+            disable:bind active;
             content:[
                 imgBackView = ImageView{
                     image:bind imgBack;
                 },
-
                 imgLeftView = ImageView{
                     image:bind imgLeft;
                     translateX:15;
                     translateY:25;
                     //opacity: 0.7;
                 },
-
                 groupButtons,
-
                 contentPane
             ];
         }

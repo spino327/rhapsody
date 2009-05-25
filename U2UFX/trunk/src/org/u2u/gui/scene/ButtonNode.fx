@@ -164,8 +164,8 @@ public class ButtonNode extends CustomNode {
                     }
                 },
                 textRef = Text {
-                  translateX: bind (buttonImage.width / 2) - 16
-                  translateY: bind buttonImage.height+20
+                  translateX: bind (buttonImage.width / 2) - (textRef.content.length())*3;
+                  translateY: bind buttonImage.height+15
                   textOrigin: TextOrigin.BOTTOM
                   content: title
                   fill: Color.BLACK

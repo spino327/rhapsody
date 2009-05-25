@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.metal.*;
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
 
 /**
  * @author Irene
@@ -64,6 +65,7 @@ package class TableColumn{
 //class TableCell{
 package class TableCell{
     public var text: String;
+    public var adv:U2UContentAdvertisementImpl;
 }
 
 //class TableRow{

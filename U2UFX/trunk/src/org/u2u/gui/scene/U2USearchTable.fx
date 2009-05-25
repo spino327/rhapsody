@@ -15,6 +15,7 @@ import org.u2u.filesharing.downloadpeer.U2USearchListener;
 import java.util.Enumeration;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.app.U2UFXApp;
+import java.util.ArrayList;
 
 /**
  * @author Irene
@@ -23,10 +24,11 @@ import org.u2u.app.U2UFXApp;
 public class U2USearchTable extends CustomNode, U2USearchListener{
 
     public var results:ResultFile[];
-    public var selection:Integer;
+    public var resArray:ArrayList;
+    public var selection:Integer on replace {
+        println("selection is: {selection}")
+    };
     public var height:Number = 260;
-
-
 
 
     override function create():Node{
@@ -52,13 +54,23 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                           SwingTable.TableColumn{ text: "Nº" },
                     ],
 
-                    rows: bind for (f in results)[
+                    rows: bind for (f in resArray)
+                    
+                    [
 
                           SwingTable.TableRow{
                             cells:[
-                                SwingTable.TableCell{text:f.name },
-                                    SwingTable.TableCell{text: String.valueOf(f.size) },
-                                        SwingTable.TableCell{text: String.valueOf(f.containers) },
+                                SwingTable.TableCell{text: (f as ResultFile).name },
+                                    SwingTable.TableCell{text: String.valueOf((f as ResultFile).size) },
+                                       SwingTable.TableCell{text: String.valueOf((f as ResultFile).containers) },
+                                         SwingTable.TableCell{adv: (f as ResultFile).adv }
+
+
+//                                SwingTable.TableCell{text:((resArray.get(f))as ResultFile).name },
+//                                    SwingTable.TableCell{text: String.valueOf(((resArray.get(f))as ResultFile).size) },
+//                                       SwingTable.TableCell{text: String.valueOf(((resArray.get(f))as ResultFile).containers) },
+//                                         SwingTable.TableCell{adv: ((resArray.get(f))as ResultFile).adv }
+
                               ]
                           }
                     ]
@@ -69,6 +81,7 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
             ]
         }
     }
+
 
     /**
      * U2USearchListener interface's event for manages advertisement arrives because
@@ -82,37 +95,63 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
         while(ressta.hasMoreElements())
         {
             var adv:U2UContentAdvertisementImpl  = ressta.nextElement() as U2UContentAdvertisementImpl;
-            insertResultInTable(adv);
+            var res:Boolean = false;
+            for(i in [0..< sizeof resArray])
+            {
+                var advFile = (resArray.get(i) as ResultFile).adv;
+                if(advFile.equals(adv))
+                {
+                    res = true;
+                    var modRes:ResultFile = resArray.get(i) as ResultFile;
+                    modRes.containers = modRes.containers + 1;
+                    println("Advertisement Arrived, yujuu!!. Repeat:  {modRes.containers}");
+                }
+            }
 
+            if(not res)
+            {
+                insertResultInTable(adv);
+                println("Advertisement Arrived, yujuu!!");
+            }
+
+          
         }
-        println("LLEGO ANUNCIO");
     }
 
+    /**
+    * Insert the info of a advertisement results of a search does in the P2P network
+    */
     function insertResultInTable(adv:U2UContentAdvertisementImpl):Void{
 
         var res:ResultFile = ResultFile{
-            name: adv.getName();
-            size: adv.getLength();
-            containers:1;
+                name: adv.getName();
+                size: adv.getLength();
+                containers:1;
+                adv: adv;
+            }
+        resArray.add(res);
         }
 
-        insert res into results;
     }
 
-}
+    /**
+    * Class that represents the information of the files found in the P2P network
+    */
+    protected class ResultFile{
 
-protected class ResultFile{
+       public-init var name:String;
+       public-init var size:Number;
+       public-init var containers:Integer;
+       public-init var adv:U2UContentAdvertisementImpl;
 
-   public-init var name:String;
-   public-init var size:Number;
-   public-init var containers:Integer;
-
-}
-
+    }
 
 
-public function runsSearch(value:String):Void{
+    /**
+    * Runs a seacrh in the P2P network throught the U2UShell
+    */
+    public function runsSearch(value:String):Void{
 
-    U2UFXApp.APP.shell.executeCmd("u2ufss -search {value} -n");
-}
+        U2UFXApp.APP.shell.executeCmd("u2ufss -search {value} -n");
+    }
 

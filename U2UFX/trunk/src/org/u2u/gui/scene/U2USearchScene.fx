@@ -67,7 +67,16 @@ public class U2USearchScene extends U2UAbstractMain{
                         searchFiles(textField.text);
                     }
                 },
-                table = U2USearchTable{}
+                
+                table = U2USearchTable{},
+
+                ButtonNode{
+                    translateX:400;
+                    translateY: this.height - 80;
+                    title:"Download";
+                    imageURL:"{__DIR__}resources/download.png";
+
+                }
             ]
         };
     }

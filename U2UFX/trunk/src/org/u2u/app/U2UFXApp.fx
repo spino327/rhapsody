@@ -24,6 +24,8 @@ import net.jxta.peergroup.NetPeerGroupFactory;
 import net.jxta.peergroup.PeerGroup;
 import java.lang.Thread;
 import java.lang.InterruptedException;
+import org.u2u.gui.scene.U2UIntroAnimation;
+import org.u2u.gui.scene.U2UAbstractScene;
 
 
 
@@ -73,22 +75,22 @@ public class U2UFXApp {
      */
     protected function startup():Void
     {
-        println("Hola start");
-
+        println("Hi start");
         var ini:Long = System.currentTimeMillis();
-
+        //init the content stage
         stage = U2UContentStage {
             width: 650;
             height: 520;
             style: StageStyle.DECORATED;
-            visible: true;
-//            onClose:function():Void {
-//                println("Se cerro noooooooooooooo");
-//            }
+            visible: false;
+            onClose:function():Void{
+                    this.quit();
+                }
         };
+        //unable the scene
+        //stage.disableMainScene();
         this.initShell();
-        
-    }
+     }
 
     /**
      * Called after the startup() method has returned.
@@ -103,8 +105,20 @@ public class U2UFXApp {
      */
     protected function ready():Void
     {
-        println("Hola ready");
+        println("Hi ready");
         stage.registerSearchListener();
+        //init the intro animation
+        var inStage: Stage = Stage {
+            width: 650;
+            height: 520;
+            style: StageStyle.TRANSPARENT;
+            visible: true;
+            onClose: function():Void{
+                    this.quit();
+                }
+        };
+        inStage.scene = U2UAbstractScene.getU2UIntroAnimation(inStage, stage);
+
     }
 
     /**
@@ -154,6 +168,7 @@ public class U2UFXApp {
             }
         }
         super.quit(e);*/
+        FX.exit();
     }
     //EO Life cycle
 
