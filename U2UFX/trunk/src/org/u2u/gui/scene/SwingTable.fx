@@ -12,8 +12,8 @@ import javafx.ext.swing.SwingComponent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.metal.*;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
+
 
 /**
  * @author Irene

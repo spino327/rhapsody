@@ -10,6 +10,7 @@ import org.u2u.gui.U2UContentStage;
 import javafx.scene.Scene;
 import org.u2u.gui.scene.U2UShareScene;
 import org.u2u.gui.scene.U2UDownloadScene;
+import javafx.stage.Stage;
 
 
 /**
@@ -26,12 +27,13 @@ public abstract class U2UAbstractScene extends Scene {
 /**
  *Methods static
  */
-public function getU2UIntroAnimation(cont: U2UContentStage): U2UIntroAnimation {
+public function getU2UIntroAnimation(inStage: Stage, contStage: U2UContentStage): U2UIntroAnimation {
 
     return U2UIntroAnimation {
-        contentStage:cont;
-        width:650;
-        height:500;
+        initStage: inStage;
+        contentStage: contStage;
+        width: 650;
+        height: 500;
     }
 }
 

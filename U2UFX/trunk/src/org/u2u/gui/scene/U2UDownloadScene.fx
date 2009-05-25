@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.DropShadow;
 import org.u2u.data.U2UDownloadListModel;
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
 
 /**
  * @author sergio
@@ -27,12 +28,12 @@ var imgBackView:ImageView;
 var listNodes:U2UList;
 var model:U2UDownloadListModel;
 var vbox:VBox;
-
+var conDown:Integer = 0;
 
     init {
 
         imgBackground = Image{
-            url:"{__DIR__}resources/content.png";
+            url:"{__DIR__}resources/content2.png";
         };
 
         model = U2UDownloadListModel{};
@@ -44,13 +45,14 @@ var vbox:VBox;
         this.contentPane = Group{
             content: [
                 ImageView{
-                effect: Glow{level:0.8}
                 image:imgBackground;
                 translateX:210;
                 translateY:25;
 
                },
-               listNodes
+               Group{
+                content: bind listNodes
+               }
            ];
         }
     }
@@ -62,4 +64,30 @@ var vbox:VBox;
         butSearch.aplyPressed = null;
     }
 
+    /**
+    * Store in the list of download files the advertisement of the selected file
+    */
+    public function runDownloadFile(selAdv:U2UContentAdvertisementImpl):Boolean{
+
+       return model.insertFileIntoModel(selAdv);
+    }
+
+
+    /**
+    *
+    */
+    public function updateListNodes():Void{
+
+        listNodes.updateUI();
+    }
+
+    /**
+    * Stops the download of the file
+    */
+    public function stopDownloadFile():Void{
+    }
+
+    
 }
+
+

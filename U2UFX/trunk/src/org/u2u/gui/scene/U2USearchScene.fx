@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.ext.swing.SwingIcon;
 import org.u2u.app.U2UFXApp;
 import org.u2u.gui.scene.U2USearchTable;
+import javax.swing.JOptionPane;
 
 /**
  * @author sergio
@@ -32,6 +33,8 @@ public class U2USearchScene extends U2UAbstractMain{
     var table:U2USearchTable;
     var textField: SwingTextField;
     var icon: SwingIcon;
+
+    var conDown:Integer = 1;
 
     init {
 
@@ -75,12 +78,13 @@ public class U2USearchScene extends U2UAbstractMain{
                     translateY: this.height - 80;
                     title:"Download";
                     imageURL:"{__DIR__}resources/download.png";
-
+                    action:function():Void{
+                       this.runDownloadFile();
+                    }
                 }
             ]
         };
     }
-
 
     /**
     * This function thwow a search in the P2P network thought JXTA. It search files
@@ -90,12 +94,26 @@ public class U2USearchScene extends U2UAbstractMain{
 
         if(value == null or value.equals("") or value.length()<=0){
             //show a message: value isn't nothing
+            JOptionPane.showMessageDialog(null,"You didn't introduce the keyword to search");
 
         }else{
+                //It deletes old results
+                table.deleteAllOldResults();
+                //It runs a new search in the P2P network
                 U2USearchTable.runsSearch(value);
         }
     }
 
+    function runDownloadFile():Void{
+
+        var adv:U2UContentAdvertisementImpl = table.getAdvertismentFileSelected();
+        if(adv != null)
+        {
+            this.contentStage.downloadAFile(adv);
+            JOptionPane.showMessageDialog(null, "Inicia busqueda de fuentes para descarga...");
+        }
+    }
+   
     /**
     *@return the index of the node selected in the scene
     */
@@ -103,7 +121,6 @@ public class U2USearchScene extends U2UAbstractMain{
         var adv:U2UContentAdvertisementImpl = null;
         return adv;
     }
-
 
     public function getSearchListener():U2USearchTable{
         return table;

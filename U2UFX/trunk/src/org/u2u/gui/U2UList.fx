@@ -28,6 +28,7 @@ public class U2UList extends Group {
     //instance variables
     var model: U2UAbstractListModel = null on replace{
             this.updateUI();
+            println("The model of the List change");
     };
     
 
@@ -73,7 +74,7 @@ public class U2UList extends Group {
     }
 
     /** this methods force the re-drawing of the Lisr*/
-    function updateUI():Void {
+    public function updateUI():Void {
 
         var size:Integer = model.getSize();
 
@@ -82,23 +83,30 @@ public class U2UList extends Group {
         //translation axis Y
         var transY = 4;
 
-        for(x in [firstPos..firstPos+3])
-        {
-            var hNode = 107;
+        if((size > 0) and (size <= 4)){
 
-            if(x==0){
-//
-                model.getNodeAt(x).getNodeView().translateY = transY;
-                model.getNodeAt(x).getNodeView().translateX = 15;
-                insert model.getNodeAt(x).getNodeView() into con;
-                 
-            }else{
 
-                model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
-                model.getNodeAt(x).getNodeView().translateX = 15;
-                insert model.getNodeAt(x).getNodeView() into con;
+            println("Size entre 0 y 4");
+
+            for(x in [firstPos..<size])
+            {
+                var hNode = 107;
+
+                if(x==0){
+
+                    model.getNodeAt(x).getNodeView().translateY = transY;
+                    model.getNodeAt(x).getNodeView().translateX = 15;
+                    insert model.getNodeAt(x).getNodeView() into con;
+
+                }else{
+
+                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
+                    model.getNodeAt(x).getNodeView().translateX = 15;
+                    insert model.getNodeAt(x).getNodeView() into con;
+                }
             }
         }
+        
         if(size>4)
         {
            model.getNodeAt(size-1).getNodeView().translateX = 15;

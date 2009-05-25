@@ -22,7 +22,7 @@ public abstract class U2UAbstractListModel {
     public abstract function getSize():Integer;
 
     /** Inserts a file into the model*/
-    public abstract function insertFileIntoModel(adv: U2UContentAdvertisementImpl):Void;
+    public abstract function insertFileIntoModel(adv: U2UContentAdvertisementImpl):Boolean;
 
     /**Delete a file of the model*/
     public abstract function deleteFileOfModel(selIndex:Integer):Void;

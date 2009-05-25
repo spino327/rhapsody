@@ -10,18 +10,22 @@ import javafx.stage.Stage;
 
 import org.u2u.gui.scene.*;
 import org.u2u.app.U2UFXApp;
+import javafx.stage.StageStyle;
+import org.u2u.filesharing.U2UContentAdvertisementImpl;
 /**
  * @author Irene
  */
 
 public class U2UContentStage extends Stage {
 
-
     //var shareScene: U2UTest;
     var shareScene: U2UShareScene = U2UAbstractScene.getU2UShareScene(this);
     var searchScene: U2USearchScene = U2UAbstractScene.getU2USearchScene(this);
     var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
-    var animScene: U2UIntroAnimation = null;
+    //var animScene: U2UIntroAnimation = U2UAbstractScene.getU2UIntroAnimation(this);
+
+    var conDown:Integer = 0;
+
     var currentScene: U2UAbstractScene = null on replace {
         println("cambio la scene: {currentScene.getClass().toString()}");
         this.scene = currentScene;
@@ -32,85 +36,63 @@ public class U2UContentStage extends Stage {
         U2UFXApp.APP.quit();
     };
 
-
     init {
         this.title = "U2U FX";
         this.fullScreen = false;
         this.resizable = false;
         //Show intro
-        this.showIntro();
+        //this.showIntro();
+       
     }
 
-    postinit {
-        this.showShare();
-    }
+    /**
+    * Shows the animation scene in the stage
+    */
+//    function showIntro():Void {
+//        currentScene = animScene;
+//    }
 
-
-
-    function showIntro():Void {
-
-        currentScene = animScene;
-
-    }
-
+    /**
+    * Shows the share scene in the stage
+    */
     public function showShare():Void {
-
         if(currentScene != shareScene) {
-            
-            currentScene = shareScene;
+             currentScene = shareScene;
             (currentScene as U2UAbstractMain).updateButtons();
         }
-        
     }
 
+    /**
+    * Shows the download scene in the stage
+    */
     public function showDownload():Void{
         if(currentScene != downScene ) {
-
             currentScene = downScene;
             (currentScene as U2UAbstractMain).updateButtons();
         }
     }
 
+    /**
+    * Shows the search scene in the stage
+    */
     public function showSearch():Void{
         if(currentScene != searchScene){
-
             currentScene = searchScene;
             (currentScene as U2UAbstractMain).updateButtons();
         }
     }
 
-    function resizeStage(w:Number,h:Number):Void{
+    /**
+    * Change the state of the scene: disable or enable
+    */
+    public function changeStateScene(value:Boolean):Void{
 
-        this.width = w;
-        this.height = h;
+        (currentScene as U2UAbstractMain).active  = value;
     }
 
-     /**
-     * Inicia la descarga de un archivo seleccionado en el panel de busquedas e
-     * Inserta una nueva fila de descarga en el panel de descargas
-     */
-    function downloadFile():Void
-    {
-       //var advDown:U2UContentAdvertisementImpl  = this.search.getAdvSelected();
-
-       /*if(advDown != null)
-       {
-//           if(download.executeDownload(advDown))
-//           {
-//               String name = generateVariableEnv();
-//               //Se guarda la referencia de la variable de entorno y el anuncio
-//               download.saveVarReference(name, advDown);
-//               U2U4UApp.shell.createVarEnvU2UAdvertisement(advDown,name);
-//               //se inicia la descarga del archivo por medio del shell U2U
-//               U2U4UApp.shell.executeCmd("u2ufss -download "+name);
-//               JOptionPane.showMessageDialog(this, "Inicia busqueda de fuentes para descarga...");
-//           }
-       }
-       else
-       {}*/
-         
-    }
-
+    /**
+    * Registers the search listener in the U2UShell
+    */
     public function registerSearchListener():Void{
         
          //It creates a new enviroment variable that corresponds to the listener
@@ -119,5 +101,34 @@ public class U2UContentStage extends Stage {
          U2UFXApp.APP.shell.executeCmd("u2ufss -register");
          println("SE REGISTRO EL LISTENER PARA BUSQUEDAS");
     }
+
+   public function downloadAFile(adv:U2UContentAdvertisementImpl):Void{
+   
+        var name:String = generateVariableEnv();
+        U2UFXApp.APP.shell.createVarEnvU2UAdvertisement(adv,name);
+        println("Download a file: {adv.getName()}");
+
+        var res:Boolean = downScene.runDownloadFile(adv);
+        
+        if(res){
+            U2UFXApp.APP.shell.executeCmd("u2ufss -download {name}");
+            downScene.updateListNodes();
+            this.showDownload();
+        }
+        
+   }
+
+
+    /**
+     * Gnerates a new variable's name
+     * @return a name for a enviroment's variable
+     */
+    function generateVariableEnv():String
+    {
+        conDown++;
+        var nameVar:String  = "Down0{String.valueOf(conDown)}";
+        return nameVar;
+    }
+
 
 }

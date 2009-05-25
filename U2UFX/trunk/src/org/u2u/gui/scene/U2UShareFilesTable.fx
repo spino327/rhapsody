@@ -137,31 +137,31 @@ public class U2UShareFilesTable extends CustomNode {
         if ( fileChooser.showOpenDialog(swing.getRootJComponent()) == JFileChooser.APPROVE_OPTION){
             selectedFile = fileChooser.getSelectedFile();
 
-            //shows a dialog where the user can insert a description for the file
-            //var desc:String = null;
-            var desTextField:SwingTextField;
-
-            var resInput :String = JOptionPane.showInputDialog(null);
+            var resInput :String = JOptionPane.showInputDialog(null,
+                "Insert a description to a shared file:", "Description",
+                    JOptionPane.INFORMATION_MESSAGE);
 
             var res:Boolean = this.isFileShared(selectedFile.getName());
+
             if(not res){
                 var sharedFile:SharedFile =
                 SharedFile{name:selectedFile.getName();
                            path: selectedFile.getPath();
                            type: selectedFile.getName();
                 }
-                
                 //inform to the U2UFSS that it must share the file
                 if(desc.equals("") or desc == null or desc.equals(" ") or desc.startsWith(" ")) {
                     U2UFXApp.APP.shell.executeCmd("u2ufss -share -p {  selectedFile.toURI().getPath()}");
                 }
-               else {
+                else {
                     U2UFXApp.APP.shell.executeCmd("u2ufss -share -p { selectedFile.toURI().getPath() } -d { desc }");
-               }
+                }
                 //Insert the file to the list of shared files
                 insert sharedFile into shared;
-            }else{
+             }
+            else{
                 //show a dialog that says that the file is already sahred
+                JOptionPane.showMessageDialog(null, "El archivo ya esta siendo compartido en la red!");
             }
         }
     }

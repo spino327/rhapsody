@@ -16,6 +16,7 @@ import java.util.Enumeration;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.app.U2UFXApp;
 import java.util.ArrayList;
+import net.jxta.share.ContentId;
 
 /**
  * @author Irene
@@ -26,10 +27,9 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
     public var results:ResultFile[];
     public var resArray:ArrayList;
     public var selection:Integer on replace {
-        println("selection is: {selection}")
+        println("-------------- selection is: {selection} ---------------------------")
     };
     public var height:Number = 260;
-
 
     override function create():Node{
 
@@ -54,28 +54,19 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                           SwingTable.TableColumn{ text: "Nº" },
                     ],
 
-                    rows: bind for (f in resArray)
-                    
+                    rows: bind for (f in results)
                     [
-
                           SwingTable.TableRow{
                             cells:[
-                                SwingTable.TableCell{text: (f as ResultFile).name },
-                                    SwingTable.TableCell{text: String.valueOf((f as ResultFile).size) },
-                                       SwingTable.TableCell{text: String.valueOf((f as ResultFile).containers) },
-                                         SwingTable.TableCell{adv: (f as ResultFile).adv }
-
-
-//                                SwingTable.TableCell{text:((resArray.get(f))as ResultFile).name },
-//                                    SwingTable.TableCell{text: String.valueOf(((resArray.get(f))as ResultFile).size) },
-//                                       SwingTable.TableCell{text: String.valueOf(((resArray.get(f))as ResultFile).containers) },
-//                                         SwingTable.TableCell{adv: ((resArray.get(f))as ResultFile).adv }
-
+                                SwingTable.TableCell{text: f.name },
+                                    SwingTable.TableCell{text: String.valueOf(f.size) },
+                                       SwingTable.TableCell{text: String.valueOf(f.containers) },
+                                         SwingTable.TableCell{adv: f.adv }
+                                           SwingTable.TableCell{text: (f.cid).toString() }
                               ]
                           }
                     ]
-
-                     selection: bind selection with inverse
+                    selection: bind selection with inverse
                 }
 
             ]
@@ -96,25 +87,9 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
         {
             var adv:U2UContentAdvertisementImpl  = ressta.nextElement() as U2UContentAdvertisementImpl;
             var res:Boolean = false;
-            for(i in [0..< sizeof resArray])
-            {
-                var advFile = (resArray.get(i) as ResultFile).adv;
-                if(advFile.equals(adv))
-                {
-                    res = true;
-                    var modRes:ResultFile = resArray.get(i) as ResultFile;
-                    modRes.containers = modRes.containers + 1;
-                    println("Advertisement Arrived, yujuu!!. Repeat:  {modRes.containers}");
-                }
-            }
 
-            if(not res)
-            {
                 insertResultInTable(adv);
                 println("Advertisement Arrived, yujuu!!");
-            }
-
-          
         }
     }
 
@@ -123,17 +98,55 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
     */
     function insertResultInTable(adv:U2UContentAdvertisementImpl):Void{
 
-        var res:ResultFile = ResultFile{
-                name: adv.getName();
-                size: adv.getLength();
-                containers:1;
-                adv: adv;
+            var cidFile:ContentId;
+            var resta:Boolean;
+
+            for(file in results)
+            {
+                cidFile = file.cid;
+                if(cidFile.equals(adv.getContentId()))
+                {
+                    file.containers = file.containers +1 ;
+                    resta = true;
+                }
             }
-        resArray.add(res);
+            if(not resta)
+            {
+                 var res:ResultFile = ResultFile{
+                        name: adv.getName();
+                        size: adv.getLength();
+                        containers:1;
+                        adv: adv;
+                        cid: adv.getContentId();
+                    }
+                insert res into results;
+            }
+
         }
+
+    /**
+    * Get the advetisment of the file in the search results
+    */
+    public function getAdvertismentFileSelected():U2UContentAdvertisementImpl{
+
+        return results[this.selection].adv;
 
     }
 
+    public function deleteAllOldResults():Void{
+        //Delete all old results in the table
+        delete results;
+    }
+ }
+
+    /**
+    * Runs a seacrh in the P2P network throught the U2UShell
+    */
+    public function runsSearch(value:String):Void{
+        
+        //Throw a new search in the P2P network
+        U2UFXApp.APP.shell.executeCmd("u2ufss -search {value} -n");
+    }
     /**
     * Class that represents the information of the files found in the P2P network
     */
@@ -143,15 +156,10 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
        public-init var size:Number;
        public-init var containers:Integer;
        public-init var adv:U2UContentAdvertisementImpl;
+       public-init var cid:ContentId;
 
     }
 
 
-    /**
-    * Runs a seacrh in the P2P network throught the U2UShell
-    */
-    public function runsSearch(value:String):Void{
-
-        U2UFXApp.APP.shell.executeCmd("u2ufss -search {value} -n");
-    }
+   
 
