@@ -29,10 +29,14 @@ public class U2UList extends Group {
     var cachedNodes: Vector = new Vector();
     /** represents the current position in the model of the first node of the this list*/
     var firstPos: Integer = 0;
+    var con:Node[] = [];
+
     /** group of nodes*/
     var groupList:Group = Group {
+
         cache: true;
         cursor: Cursor.HAND;
+        content: bind con;
 
         onMouseClicked:function(me:MouseEvent) {
             this.click(me);
@@ -42,7 +46,7 @@ public class U2UList extends Group {
         }
     };
 
-    override var content = bind [this.groupList];
+    //override var content = bind [this.groupList];
 
     /** drag variables*/
     var memoryDragPoint: Number = 0;
@@ -56,9 +60,10 @@ public class U2UList extends Group {
     var selectedNodeIndex:Integer = 0;
 
     init {
-        this.translateX = 210;
-        this.translateY = 25;
-        this.cache = true;
+            this.translateX = 230;
+            this.translateY = 40;
+            this.cache = true;
+
     }
   
     //instance functions
@@ -70,7 +75,7 @@ public class U2UList extends Group {
     public function updateUI():Void {
 
         var size:Integer = model.getSize();
-        var con:Node[] = [];
+
         //translation axis Y
         var transY = 4;
 
@@ -102,7 +107,7 @@ public class U2UList extends Group {
            insert model.getNodeAt(size-1).getNodeView() into con;
         }
 
-        this.groupList.content = [con];
+        //this.groupList.content = con;
         this.content = this.groupList;
     }
 

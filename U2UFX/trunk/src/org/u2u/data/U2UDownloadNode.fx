@@ -23,6 +23,7 @@ import org.u2u.data.TypeFile;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.InnerShadow;
 
 /**
  * @author sergio
@@ -33,9 +34,14 @@ public class U2UDownloadNode extends U2UAbstractNode {
     var nodeView:Node;
     var textDesc:Text;
     var rec:Rectangle;
+    var recProgress:Rectangle;
+    var textProgress:Text;
     def SIZE_FONT:Integer =12;
     /** level of download of this node [max:200- min:0] */
-    protected var level:Integer;
+    protected var level:Float on replace {
+
+
+    };
 
 
     //instance methods
@@ -46,7 +52,9 @@ public class U2UDownloadNode extends U2UAbstractNode {
             nodeView = Group {
                 cache: true;
                 cursor: Cursor.HAND;
+
                 content: [
+                
                     rec = Rectangle {
                         width: this.width;
                         height: this.height;
@@ -56,9 +64,9 @@ public class U2UDownloadNode extends U2UAbstractNode {
                         
                     },
                     Text {
-                        translateX:10;
-                        translateY:20;
-                        content: "Name:{this.name}";
+                        translateX:20;
+                        translateY:25;
+                        content: "Name: {this.name}";
                         textAlignment: TextAlignment.JUSTIFY;
                         font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
                         fill: Color.WHITESMOKE;
@@ -66,66 +74,58 @@ public class U2UDownloadNode extends U2UAbstractNode {
 
                     },
                     Text{
-                        translateX:10;
-                        translateY:33;
-                        content: "Size:{this.length.toString()}";
+                        translateX:20;
+                        translateY:40;
+                        content: "Size: {this.length.toString()} KB";
                         textAlignment: TextAlignment.JUSTIFY;
                         font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
                         fill: Color.BLACK;
                     },
                     textDesc = Text{
-                        translateX:10;
-                        translateY:46;
-                        content: "Description:{this.description.toString()}";
+                        translateX:20;
+                        translateY:55;
+                        content: "Description: {this.description.toString()}";
                         textAlignment: TextAlignment.JUSTIFY;
                         font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
                         fill: Color.BLACK;
                     },
                     ImageView{
                         image:this.getTypeFile();
-                        translateX:285;
-                        translateY:4;
+                        translateX:305;
+                        translateY:15;
                         effect: DropShadow { offsetY: 3 color: Color.color(0.4, 0.4, 0.4) };
 
-
                     },
-                    Rectangle {
-                        x: 10
-                        y: 75
+                    recProgress = Rectangle {
+                        x: 20
+                        y: 70
                         width:bind this.level;
-                        height: 20;
+                        height: 15;
                         fill: LinearGradient {
                                 startX: 0.0, startY: 0.0, endX: 0.0, endY: 1.0
-                                stops: [ Stop { offset: 0.0 color: Color.LIGHTBLUE },
-                                         Stop { offset: 1.0 color: Color.DARKBLUE } ]
+                                stops: [ Stop { offset: 0.0 color: Color.LIGHTYELLOW },
+                                         Stop { offset: 1.0 color: Color.DARKGREEN } ]
                         };
 
                     },
-                   
+                    
+                    textProgress = Text{
+                    
+                        x: bind recProgress.width + 24;
+                        y: 78;
+                        content: bind "{(level/2) as Integer} %";
+                        font: Font.font("Verdana",FontWeight.BOLD, 12);
+                        fill: Color.YELLOWGREEN;
+                        effect: InnerShadow {
+                            choke: 0.5
+                            offsetX: 5
+                            offsetY: 5
+                            radius: 5
+                            color: Color.BLACK
+                        }
+
+                    }
                 ];
-
-                /*onMousePressed:function(me:MouseEvent):Void{
-                    nodeView.opacity = 0.7;
-                    rec.fill = Color.GOLDENROD;
-                };*/
-                /*
-                onMouseClicked:function(me:MouseEvent):Void{
-                   
-                };
-
-                onMouseExited:function(me:MouseEvent):Void{
-                    rec.fill = Color.GRAY;
-                    nodeView.opacity =1.0;
-                }
-                onMouseMoved:function(me:MouseEvent):Void{
-                    rec.fill = Color.THISTLE;
-                    nodeView.opacity = 0.7;
-                };*/
-                /*
-                onMouseReleased:function(me:MouseEvent):Void{
-                    nodeView.opacity =1.0;
-                    rec.fill = Color.GREY;
-                }*/
             };
 
         }
@@ -142,9 +142,9 @@ public class U2UDownloadNode extends U2UAbstractNode {
     /**
     * Change the level of download of the node
     */
-    public function updateLevel(lev:Integer):Void {
+    public function updateLevel(lev:Float):Void {
         
-        if(lev<=200 and lev>=0)
+        if(lev>=0 and lev<=200 )
         {
             this.level = lev;
         }

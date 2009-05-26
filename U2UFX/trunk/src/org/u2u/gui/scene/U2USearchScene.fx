@@ -104,13 +104,18 @@ public class U2USearchScene extends U2UAbstractMain{
         }
     }
 
+    /**
+    * Run a download for a file selected in the results's table
+    */
     function runDownloadFile():Void{
 
         var adv:U2UContentAdvertisementImpl = table.getAdvertismentFileSelected();
+
         if(adv != null)
         {
             this.contentStage.downloadAFile(adv);
-            JOptionPane.showMessageDialog(null, "Inicia busqueda de fuentes para descarga...");
+            JOptionPane.showMessageDialog(null, "Init finding sources to download...");
+            this.contentStage.showDownload();
         }
     }
    
@@ -122,10 +127,16 @@ public class U2USearchScene extends U2UAbstractMain{
         return adv;
     }
 
+    /**
+    * Return the search listener
+    */
     public function getSearchListener():U2USearchTable{
         return table;
     }
 
+    /**
+    * Updtae the buttons for this scene
+    */
     override function updateButtons() {
         butSearch.aplyPressed = Glow{level:0.3
         input:DropShadow{offsetX:3 color:Color.BLACK}};

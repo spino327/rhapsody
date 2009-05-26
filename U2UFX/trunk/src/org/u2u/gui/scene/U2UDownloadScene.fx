@@ -17,10 +17,18 @@ import javafx.scene.effect.DropShadow;
 import org.u2u.data.U2UDownloadListModel;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.filesharing.U2UFileSharingServiceListener;
-import java.util.Timer;
-import java.awt.event.ActionListener;
-import java.util.TimerTask;
 import org.u2u.app.U2UFXApp;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
+import org.memefx.popupmenu.*;
+import javafx.scene.text.Font;
+import javafx.animation.Timeline;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
+import org.u2u.data.U2UDownloadNode;
+
 
 /**
  * @author sergio
@@ -35,8 +43,10 @@ var model:U2UDownloadListModel;
 var vbox:VBox;
 var conDown:Integer = 0;
 var timer:Timer;
+var listener:ProgressTask;
 
-var queryTask:ProgressTask = new ProgressTask();
+var popupMenu:PopupMenu;
+
 
     init {
 
@@ -50,26 +60,76 @@ var queryTask:ProgressTask = new ProgressTask();
 
         listNodes.setModel(this.model);
 
+        listener = ProgressTask{};
 
-        timer = new Timer("Progress Query Task");
+        timer = new Timer(5000,listener);
 
+        popupMenu = PopupMenu{
+
+                    font: Font { size: 12, name: "Verdana" };
+                    fill: Color.LIGHTGRAY
+                    stroke: Color.BLACK
+                    opacity: 0.9
+                    shadowX: 5, shadowY: 5
+                    verticalSpacing: 5
+                    highlight: Color.LIGHTGREEN
+                    highlightStroke:Color.BLACK
+
+                    content: [
+                        MenuItem { text: "Pause Download", callNode: pauseDownload },
+                         MenuItem { text: "Restart Download", callNode: restartDownload },
+                          MenuItem { text: "Delete Download", callNode: stopDownload }
+                    ];
+               };
+
+        //bind the popupMenu to the imagBackView
+        popupMenu.to(imgBackView);
 
         this.contentPane = Group{
            content: [
-                ImageView{
-                image:imgBackground;
-                translateX:210;
-                translateY:25;
-
+               imgBackView = ImageView{
+                    image:imgBackground;
+                    translateX:210;
+                    translateY:25;
                },
                Group{
                 content: bind listNodes
-               }
+               },
+
+              popupMenu.activateMenus()
            ];
+           
         }
+
+        
+    }
+
+    function pauseDownload(node:Node):Void{
+
+        var nodeSel:U2UDownloadNode = node as U2UDownloadNode;
+
+        println("pause node");
+
+    }
+
+    function restartDownload(node:Node):Void{
+
+        var nodeSel:U2UDownloadNode = node as U2UDownloadNode;
+
+        println("restart node");
+
+    }
+
+    function stopDownload(node:Node):Void{
+
+        var nodeSel:U2UDownloadNode = node as U2UDownloadNode;
+
+        println("stop node");
+
     }
 
     override function updateButtons() {
+
         butDown.aplyPressed = Glow{level:0.3
         input:DropShadow{offsetX:3 color: Color.BLACK}};
         butShare.aplyPressed = null;
@@ -83,12 +143,25 @@ var queryTask:ProgressTask = new ProgressTask();
 
        // shcedule the timer to it does a progress query to the U2UShell every
        // five seconds
-       timer.schedule(queryTask,5000);
+       if(not timer.isRunning())
+       {
+           timer.start();
+       }
        // return if it could insert the download file in the model (donwload files' list)
        return model.insertFileIntoModel(selAdv);
-       
     }
 
+
+    /**
+    * This method stop the timer that does progress queries
+    */
+    public function stopProgressQuery():Void{
+        
+        if(timer.isRunning()){
+
+            timer.stop();
+        }
+    }
 
     /**
     * Forces to update the list of nodes in the download scene
@@ -116,23 +189,22 @@ var queryTask:ProgressTask = new ProgressTask();
     
 }
 
-/**
-* Class that represents the task to query the progress level of hte downloads
-*/
-class ProgressTask extends TimerTask{
+class ProgressTask extends ActionListener{
 
-   override function run(){
+    override function actionPerformed(e:ActionEvent){
 
-       //if(U2UFXApp.APP.getStatusServiceU2UFSS()==U2UFXApp.U2UFSS_INIT)
-        {
+//       //if(U2UFXApp.APP.getStatusServiceU2UFSS()==U2UFXApp.U2UFSS_INIT)
+//        {
             /*Se ejecuta el comando u2ufss conActiveDown la opción progress
             *para averiguar el estado de las descargas (este comando genera
             * un evento U2UFileSharingServiceEvent de tipo PROGRESS)*/
             U2UFXApp.APP.shell.executeCmd("u2ufss -progress");
 
-        }
-   }
+//        }
 
-}
+    }
 
+
+
+ }
 

@@ -39,8 +39,8 @@ public abstract class U2UAbstractNode {
     /** real advertisement*/
     protected var adv: U2UContentAdvertisementImpl;
     /** rect size*/
-    protected var width: Integer = 390;
-    protected var height: Integer = 107;
+    protected var width: Integer = 370;
+    protected var height: Integer = 90;
 
     //gui representation
     /** group that structure the node's view, need to be always the same for a subclass, 
