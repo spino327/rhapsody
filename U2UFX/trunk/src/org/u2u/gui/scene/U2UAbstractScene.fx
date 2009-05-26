@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 public abstract class U2UAbstractScene extends Scene {
 
     protected var contentStage : U2UContentStage;
+
 }
 
 /**

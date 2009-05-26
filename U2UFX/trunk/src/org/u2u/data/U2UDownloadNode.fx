@@ -34,7 +34,8 @@ public class U2UDownloadNode extends U2UAbstractNode {
     var textDesc:Text;
     var rec:Rectangle;
     def SIZE_FONT:Integer =12;
-
+    /** level of download of this node [max:200- min:0] */
+    protected var level:Integer;
 
 
     //instance methods
@@ -42,7 +43,8 @@ public class U2UDownloadNode extends U2UAbstractNode {
 
         if(nodeView == null)
         {
-            nodeView = Group{
+            nodeView = Group {
+                cache: true;
                 cursor: Cursor.HAND;
                 content: [
                     rec = Rectangle {
@@ -106,6 +108,7 @@ public class U2UDownloadNode extends U2UAbstractNode {
                     nodeView.opacity = 0.7;
                     rec.fill = Color.GOLDENROD;
                 };*/
+                /*
                 onMouseClicked:function(me:MouseEvent):Void{
                    
                 };
@@ -117,7 +120,7 @@ public class U2UDownloadNode extends U2UAbstractNode {
                 onMouseMoved:function(me:MouseEvent):Void{
                     rec.fill = Color.THISTLE;
                     nodeView.opacity = 0.7;
-                };
+                };*/
                 /*
                 onMouseReleased:function(me:MouseEvent):Void{
                     nodeView.opacity =1.0;
@@ -126,16 +129,22 @@ public class U2UDownloadNode extends U2UAbstractNode {
             };
 
         }
+        else {
+            nodeView.scaleY = 1.0;
+            nodeView.translateX = 0;
+            nodeView.translateY = 0;
+        }
+
 
         return nodeView;
     };
 
     /**
-    * Update the level of the download for this node
+    * Change the level of download of the node
     */
-    override function updateLevel(lev:Integer):Void
-    {
-        if(level<=200 and level>=0)
+    public function updateLevel(lev:Integer):Void {
+        
+        if(lev<=200 and lev>=0)
         {
             this.level = lev;
         }

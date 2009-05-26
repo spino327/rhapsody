@@ -67,8 +67,7 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                           }
                     ]
                     selection: bind selection with inverse
-                }
-
+                }  
             ]
         }
     }

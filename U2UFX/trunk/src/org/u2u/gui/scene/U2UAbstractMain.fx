@@ -56,7 +56,8 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
         imgBack = Image {
             url:"{__DIR__}resources/Earth-Horizon.png";
         }
-        groupButtons = Group{
+        groupButtons = Group {
+                cache: true;
                 translateX:8;
                 translateY:26;
                 content: [
@@ -120,6 +121,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
     bound function updateContentPane():Node {
 
         Group {
+            cache: true;
             disable:bind active;
             content:[
                 imgBackView = ImageView{

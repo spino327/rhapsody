@@ -47,6 +47,7 @@ public class U2UIntroAnimation extends U2UAbstractScene {
         
         content = [
             Group{
+                cache: true;
                 content: [
 
                 imgViewBac = ImageView {

@@ -7,18 +7,12 @@
 package org.u2u.gui;
 
 import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import org.u2u.data.U2UAbstractListModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
-import java.lang.Math;
-import javafx.scene.effect.PerspectiveTransform;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import org.u2u.data.U2UDownloadNode;
-
+import java.util.Vector;
+import javafx.scene.Cursor;
 
 /**
  * @author sergio
@@ -30,31 +24,15 @@ public class U2UList extends Group {
             this.updateUI();
             println("The model of the List change");
     };
-    
 
+    /** this arrya manage the current nodes in the View and two for cached*/
+    var cachedNodes: Vector = new Vector();
     /** represents the current position in the model of the first node of the this list*/
     var firstPos: Integer = 0;
-
-    var memoryDragPoint: Number = 0;
-    var memoryDragLength: Number = 0;
-
-    var yPrimero: Number;
-
-    /** spacing between nodes*/
-    var spacingNodes: Number;
-    /** */
-    var selectedNodeIndex:Integer = 0;
-
-
-    init {
-
-        this.translateX = 210;
-        this.translateY = 25;
-    }
-
-
     /** group of nodes*/
     var groupList:Group = Group {
+        cache: true;
+        cursor: Cursor.HAND;
 
         onMouseClicked:function(me:MouseEvent) {
 
@@ -66,8 +44,28 @@ public class U2UList extends Group {
         }
     };
 
-   
+    override var content = bind [this.groupList];
 
+    /** drag variables*/
+    var memoryDragPoint: Number = 0;
+    var memoryDragLength: Number = 0;
+
+    //var yPrimero: Number;
+
+    /** spacing between nodes*/
+    var spacingNodes: Number;
+    /** */
+    var selectedNodeIndex:Integer = 0;
+
+
+    init {
+
+        this.translateX = 210;
+        this.translateY = 25;
+
+        this.cache = true;
+    }
+  
     //instance functions
     public function setModel(model:U2UAbstractListModel):Void {
         this.model = model;
@@ -77,46 +75,14 @@ public class U2UList extends Group {
     public function updateUI():Void {
 
         var size:Integer = model.getSize();
-
-        var con:Node[] = [];
-
-        //translation axis Y
-        var transY = 4;
-
-        if((size > 0) and (size <= 4)){
-
-
-            println("Size entre 0 y 4");
-
-            for(x in [firstPos..<size])
-            {
-                var hNode = 107;
-
-                if(x==0){
-
-                    model.getNodeAt(x).getNodeView().translateY = transY;
-                    model.getNodeAt(x).getNodeView().translateX = 15;
-                    insert model.getNodeAt(x).getNodeView() into con;
-
-                }else{
-
-                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
-                    model.getNodeAt(x).getNodeView().translateX = 15;
-                    insert model.getNodeAt(x).getNodeView() into con;
-                }
-            }
-        }
         
-        if(size>4)
-        {
-           model.getNodeAt(size-1).getNodeView().translateX = 15;
-           model.getNodeAt(size-1).getNodeView().visible=false;
-           insert model.getNodeAt(size-1).getNodeView() into con;
+        //fill the principals nodes
+        for(x in [firstPos..< if(size >= 4) then (4) else (size)],
+            y in [0..<4]) {
+                
+            cachedNodes.insertElementAt(model.getNodeAt(x), y);
         }
 
-        this.groupList.content = [con];
-
-        this.content = this.groupList;
 
     }
 
@@ -143,37 +109,44 @@ public class U2UList extends Group {
             this.memoryDragLength = me.dragY;
         }
 
-        if(g[1].translateY + delta >=0)
+        if(g[0].translateY + delta <= 0)
         {
-            g[1].effect = null;
-            g[1].translateY = g[1].translateY + delta;
+
+            var deltaFactor: Float = (1.0 * (delta/2)) / (107/2);
+            println("deltaFactor = {deltaFactor}, delta = {delta}, scaleYant = {g[0].scaleY}");
+            g[0].scaleY = g[0].scaleY + deltaFactor;
+            println("new scaleY = {g[0].scaleY}");
+
+            if(g[0].scaleY <= 0.2)
+            {
+                var tmp = g[0];
+                tmp.scaleY = 1.0;
+                g[0] = g[1];
+                g[1] = g[2];
+                g[2] = g[3];
+                g[3] = g[4];
+                g[4] = tmp;
+            }
+            else
+            {
+                g[1].translateY = g[1].translateY + delta;
+                g[2].translateY = g[2].translateY + delta;
+                g[3].translateY = g[3].translateY + delta;
+                g[4].translateY = g[4].translateY + delta;
+
+            }
         }
         else
         {
-
-            var uy: Number = g[1].translateY + delta;
-            var ly: Number = g[1].translateY + 107.0;
-
-            println("uy:{uy}, ly:{ly}");
-            //efecto
-            //g[1].translateY = g[1].translateY + delta;
-            g[1].effect = PerspectiveTransform {
-                llx: 15.0, lly: ly
-                lrx: 390.0, lry: ly
-                ulx: 15.0 + 100, uly: 0
-                urx: 390.0 - 100, ury: 0
-            }
-
-
-            //g[5].translateY=g[5].translateY-4;
-            //g[5].visible = true;
-            //println("x = {g[1].}");
+            g[0].translateY = g[0].translateY + delta;
+            g[1].translateY = g[1].translateY + delta;
+            g[2].translateY = g[2].translateY + delta;
+            g[3].translateY = g[3].translateY + delta;
+            g[4].translateY = g[4].translateY + delta;
         }
 
-        //g[1].translateY = g[1].translateY + delta;
-        g[2].translateY = g[2].translateY + delta;
-        g[3].translateY = g[3].translateY + delta;
-        g[4].translateY = g[4].translateY + delta;
+
+        
 
 
         println("fig({g[0].translateX}, {g[0].translateY}),  nodo({g[1].translateX}, {g[1].translateY})");

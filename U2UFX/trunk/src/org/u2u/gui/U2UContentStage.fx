@@ -12,6 +12,7 @@ import org.u2u.gui.scene.*;
 import org.u2u.app.U2UFXApp;
 import javafx.stage.StageStyle;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
+import org.u2u.filesharing.U2UFileSharingServiceListener;
 /**
  * @author Irene
  */
@@ -40,6 +41,7 @@ public class U2UContentStage extends Stage {
         this.title = "U2U FX";
         this.fullScreen = false;
         this.resizable = false;
+        //this.style = bind changeStyle;
         //Show intro
         //this.showIntro();
        
@@ -93,14 +95,31 @@ public class U2UContentStage extends Stage {
     /**
     * Registers the search listener in the U2UShell
     */
-    public function registerSearchListener():Void{
-        
-         //It creates a new enviroment variable that corresponds to the listener
-         U2UFXApp.APP.shell.createVarEnvSearchListener(searchScene.getSearchListener());
-         //runs the command to register the search listener
-         U2UFXApp.APP.shell.executeCmd("u2ufss -register");
-         println("SE REGISTRO EL LISTENER PARA BUSQUEDAS");
+    public function registerListeners():Void{
+
+
+        //Obtenemos el listener del panel de descargas, el modelo de la tabla de descargas
+        var lis:U2UFileSharingServiceListener  = downScene.getDownloadListener();
+//        //U2UFileSharingServiceListener lisUp = infoUp;
+//        U2UFileSharingServiceListener lisS = shared.getModel();
+//
+        //Creamos la variable de entorno que contenga la referencia la objeto listener
+        U2UFXApp.APP.shell.createVarEnvServiceListener("downlistener", lis);
+        //Registramos el listner con el comando u2ufss
+        U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener downlistener");
+//        
+//         //Creamos la variable de entorno que contenga la referencia la objeto listener
+//        U2U4UApp.shell.createVarEnvServiceListener("sharedlistener", lisS);
+//        //Registramos el listner con el comando u2ufss
+//        U2U4UApp.shell.executeCmd("u2ufss -addlistener sharedlistener");
+//
+        //It creates a new enviroment variable that corresponds to the listener
+        U2UFXApp.APP.shell.createVarEnvSearchListener(searchScene.getSearchListener());
+        //runs the command to register the search listener
+        U2UFXApp.APP.shell.executeCmd("u2ufss -register");
+        println("register for search listener ready");
     }
+
 
    public function downloadAFile(adv:U2UContentAdvertisementImpl):Void{
    

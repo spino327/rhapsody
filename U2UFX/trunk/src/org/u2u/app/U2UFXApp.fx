@@ -106,7 +106,7 @@ public class U2UFXApp {
     protected function ready():Void
     {
         println("Hi ready");
-        stage.registerSearchListener();
+        stage.registerListeners();
         //init the intro animation
         var inStage: Stage = Stage {
             width: 650;

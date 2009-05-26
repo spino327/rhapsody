@@ -38,8 +38,6 @@ public abstract class U2UAbstractNode {
     protected var chunksize: Short;
     /** real advertisement*/
     protected var adv: U2UContentAdvertisementImpl;
-    /** level of download of this node [max:200- min:0] */
-    protected var level:Integer;
     /** rect size*/
     protected var width: Integer = 390;
     protected var height: Integer = 107;
@@ -56,8 +54,4 @@ public abstract class U2UAbstractNode {
      */
     public abstract function getNodeView(): Node;
 
-    /**
-    * Change the level of download of the node
-    */
-    public abstract function updateLevel(lev:Integer):Void;
 }
