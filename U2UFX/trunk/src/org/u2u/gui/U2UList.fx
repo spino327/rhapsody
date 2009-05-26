@@ -35,10 +35,8 @@ public class U2UList extends Group {
         cursor: Cursor.HAND;
 
         onMouseClicked:function(me:MouseEvent) {
-
             this.click(me);
         }
-
         onMouseDragged:function(me:MouseEvent) {
             this.dragg(me);
         }
@@ -57,12 +55,9 @@ public class U2UList extends Group {
     /** */
     var selectedNodeIndex:Integer = 0;
 
-
     init {
-
         this.translateX = 210;
         this.translateY = 25;
-
         this.cache = true;
     }
   
@@ -75,17 +70,41 @@ public class U2UList extends Group {
     public function updateUI():Void {
 
         var size:Integer = model.getSize();
-        
-        //fill the principals nodes
-        for(x in [firstPos..< if(size >= 4) then (4) else (size)],
-            y in [0..<4]) {
-                
-            cachedNodes.insertElementAt(model.getNodeAt(x), y);
+        var con:Node[] = [];
+        //translation axis Y
+        var transY = 4;
+
+        if((size > 0) and (size <= 4)){
+
+            println("Size entre 0 y 4");
+
+            for(x in [firstPos..<size])
+            {
+                var hNode = 107;
+
+                if(x==0){
+                    model.getNodeAt(x).getNodeView().translateY = transY;
+                    model.getNodeAt(x).getNodeView().translateX = 15;
+                    insert model.getNodeAt(x).getNodeView() into con;
+
+                }else{
+                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
+                    model.getNodeAt(x).getNodeView().translateX = 15;
+                    insert model.getNodeAt(x).getNodeView() into con;
+                }
+            }
         }
 
+        if(size>4)
+        {
+           model.getNodeAt(size-1).getNodeView().translateX = 15;
+           model.getNodeAt(size-1).getNodeView().visible=false;
+           insert model.getNodeAt(size-1).getNodeView() into con;
+        }
 
+        this.groupList.content = [con];
+        this.content = this.groupList;
     }
-
 
     function dragg(me:MouseEvent): Void {
         //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
@@ -97,13 +116,11 @@ public class U2UList extends Group {
         if(this.memoryDragPoint == me.dragAnchorY)
         {
             println("equals");
-
             delta = me.dragY - this.memoryDragLength;
             this.memoryDragLength = me.dragY;
         }
         else
         {
-           
             println("differents");
             this.memoryDragPoint = me.dragAnchorY;
             this.memoryDragLength = me.dragY;
@@ -111,7 +128,6 @@ public class U2UList extends Group {
 
         if(g[0].translateY + delta <= 0)
         {
-
             var deltaFactor: Float = (1.0 * (delta/2)) / (107/2);
             println("deltaFactor = {deltaFactor}, delta = {delta}, scaleYant = {g[0].scaleY}");
             g[0].scaleY = g[0].scaleY + deltaFactor;
@@ -133,7 +149,6 @@ public class U2UList extends Group {
                 g[2].translateY = g[2].translateY + delta;
                 g[3].translateY = g[3].translateY + delta;
                 g[4].translateY = g[4].translateY + delta;
-
             }
         }
         else
@@ -144,18 +159,11 @@ public class U2UList extends Group {
             g[3].translateY = g[3].translateY + delta;
             g[4].translateY = g[4].translateY + delta;
         }
-
-
-        
-
-
         println("fig({g[0].translateX}, {g[0].translateY}),  nodo({g[1].translateX}, {g[1].translateY})");
-
     }
 
     function click(me:MouseEvent): Void {
         println("click function execute");
-
     }
 
 }
