@@ -59,11 +59,13 @@ public class U2UList extends Group {
     /** */
     var selectedNodeIndex:Integer = 0;
 
+    /** the specific render*/
+    public-init var render: U2UAbstractNodeRender;
+
     init {
             this.translateX = 230;
             this.translateY = 40;
             this.cache = true;
-
     }
   
     //instance functions
@@ -77,36 +79,43 @@ public class U2UList extends Group {
         var size:Integer = model.getSize();
 
         //translation axis Y
+//        var transY = 4;
+//
+//        if((size > 0) and (size <= 4)){
+//
+//            println("Size entre 0 y 4");
+//
+//            for(x in [firstPos..<size])
+//            {
+//                var hNode = 107;
+//
+//                if(x==0){
+//                    render.getNodeView(model.getNodeAt(x)).translateY = transY;
+//                    render.getNodeView(model.getNodeAt(x)).translateX = 15;
+//                    insert model.getNodeAt(x).getNodeView() into con;
+//
+//                }else{
+//                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
+//                    model.getNodeAt(x).getNodeView().translateX = 15;
+//                    insert model.getNodeAt(x).getNodeView() into con;
+//                }
+//            }
+//        }
+//
+//        if(size>4)
+//        {
+//           model.getNodeAt(size-1).getNodeView().translateX = 15;
+//           model.getNodeAt(size-1).getNodeView().visible=false;
+//           insert model.getNodeAt(size-1).getNodeView() into con;
+//        }
+
         var transY = 4;
 
-        if((size > 0) and (size <= 4)){
+        var node: Node =  render.getNodeView(model.getNodeAt(0));
+        node.translateY = transY;
+        node.translateX = 15;
 
-            println("Size entre 0 y 4");
-
-            for(x in [firstPos..<size])
-            {
-                var hNode = 107;
-
-                if(x==0){
-                    model.getNodeAt(x).getNodeView().translateY = transY;
-                    model.getNodeAt(x).getNodeView().translateX = 15;
-                    insert model.getNodeAt(x).getNodeView() into con;
-
-                }else{
-                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
-                    model.getNodeAt(x).getNodeView().translateX = 15;
-                    insert model.getNodeAt(x).getNodeView() into con;
-                }
-            }
-        }
-
-        if(size>4)
-        {
-           model.getNodeAt(size-1).getNodeView().translateX = 15;
-           model.getNodeAt(size-1).getNodeView().visible=false;
-           insert model.getNodeAt(size-1).getNodeView() into con;
-        }
-
+        con = [node];
         //this.groupList.content = con;
         this.content = this.groupList;
     }

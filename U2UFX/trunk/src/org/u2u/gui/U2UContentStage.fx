@@ -84,6 +84,36 @@ public class U2UContentStage extends Stage {
         }
     }
 
+
+    public function showHelp():Void{
+
+//        File userGuide = new File ("conf/.u2uguide.pdf");
+//
+//        RandomAccessFile raf;
+//        try {
+//            raf = new RandomAccessFile(userGuide, "r");
+//
+//            FileChannel channel = raf.getChannel();
+//            ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY,
+//                0, channel.size());
+//            pdffile = new PDFFile(buf);
+//
+//            // show the first page
+//
+//            page = pdffile.getPage(0);
+//            pagePDFPanel.showPage(page);
+//            jB_pre.setEnabled(false);
+//            current = 0;
+//            numPages = pdffile.getNumPages();
+//
+//
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(HelpJD.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ContentAppJF.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+    }
+
     /**
     * Change the state of the scene: disable or enable
     */

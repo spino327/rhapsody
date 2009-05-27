@@ -28,6 +28,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.u2u.data.U2UDownloadNode;
+import org.u2u.gui.U2UDownloadNodeRender;
 
 
 /**
@@ -56,7 +57,9 @@ var popupMenu:PopupMenu;
 
         model = U2UDownloadListModel{};
 
-        listNodes = U2UList{};
+        listNodes = U2UList{
+            render: U2UDownloadNodeRender {};
+        };
 
         listNodes.setModel(this.model);
 

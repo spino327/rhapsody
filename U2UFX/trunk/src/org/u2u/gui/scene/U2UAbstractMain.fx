@@ -109,7 +109,13 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                         translateX:81;
                                         title:"Help";
                                         imageURL:"{__DIR__}resources/help.png"
+
+                                        onMouseClicked:function(me:MouseEvent):Void{
+
+                                            this.contentStage.showHelp();
                                         }
+
+                                     }
                                 ]
                             }
                         ]

@@ -38,20 +38,22 @@ public abstract class U2UAbstractNode {
     protected var chunksize: Short;
     /** real advertisement*/
     protected var adv: U2UContentAdvertisementImpl;
-    /** rect size*/
-    protected var width: Integer = 370;
-    protected var height: Integer = 90;
+    /** Shell's environment variable name*/
+    protected var shellEnv: String;
 
-    //gui representation
-    /** group that structure the node's view, need to be always the same for a subclass, 
-     * need to be define in the subclass' init method
-     */
-    //var guiView: Group;
-    //EOInstance variables
+    /** return the name of the advertisment*/
+    public abstract function getName(): String;
+    /** return the cid in string format*/
+    public abstract function getCID(): String;
+    /** return the sharedfile's length in bytes*/
+    public abstract function getLength(): Long;
+    /** return the sharedfile's description*/
+    public abstract function getDescription(): String;
 
-    /**
-     * return the GUI Node representation of this Instance, it can be an instance of a subclass of javafx.scene.Node
-     */
-    public abstract function getNodeView(): Node;
+    public abstract function getType(): String;
+    /** chunk's size in kilobytes*/
+    public abstract function getChunksize(): Short;
+    public abstract function getAdv(): U2UContentAdvertisementImpl;
+    public abstract function getShellEnv(): String;
 
 }
