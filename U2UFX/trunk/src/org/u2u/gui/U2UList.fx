@@ -11,8 +11,9 @@ import javafx.scene.Group;
 import org.u2u.data.U2UAbstractListModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
-import java.util.Vector;
 import javafx.scene.Cursor;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * @author sergio
@@ -26,17 +27,20 @@ public class U2UList extends Group {
     };
 
     /** this arrya manage the current nodes in the View and two for cached*/
-    var cachedNodes: Vector = new Vector();
+    var cachedNodes: HashMap = new HashMap();
+    /** this array manage the relative positions of the current nodes at the model*/
+    var cachedPos: HashMap = new HashMap();
     /** represents the current position in the model of the first node of the this list*/
-    var firstPos: Integer = 0;
-    var con:Node[] = [];
+    var firstPos: Integer = 0 on replace {
+        println("firstPos change");
+        this.updateUI();
+    };
 
     /** group of nodes*/
     var groupList:Group = Group {
 
         cache: true;
         cursor: Cursor.HAND;
-        content: bind con;
 
         onMouseClicked:function(me:MouseEvent) {
             this.click(me);
@@ -46,26 +50,45 @@ public class U2UList extends Group {
         }
     };
 
-    //override var content = bind [this.groupList];
-
     /** drag variables*/
     var memoryDragPoint: Number = 0;
     var memoryDragLength: Number = 0;
-
-    //var yPrimero: Number;
-
-    /** spacing between nodes*/
-    var spacingNodes: Number;
     /** */
     var selectedNodeIndex:Integer = 0;
+    /** Number of nodes to render with the settings*/
+    var numOfNodes: Integer;
+    /** Number of pixels for the margins with the settings*/
+    var margin: Integer;
 
+    /** spacing between nodes*/
+    public-init var spacingNodes: Integer = 4;
     /** the specific render*/
     public-init var render: U2UAbstractNodeRender;
 
     init {
-            this.translateX = 215;
-            this.translateY = 40;
-            this.cache = true;
+
+        this.translateX = 230;
+        this.translateY = 40;
+        this.cache = true;
+
+        //init the positions on the HashMap
+        //450 is the background image's heigh
+        numOfNodes = 450 / (render.height + spacingNodes);
+        margin = (450 - numOfNodes*(render.height + spacingNodes)) / 2;
+
+        println("numOfNOdes = {numOfNodes}, margins = {margin}, heigh={render.height}, spacing = {spacingNodes}");
+
+        cachedNodes.put("prev", null);
+        cachedPos.put("prev", null);
+        for(i in [0..<numOfNodes]) {
+            cachedNodes.put("{i}", null);
+            cachedPos.put("{i}", null);
+        }
+        cachedNodes.put("next", null);
+        cachedPos.put("next", null);
+
+        println("final hasmap size = {cachedNodes.size()}");
+
     }
   
     //instance functions
@@ -76,48 +99,112 @@ public class U2UList extends Group {
     /** this methods force the re-drawing of the Lisr*/
     public function updateUI():Void {
 
-        var size:Integer = model.getSize();
-
-        //translation axis Y
-//        var transY = 4;
+//        if((model != null) and (model.getSize() > 0))  {
+//            var size:Integer = model.getSize();
 //
-//        if((size > 0) and (size <= 4)){
+//            var transY = 4;
 //
-//            println("Size entre 0 y 4");
+//            var node: Node =  render.getNodeView(model.getNodeAt(0));
+//            node.translateY = transY;
+//            node.translateX = 15;
 //
-//            for(x in [firstPos..<size])
-//            {
-//                var hNode = 107;
+//            con = [node];
 //
-//                if(x==0){
-//                    render.getNodeView(model.getNodeAt(x)).translateY = transY;
-//                    render.getNodeView(model.getNodeAt(x)).translateX = 15;
-//                    insert model.getNodeAt(x).getNodeView() into con;
-//
-//                }else{
-//                    model.getNodeAt(x).getNodeView().translateY = hNode*x + transY*(x+1);
-//                    model.getNodeAt(x).getNodeView().translateX = 15;
-//                    insert model.getNodeAt(x).getNodeView() into con;
-//                }
-//            }
-//        }
-//
-//        if(size>4)
-//        {
-//           model.getNodeAt(size-1).getNodeView().translateX = 15;
-//           model.getNodeAt(size-1).getNodeView().visible=false;
-//           insert model.getNodeAt(size-1).getNodeView() into con;
+//            this.content = this.groupList;
 //        }
 
-        var transY = 4;
+        if(model != null) {
 
-        var node: Node =  render.getNodeView(model.getNodeAt(0));
-        node.translateY = transY;
-        node.translateX = 15;
+            var size:Integer = model.getSize();
 
-        con = [node];
-        //this.groupList.content = con;
-        this.content = this.groupList;
+            //fixing the first
+            firstPos = if(firstPos >= size) then (firstPos - size) else firstPos;
+            var i: Integer = 0;
+            if(size > numOfNodes) {
+
+                //System.out.println("se mueven");
+                if(size - firstPos >= numOfNodes) {
+
+                    println("size - firstPos >= numOfNodes");
+
+                    for(x in [firstPos..<(numOfNodes + firstPos)])
+                    {
+                        var itmp: Integer = i++;
+                        println("valor de x[{itmp}] = {x}");
+                        cachedPos.put("{itmp}", x);
+                    }
+                    //(firstPos - 1 >= 0 ? (firstPos - 1) : (size - 1))
+                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
+                    println("cached down[-1] = {down}");
+                    cachedPos.put("prev", down);
+
+                    var up = if(firstPos + numOfNodes < size) then (firstPos + numOfNodes) else (size - (firstPos + numOfNodes));
+                    println("cached up[4] = {up}");
+                    cachedPos.put("next", up);
+                }
+                else
+                {
+                    println("size - firstPos < numOfNodes");
+
+                    for(x in [firstPos..<size])
+                    {
+                        var itmp: Integer = i++;
+                        println("valor de x[{itmp}] = {x}");
+                        cachedPos.put("{itmp}", x);
+                    }
+
+                    for(x in [0..<(numOfNodes - (size - firstPos))])
+                    {
+                        var itmp: Integer = i++;
+                        println("valor de x[{itmp}] = {x}");
+                        cachedPos.put("{itmp}", x);
+                    }
+
+                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
+                    println("cached down[-1] = {down}");
+                    cachedPos.put("prev", down);
+
+                    var up = (numOfNodes - (size - firstPos));
+                    println("cached up[4] = {up}");
+                    cachedPos.put("next", up);
+                }
+            }
+            else
+            {
+                println("no se mueven");
+
+                for(x in [0..<size])
+                {
+                    var itmp: Integer = i++;
+                    println("valor de x[{itmp}] = {x}");
+                    cachedPos.put("{itmp}", x);
+                }
+            }
+
+            //drawing
+            var cont: Node[] = [];
+            //without prev and next
+            var to: Integer = if(size <= (cachedPos.size()-2)) then (size) else (cachedPos.size()-2);
+            for(x in [0..<to]) {
+
+                println("{x}, {cachedPos.get("{x}")}");
+                
+                var node = render.getNodeView(model.getNodeAt(cachedPos.get("{x}") as Integer));
+
+                node.translateY = render.height*x + spacingNodes*(x+1);
+                node.translateX = 15;
+                cachedNodes.put("{x}", node);
+                insert node into cont;
+            }
+
+            this.groupList.content = cont;
+            this.content = this.groupList.content;
+
+        }
+
+
+        
+
     }
 
     function dragg(me:MouseEvent): Void {

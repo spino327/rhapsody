@@ -37,16 +37,16 @@ import org.u2u.gui.U2UDownloadNodeRender;
 
 public class U2UDownloadScene extends U2UAbstractMain{
 
-var imgBackground:Image;
-var imgBackView:ImageView;
-var listNodes:U2UList;
-var model:U2UDownloadListModel;
-var vbox:VBox;
-var conDown:Integer = 0;
-var timer:Timer;
-var listener:ProgressTask;
+    var imgBackground:Image;
+    var imgBackView:ImageView;
+    var listNodes:U2UList;
+    var model:U2UDownloadListModel;
+    var vbox:VBox;
+    var conDown:Integer = 0;
+    var timer:Timer;
+    var listener:ProgressTask;
 
-var popupMenu:PopupMenu;
+    var popupMenu:PopupMenu;
 
 
     init {
@@ -59,6 +59,7 @@ var popupMenu:PopupMenu;
 
         listNodes = U2UList{
             render: U2UDownloadNodeRender {};
+
         };
 
         listNodes.setModel(this.model);

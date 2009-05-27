@@ -62,6 +62,16 @@ public class U2UFXApp {
     /** Peer's peergroup*/
     var netPeerGroup: PeerGroup;
 
+    init {
+
+        println("registering the shutdown function");
+        FX.addShutdownAction(function():Void {
+            println("call the FX close listener");
+            this.quit();
+        });
+    }
+
+
     //lifecycle
     
     /**
@@ -76,16 +86,16 @@ public class U2UFXApp {
     protected function startup():Void
     {
         println("Hi start");
-        var ini:Long = System.currentTimeMillis();
         //init the content stage
         stage = U2UContentStage {
             width: 650;
             height: 520;
             style: StageStyle.DECORATED;
             visible: false;
-            onClose:function():Void{
-                    this.quit();
-                }
+            /*onClose:function():Void{
+                println("call the stage close listener");
+                this.quit();
+            }*/
         };
         //unable the scene
         //stage.disableMainScene();
@@ -113,9 +123,10 @@ public class U2UFXApp {
             height: 520;
             style: StageStyle.TRANSPARENT;
             visible: true;
-            onClose: function():Void{
-                    this.quit();
-                }
+            /*onClose: function():Void{
+                println("call the intro close listener");
+                this.quit();
+            }*/
         };
         inStage.scene = U2UAbstractScene.getU2UIntroAnimation(inStage, stage);
 
@@ -133,12 +144,9 @@ public class U2UFXApp {
      * @see #exit
      * @see #addExitListener
      */
-    protected function shutdown():Void
-    {
-        // TBD should call TaskService#shutdownNow() on each TaskService
-    }
-
     public function quit(): Void {
+
+        println("closing the application");
         /*viewPpal.setVisible(false);
         //this.stopNetwork();
         if(status == U2U4UApp.CONNECT)

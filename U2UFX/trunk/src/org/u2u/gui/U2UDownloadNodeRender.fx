@@ -38,7 +38,8 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
         var rec:Rectangle;
         var recProgress:Rectangle;
         var textProgress:Text;
-        def SIZE_FONT:Integer =12;
+        var name: String = dataNode.getName();
+        var desc: String = dataNode.getDescription();
 
         var node: U2UDownloadNode = dataNode as U2UDownloadNode;
 
@@ -58,10 +59,10 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                     },
                     Text {
                         translateX:20;
-                        translateY:25;
-                        content: "Name: {dataNode.getName()}";
+                        translateY:20;
+                        content: "Name: {if(name.length() > 17) then ("{name.substring(0, 17)}...{name.substring(name.lastIndexOf("."))}") else (name)}";
                         textAlignment: TextAlignment.JUSTIFY;
-                        font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
+                        font: Font.font("Verdana",FontWeight.BOLD,12);
                         fill: Color.WHITESMOKE;
                         textOrigin: TextOrigin.BASELINE;
 
@@ -69,28 +70,28 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                     Text{
                         translateX:20;
                         translateY:40;
-                        content: "Size: {dataNode.getLength()} KB";
+                        content: "Size: {dataNode.getLength()/1024} KB";
                         textAlignment: TextAlignment.JUSTIFY;
-                        font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
+                        font: Font.font("Verdana",FontWeight.REGULAR,11);
                         fill: Color.BLACK;
                     },
                     textDesc = Text{
                         translateX:20;
                         translateY:55;
-                        content: "Description: {dataNode.getDescription()}";
+                        content: "Desc: {if(desc.length() > 30) then ("{desc.substring(0, 30)}...") else (desc)}";
                         textAlignment: TextAlignment.JUSTIFY;
-                        font: Font.font("Verdana",FontWeight.BOLD,SIZE_FONT);
+                        font: Font.font("Verdana",FontWeight.REGULAR,11);
                         fill: Color.BLACK;
                     },
                     ImageView {
                         image: this.getTypeFile(dataNode);
-                        translateX:285;
+                        translateX:305;
                         translateY:10;
                         effect: DropShadow { offsetY: 3 color: Color.color(0.4, 0.4, 0.4) };
                     },
                     recProgress = Rectangle {
                         x: 20
-                        y: 68
+                        y: 65
                         width: bind (node.level);
                         height: 15;
                         fill: LinearGradient {
@@ -104,7 +105,7 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                     textProgress = Text{
 
                         x: bind recProgress.width + 24;
-                        y: 78;
+                        y: 76;
                         content: bind "{(node.level/2) as Integer} %";
                         font: Font.font("Verdana",FontWeight.BOLD, 12);
                         fill: Color.YELLOWGREEN;

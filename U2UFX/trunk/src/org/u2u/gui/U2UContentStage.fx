@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 import org.u2u.gui.scene.*;
 import org.u2u.app.U2UFXApp;
-import javafx.stage.StageStyle;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.filesharing.U2UFileSharingServiceListener;
 
