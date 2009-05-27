@@ -84,14 +84,13 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                     },
                     ImageView {
                         image: this.getTypeFile(dataNode);
-                        translateX:305;
-                        translateY:15;
+                        translateX:285;
+                        translateY:10;
                         effect: DropShadow { offsetY: 3 color: Color.color(0.4, 0.4, 0.4) };
-
                     },
                     recProgress = Rectangle {
                         x: 20
-                        y: 70
+                        y: 68
                         width: bind (node.level);
                         height: 15;
                         fill: LinearGradient {

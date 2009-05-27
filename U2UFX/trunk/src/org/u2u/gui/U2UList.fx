@@ -63,7 +63,7 @@ public class U2UList extends Group {
     public-init var render: U2UAbstractNodeRender;
 
     init {
-            this.translateX = 230;
+            this.translateX = 215;
             this.translateY = 40;
             this.cache = true;
     }

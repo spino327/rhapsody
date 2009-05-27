@@ -13,6 +13,7 @@ import org.u2u.app.U2UFXApp;
 import javafx.stage.StageStyle;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.filesharing.U2UFileSharingServiceListener;
+
 /**
  * @author Irene
  */
@@ -24,7 +25,7 @@ public class U2UContentStage extends Stage {
     var searchScene: U2USearchScene = U2UAbstractScene.getU2USearchScene(this);
     var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
     //var animScene: U2UIntroAnimation = U2UAbstractScene.getU2UIntroAnimation(this);
-
+    var helpScene:U2UPdfViewerScene = U2UAbstractScene.getU2UHelpScene(this);
     var conDown:Integer = 0;
 
     var currentScene: U2UAbstractScene = null on replace {
@@ -36,6 +37,7 @@ public class U2UContentStage extends Stage {
         println("Closing the application");
         U2UFXApp.APP.quit();
     };
+
 
     init {
         this.title = "U2U FX";
@@ -87,31 +89,9 @@ public class U2UContentStage extends Stage {
 
     public function showHelp():Void{
 
-//        File userGuide = new File ("conf/.u2uguide.pdf");
-//
-//        RandomAccessFile raf;
-//        try {
-//            raf = new RandomAccessFile(userGuide, "r");
-//
-//            FileChannel channel = raf.getChannel();
-//            ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY,
-//                0, channel.size());
-//            pdffile = new PDFFile(buf);
-//
-//            // show the first page
-//
-//            page = pdffile.getPage(0);
-//            pagePDFPanel.showPage(page);
-//            jB_pre.setEnabled(false);
-//            current = 0;
-//            numPages = pdffile.getNumPages();
-//
-//
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(HelpJD.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(ContentAppJF.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        //show the U2UStagePdfViewer
+        currentScene = helpScene;
+
     }
 
     /**

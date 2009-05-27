@@ -55,7 +55,7 @@ public class U2UDownloadListModel extends U2UAbstractListModel, U2UFileSharingSe
             
             var node:U2UDownloadNode = U2UDownloadNode{
                 name: adv.getName();
-                length:adv.getLength();
+                length:(adv.getLength()/1024);
                 description:adv.getDescription();
                 chunksize:adv.getChunksize();
                 cid: adv.getContentId();

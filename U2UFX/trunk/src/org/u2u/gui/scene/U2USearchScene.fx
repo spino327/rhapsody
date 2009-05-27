@@ -13,13 +13,14 @@ import javafx.scene.Group;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.*;
+
 import javafx.ext.swing.SwingTextField;
 import javafx.ext.swing.SwingButton;
-import javafx.scene.shape.Circle;
-import javafx.scene.input.MouseEvent;
 import javafx.ext.swing.SwingIcon;
-import org.u2u.app.U2UFXApp;
+import javafx.scene.text.*;
+
 import org.u2u.gui.scene.U2USearchTable;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -55,11 +56,21 @@ public class U2USearchScene extends U2UAbstractMain{
                     translateX:210;
                     translateY:25;
                     image:imgBackground;
+
                 },
+                Text{
+                    content : "Keyword: "
+                    translateX:this.width/2 - textField.width-80;
+                    translateY:132;
+                    font: Font.font("Verdana",FontWeight.BOLD,12)
+
+                },
+
                 textField = SwingTextField{
-                    width: 270;
-                    translateX:this.width/2 - textField.width-70;
+                    width: 210;
+                    translateX:this.width/2 - textField.width-10;
                     translateY:120;
+
                 },
 
                 buttonSearch =  SwingButton{
@@ -73,9 +84,17 @@ public class U2USearchScene extends U2UAbstractMain{
                 
                 table = U2USearchTable{},
 
+                ImageView{
+                    translateX: 352;
+                    translateY: this.height - 95;
+                    scaleX:-0.7;
+                    scaleY:-0.7;
+                    image: Image{url:"{__DIR__}resources/frame.png"}
+                },
+
                 ButtonNode{
-                    translateX:400;
-                    translateY: this.height - 80;
+                    translateX: 400;
+                    translateY: this.height - 75;
                     title:"Download";
                     imageURL:"{__DIR__}resources/download.png";
                     action:function():Void{
@@ -116,6 +135,10 @@ public class U2USearchScene extends U2UAbstractMain{
             this.contentStage.downloadAFile(adv);
             JOptionPane.showMessageDialog(null, "Init finding sources to download...");
             this.contentStage.showDownload();
+        }else
+        {
+            JOptionPane.showMessageDialog(null,"There is no file to download!\n Please perform a search.");
+
         }
     }
    

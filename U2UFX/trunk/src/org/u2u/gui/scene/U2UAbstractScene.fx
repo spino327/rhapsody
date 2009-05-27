@@ -65,3 +65,12 @@ public function getU2UDownloadScene(cont:U2UContentStage):U2UDownloadScene{
     }
 }
 
+public function getU2UHelpScene(cont:U2UContentStage):U2UPdfViewerScene{
+
+    return U2UPdfViewerScene{
+        contentStage:cont;
+        width:650;
+        height:500
+    }
+}
+
