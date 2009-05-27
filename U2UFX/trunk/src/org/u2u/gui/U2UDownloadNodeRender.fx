@@ -60,7 +60,7 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                     Text {
                         translateX:20;
                         translateY:20;
-                        content: "Name: {if(name.length() > 17) then ("{name.substring(0, 17)}...{name.substring(name.lastIndexOf("."))}") else (name)}";
+                        content: "Name: {if(name.length() > (20 + 4)) then ("{name.substring(0, 20)}...{name.substring(name.lastIndexOf("."))}") else (name)}";
                         textAlignment: TextAlignment.JUSTIFY;
                         font: Font.font("Verdana",FontWeight.BOLD,12);
                         fill: Color.WHITESMOKE;

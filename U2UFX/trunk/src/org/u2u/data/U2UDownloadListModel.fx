@@ -142,19 +142,17 @@ public class U2UDownloadListModel extends U2UAbstractListModel, U2UFileSharingSe
       */
       function existAdvertisementDownloading(id:U2UContentIdImpl):Integer{
 
-            for (x in [0..< (sizeof list)])
+            var pos = -1;
+            for (x in [0..< list.size()])
             {
-
                 var cid:U2UContentIdImpl = ((list.get(x) as U2UDownloadNode).cid as U2UContentIdImpl);
 
                 if(id.equals(cid)){
-
-                    return x;
+                    pos = x;
                 }
             }
 
-            return -1;
-
+            return pos;
       }
 
 }
