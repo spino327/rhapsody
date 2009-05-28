@@ -130,7 +130,7 @@ public class U2UContentStage extends Stage {
         U2UFXApp.APP.shell.createVarEnvU2UAdvertisement(adv,name);
         println("Download a file: {adv.getName()}");
 
-        var res:Boolean = downScene.runDownloadFile(adv);
+        var res:Boolean = downScene.runDownloadFile(adv, name);
         
         if(res){
             U2UFXApp.APP.shell.executeCmd("u2ufss -download {name}");

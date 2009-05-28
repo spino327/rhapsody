@@ -17,10 +17,6 @@ import javafx.scene.effect.DropShadow;
 import org.u2u.data.U2UDownloadListModel;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.filesharing.U2UFileSharingServiceListener;
-import org.u2u.app.U2UFXApp;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
 
 import org.memefx.popupmenu.*;
 import javafx.scene.text.Font;
@@ -42,9 +38,6 @@ public class U2UDownloadScene extends U2UAbstractMain{
     var listNodes:U2UList;
     var model:U2UDownloadListModel;
     var vbox:VBox;
-    var conDown:Integer = 0;
-    var timer:Timer;
-    var listener:ProgressTask;
 
     var popupMenu:PopupMenu;
 
@@ -63,10 +56,6 @@ public class U2UDownloadScene extends U2UAbstractMain{
         };
 
         listNodes.setModel(this.model);
-
-        listener = ProgressTask{};
-
-        timer = new Timer(5000,listener);
 
         popupMenu = PopupMenu{
 
@@ -142,29 +131,12 @@ public class U2UDownloadScene extends U2UAbstractMain{
 
     /**
     * Store in the list of download files the advertisement of the selected file
+    * shellEnv represents the shellenv in the U2UShell context
     */
-    public function runDownloadFile(selAdv:U2UContentAdvertisementImpl):Boolean{
+    public function runDownloadFile(selAdv:U2UContentAdvertisementImpl, shellEnv: String):Boolean{
 
-       // shcedule the timer to it does a progress query to the U2UShell every
-       // five seconds
-       if(not timer.isRunning())
-       {
-           timer.start();
-       }
        // return if it could insert the download file in the model (donwload files' list)
-       return model.insertFileIntoModel(selAdv);
-    }
-
-
-    /**
-    * This method stop the timer that does progress queries
-    */
-    public function stopProgressQuery():Void{
-        
-        if(timer.isRunning()){
-
-            timer.stop();
-        }
+       return model.insertFileIntoModel(selAdv, shellEnv);
     }
 
     /**
@@ -192,23 +164,3 @@ public class U2UDownloadScene extends U2UAbstractMain{
 
     
 }
-
-class ProgressTask extends ActionListener{
-
-    override function actionPerformed(e:ActionEvent){
-
-//       //if(U2UFXApp.APP.getStatusServiceU2UFSS()==U2UFXApp.U2UFSS_INIT)
-//        {
-            /*Se ejecuta el comando u2ufss conActiveDown la opción progress
-            *para averiguar el estado de las descargas (este comando genera
-            * un evento U2UFileSharingServiceEvent de tipo PROGRESS)*/
-            U2UFXApp.APP.shell.executeCmd("u2ufss -progress");
-
-//        }
-
-    }
-
-
-
- }
-

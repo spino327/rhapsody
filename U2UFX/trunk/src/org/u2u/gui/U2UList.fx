@@ -58,9 +58,9 @@ public class U2UList extends Group {
     /** Number of nodes to render with the settings*/
     var numOfNodes: Integer;
     /** Number of pixels for the vertical margins with the settings*/
-    var marginV: Integer;
+    //var marginV: Integer;
     /** Number of pixels for the horizontal margins with the settings*/
-    var marginH: Integer;
+    //var marginH: Integer;
 
     /** spacing between nodes*/
     public-init var spacingNodes: Integer = 4;
@@ -69,18 +69,18 @@ public class U2UList extends Group {
 
     init {
 
-        this.translateX = 230;
-        this.translateY = 40;
         this.cache = true;
 
         //init the positions on the HashMap
         //450 is the background image's heigh
         numOfNodes = 450 / (render.height + spacingNodes);
-        marginV = (450 - numOfNodes*(render.height + spacingNodes)) / 2;
+        //marginV = (450 - numOfNodes*(render.height + spacingNodes)) / 2;
         //420 is the background image's width
-        marginH = (420 - render.width) / 2;
+        //marginH = (420 - render.width) / 2;
+        this.translateX = 210 + (420 - render.width) / 2;
+        this.translateY = 25 + (450 - numOfNodes*(render.height + spacingNodes)) / 2;
 
-        println("numOfNOdes = {numOfNodes}, marginsV = {marginV}, marginsH = {marginH}, heigh={render.height}, spacing = {spacingNodes}");
+        println("numOfNOdes = {numOfNodes}, heigh={render.height}, spacing = {spacingNodes}");
 
         cachedNodes.put("prev", null);
         cachedPos.put("prev", null);
@@ -196,7 +196,7 @@ public class U2UList extends Group {
                 var node = render.getNodeView(model.getNodeAt(cachedPos.get("{x}") as Integer));
 
                 node.translateY = render.height*x + spacingNodes*(x+1);
-                node.translateX = marginH;
+                //node.translateX = 0;
                 cachedNodes.put("{x}", node);
                 insert node into cont;
             }

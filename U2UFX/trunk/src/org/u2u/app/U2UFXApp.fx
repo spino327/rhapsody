@@ -151,35 +151,9 @@ public class U2UFXApp {
     public function quit(): Void {
 
         println("closing the application");
-        /*viewPpal.setVisible(false);
-        //this.stopNetwork();
-        if(status == U2U4UApp.CONNECT)
-        {
-            viewPpal.disableDisconnect();
-            viewPpal.setStatusMenusItems(false);
 
-            if(U2U4UApp.shell != null)
-            {
-                shell.executeCmd("search -f");//borra los anuncios  de este igual
-                shell.executeCmd("peers -f");//borra los anuncios de iguales de este igual
-                shell.executeCmd("exit");
-                //shell.executeCmd("u2ufss -stop");//Not implemented yet
-                //status_u2ufss = U2UFSS_STOP;
-            }
-            if(manager != null)
-            {
-                manager.stopNetwork();
-            }
-            status= U2U4UApp.DISCONNECT;
+        this.stopShell();
 
-        }else if(status == U2U4UApp.DISCONNECT)
-        {
-            if(manager != null)
-            {
-                manager.stopNetwork();
-            }
-        }
-        super.quit(e);*/
         FX.exit();
     }
     //EO Life cycle
@@ -318,88 +292,40 @@ public class U2UFXApp {
      * Disconnect the peer to the P2P network and init the U2UShell
      */
     protected function stopShell(): Void {
-//        viewPpal.setStatusBarProgress(false);
-//        viewPpal.disableDisconnect();
-//        viewPpal.stopedAllActivities();
 
-        if(null != stopTask) {
-            stopTask.cancel();
-            stopTask = null;
-        }
+        println("disconnecting for the network...");
 
-        stopTask = JFXWorker {
-
-            inBackground: function():Object {
-
-                stopTask.publish(["disconnecting for the network...", 0.4]);
-
-                if(null != initTask)
-                {
-                    initTask.cancel();
-                }
-
-                if(status == U2UFXApp.CONNECT) {
+        if(status == U2UFXApp.CONNECT) {
 //                    viewPpal.disableDisconnect();
 //                    viewPpal.setStatusMenusItems(false);
 
-                    if(shell != null) {
-                        
-                        println("shell != null");
+            if(shell != null) {
 
-                        shell.executeCmd("u2ufss -stop");
-                        shell.executeCmd("search -f");//flush all the contents' advertisements
-                        shell.executeCmd("peers -f");//flush all the peers' advertisements
-                        shell.executeCmd("exit");
-                        status_u2ufss = U2UFSS_STOP;
-                    }
+                println("shell != null");
 
-                    status= U2UFXApp.DISCONNECT;
-                    netPeerGroup.stopApp();
-                    
-
-                }
-                else if(status == U2UFXApp.DISCONNECT) {
-                    
-                    println("already disconnected");
-                }
-
-                shell = null;
-                netPeerGroup = null;
-
-                println("Stopped service was successful!");
-
-                return status;
-            }
-            
-            process: function(data) {
-//                var files = data as File[];
-//                insert files[0..(24-count)] into searchResults;
-//                count += sizeof data;
-//                resultText = "Found {count} files";
-                println(data);
-            }
-            
-            onDone: function(result) {
-
-                var res: Integer = result as Integer;
-
-                //viewPpal.changeStatus(res);
-
-                if(res == U2UFXApp.DISCONNECT) {
-                    //viewPpal.setStatusMenusItems(false);
-                }
-
-                //viewPpal.setStatusBarProgress(false);
-
-                //gc
-                System.gc();
-            }
-            
-            onFailure: function(ex:ExecutionException):Void {
-                ex.printStackTrace();
+                shell.executeCmd("u2ufss -stop");
+                shell.executeCmd("search -f");//flush all the contents' advertisements
+                shell.executeCmd("peers -f");//flush all the peers' advertisements
+                shell.executeCmd("exit");
+                status_u2ufss = U2UFSS_STOP;
             }
 
-        };
+            status= U2UFXApp.DISCONNECT;
+            netPeerGroup.stopApp();
+
+
+        }
+        else if(status == U2UFXApp.DISCONNECT) {
+
+            println("already disconnected");
+        }
+
+        shell = null;
+        netPeerGroup = null;
+
+        println("Stopped service was successful!");
+        System.gc();
+
     }
     //EO P2P
 
