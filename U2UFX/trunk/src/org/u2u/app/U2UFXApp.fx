@@ -8,6 +8,7 @@ package org.u2u.app;
 
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.image.*;
 
 import org.jfxtras.async.JFXWorker;
 import org.u2u.gui.*;
@@ -88,6 +89,7 @@ public class U2UFXApp {
         println("Hi start");
         //init the content stage
         stage = U2UContentStage {
+           
             width: 650;
             height: 520;
             style: StageStyle.DECORATED;
@@ -119,6 +121,8 @@ public class U2UFXApp {
         stage.registerListeners();
         //init the intro animation
         var inStage: Stage = Stage {
+            title: "File Sharing P2P App"
+            icons: Image{url:"{__DIR__}iconu2u.png"};
             width: 650;
             height: 520;
             style: StageStyle.TRANSPARENT;

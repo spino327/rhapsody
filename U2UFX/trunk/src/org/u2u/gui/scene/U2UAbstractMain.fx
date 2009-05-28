@@ -104,17 +104,18 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                         translateX:17;
                                         title:"Preferences";
                                         imageURL:"{__DIR__}resources/config.png"
+                                        onMouseClicked:function(me:MouseEvent):Void{
+                                            this.contentStage.showPreferences();
+                                        }
+
                                         },
                                      butHelp = ButtonNode{
                                         translateX:81;
                                         title:"Help";
                                         imageURL:"{__DIR__}resources/help.png"
-
                                         onMouseClicked:function(me:MouseEvent):Void{
-
                                             this.contentStage.showHelp();
                                         }
-
                                      }
                                 ]
                             }

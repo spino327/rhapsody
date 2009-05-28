@@ -23,8 +23,9 @@ public class U2UContentStage extends Stage {
     var shareScene: U2UShareScene = U2UAbstractScene.getU2UShareScene(this);
     var searchScene: U2USearchScene = U2UAbstractScene.getU2USearchScene(this);
     var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
-    //var animScene: U2UIntroAnimation = U2UAbstractScene.getU2UIntroAnimation(this);
-    var helpScene:U2UPdfViewerScene = U2UAbstractScene.getU2UHelpScene(this);
+    //var helpScene:U2UPdfViewerScene = U2UAbstractScene.getU2UHelpScene(this);
+    var preferScene: U2UPreferencesScene = U2UAbstractScene.getU2UPreferencesScene(this);
+
     var conDown:Integer = 0;
 
     var currentScene: U2UAbstractScene = null on replace {
@@ -37,24 +38,11 @@ public class U2UContentStage extends Stage {
         U2UFXApp.APP.quit();
     };
 
-
     init {
         this.title = "U2U FX";
         this.fullScreen = false;
-        this.resizable = false;
-        //this.style = bind changeStyle;
-        //Show intro
-        //this.showIntro();
-       
+        this.resizable = false; 
     }
-
-    /**
-    * Shows the animation scene in the stage
-    */
-//    function showIntro():Void {
-//        currentScene = animScene;
-//    }
-
     /**
     * Shows the share scene in the stage
     */
@@ -85,12 +73,19 @@ public class U2UContentStage extends Stage {
         }
     }
 
-
+    /**
+    * Shows the help scene in the stage
+    */
     public function showHelp():Void{
-
         //show the U2UStagePdfViewer
-        currentScene = helpScene;
+        //currentScene = helpScene;
+    }
 
+    /**
+    * Shows the preferences scene in the stage
+    */
+    public function showPreferences():Void{
+        currentScene = preferScene;
     }
 
     /**
@@ -105,7 +100,6 @@ public class U2UContentStage extends Stage {
     * Registers the search listener in the U2UShell
     */
     public function registerListeners():Void{
-
 
         //Obtenemos el listener del panel de descargas, el modelo de la tabla de descargas
         var lis:U2UFileSharingServiceListener  = downScene.getDownloadListener();
@@ -143,9 +137,7 @@ public class U2UContentStage extends Stage {
             downScene.updateListNodes();
             this.showDownload();
         }
-        
    }
-
 
     /**
      * Gnerates a new variable's name

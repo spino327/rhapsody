@@ -74,3 +74,11 @@ public function getU2UHelpScene(cont:U2UContentStage):U2UPdfViewerScene{
     }
 }
 
+public function getU2UPreferencesScene(cont:U2UContentStage):U2UPreferencesScene{
+
+    return U2UPreferencesScene{
+        contentStage:cont;
+        width:650;
+        height:500
+    }
+}
