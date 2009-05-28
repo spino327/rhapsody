@@ -55,6 +55,7 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                         arcHeight: 30.0;
                         arcWidth: 30.0;
                         fill: Color.GREY;
+                        id: "background";
 
                     },
                     Text {

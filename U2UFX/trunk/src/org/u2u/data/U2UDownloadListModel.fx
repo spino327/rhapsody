@@ -154,10 +154,10 @@ public class U2UDownloadListModel extends U2UAbstractListModel, U2UFileSharingSe
                 if(pos != -1)
                 {
                     var value:Float = (entry.getValue() as Float);
-                    println("---------------------------------------------");
-                    println("Modifies the level of the progress to file {(list.get(pos) as U2UDownloadNode).name}");
-                    println("New value: {value}");
-                    println("---------------------------------------------");
+//                    println("---------------------------------------------");
+//                    println("Modifies the level of the progress to file {(list.get(pos) as U2UDownloadNode).name}");
+//                    println("New value: {value}");
+//                    println("---------------------------------------------");
 
                     //checking if we have 100 points
                     countDownTmp++;

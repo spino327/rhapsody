@@ -14,6 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.Cursor;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Map;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Flood;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sergio
@@ -42,19 +47,21 @@ public class U2UList extends Group {
         cache: true;
         cursor: Cursor.HAND;
 
-        onMouseClicked:function(me:MouseEvent) {
-            this.click(me);
-        }
-        onMouseDragged:function(me:MouseEvent) {
-            this.dragg(me);
-        }
+//        onMouseClicked:function(me:MouseEvent) {
+//            this.click(me);
+//        }
+//        onMouseDragged:function(me:MouseEvent) {
+//            this.dragg(me);
+//        }
     };
 
     /** drag variables*/
     var memoryDragPoint: Number = 0;
     var memoryDragLength: Number = 0;
-    /** */
-    var selectedNodeIndex:Integer = 0;
+    /** this varibale handle the Selected node's position in the U2UList*/
+    var selectedNodeIndex: Integer = -1;
+    /** this variable handle the previous Selected node's reference*/
+    var previousSelectedNodeReference: Node = null;
     /** Number of nodes to render with the settings*/
     var numOfNodes: Integer;
     /** Number of pixels for the vertical margins with the settings*/
@@ -195,6 +202,26 @@ public class U2UList extends Group {
                 
                 var node = render.getNodeView(model.getNodeAt(cachedPos.get("{x}") as Integer));
 
+                //adding the feature functions, click and drag
+                node.onMouseClicked = function(me: MouseEvent) {
+
+                    this.click(me);
+                };
+                node.onMouseDragged = function(me: MouseEvent) {
+
+                    this.dragg(me);
+                }
+                node.onMouseEntered = function(me: MouseEvent) {
+
+                    me.node.effect = Glow {
+                        level: 0.5;
+                    }
+                };
+                node.onMouseExited = function(me: MouseEvent) {
+
+                    me.node.effect = null;
+                };
+
                 node.translateY = render.height*x + spacingNodes*(x+1);
                 //node.translateX = 0;
                 cachedNodes.put("{x}", node);
@@ -205,9 +232,6 @@ public class U2UList extends Group {
             this.content = this.groupList.content;
 
         }
-
-
-        
 
     }
 
@@ -268,7 +292,47 @@ public class U2UList extends Group {
     }
 
     function click(me:MouseEvent): Void {
-        println("click function execute");
+        println("****click function execute on the U2UList");
+        //incoming Node
+        var innode: Node = me.node;
+        //looking the Node's position in the U2UList
+        for(x in this.cachedNodes.entrySet()) {
+
+            var entry: Map.Entry = x as Map.Entry;
+
+            var key: String = entry.getKey() as String;
+            var value: Node = entry.getValue() as Node;
+
+            if(innode.equals(value)) {
+                println("****the selected Node was the ({key})");
+                //registering it in the selectedNodeIndex variable
+                this.selectedNodeIndex = this.cachedPos.get(key) as Integer;
+                //changing the look of the node
+                if(this.previousSelectedNodeReference != null) {
+                    
+                    for(element in (this.previousSelectedNodeReference as Group).content) {
+                        var ntmp = element as Node;
+                        if(ntmp.id.equals("background")) {
+                            (ntmp as Rectangle).fill = Color.GREY;
+                        }
+                    }
+                }
+
+                for(element in (innode as Group).content) {
+                    var ntmp = element as Node;
+                    if(ntmp.id.equals("background")) {
+                        (ntmp as Rectangle).fill = Color.BLUEVIOLET;
+                    }
+                }
+
+
+
+                this.previousSelectedNodeReference = innode;
+
+            }
+            
+        }
+
     }
 
 }

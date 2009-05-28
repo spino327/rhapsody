@@ -87,9 +87,10 @@ public class U2UFXApp {
     protected function startup():Void
     {
         println("Hi start");
+
         //init the content stage
         stage = U2UContentStage {
-           
+
             width: 650;
             height: 520;
             style: StageStyle.DECORATED;
@@ -99,6 +100,22 @@ public class U2UFXApp {
                 this.quit();
             }*/
         };
+
+        //init the intro animation
+        var inStage: Stage = Stage {
+            title: "File Sharing P2P App"
+            icons: Image{url:"{__DIR__}iconu2u.png"};
+            width: 650;
+            height: 520;
+            style: StageStyle.TRANSPARENT;
+            visible: true;
+            /*onClose: function():Void{
+                println("call the intro close listener");
+                this.quit();
+            }*/
+        };
+        inStage.scene = U2UAbstractScene.getU2UIntroAnimation(inStage, stage);
+
         //unable the scene
         //stage.disableMainScene();
         this.initShell();
@@ -119,19 +136,19 @@ public class U2UFXApp {
     {
         println("Hi ready");
         //init the intro animation
-        var inStage: Stage = Stage {
-            title: "File Sharing P2P App"
-            icons: Image{url:"{__DIR__}iconu2u.png"};
-            width: 650;
-            height: 520;
-            style: StageStyle.TRANSPARENT;
-            visible: true;
-            /*onClose: function():Void{
-                println("call the intro close listener");
-                this.quit();
-            }*/
-        };
-        inStage.scene = U2UAbstractScene.getU2UIntroAnimation(inStage, stage);
+//        var inStage: Stage = Stage {
+//            title: "File Sharing P2P App"
+//            icons: Image{url:"{__DIR__}iconu2u.png"};
+//            width: 650;
+//            height: 520;
+//            style: StageStyle.TRANSPARENT;
+//            visible: true;
+//            /*onClose: function():Void{
+//                println("call the intro close listener");
+//                this.quit();
+//            }*/
+//        };
+//        inStage.scene = U2UAbstractScene.getU2UIntroAnimation(inStage, stage);
 
     }
 
@@ -183,11 +200,11 @@ public class U2UFXApp {
         this.shell.executeCmd("peerconfig");
         this.stopShell();
 
-        try {
-            Thread.sleep(2000);
-        } catch (ex: InterruptedException) {
-            ex.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (ex: InterruptedException) {
+//            ex.printStackTrace();
+//        }
 
         this.initShell();
     }
