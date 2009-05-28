@@ -61,7 +61,7 @@ public class U2USearchScene extends U2UAbstractMain{
                 Text{
                     content : "Keyword: "
                     translateX:this.width/2 - textField.width-80;
-                    translateY:132;
+                    translateY:102;
                     font: Font.font("Verdana",FontWeight.BOLD,12)
 
                 },
@@ -69,13 +69,13 @@ public class U2USearchScene extends U2UAbstractMain{
                 textField = SwingTextField{
                     width: 210;
                     translateX:this.width/2 - textField.width-10;
-                    translateY:120;
+                    translateY:90;
 
                 },
 
                 buttonSearch =  SwingButton{
                     translateX:this.width-110;
-                    translateY:118;
+                    translateY:88;
                     icon:bind icon;
                     action: function():Void{
                         searchFiles(textField.text);
@@ -86,15 +86,15 @@ public class U2USearchScene extends U2UAbstractMain{
 
                 ImageView{
                     translateX: 352;
-                    translateY: this.height - 95;
-                    scaleX:-0.7;
-                    scaleY:-0.7;
+                    translateY: this.height - 115;
+                    scaleX:-0.9;
+                    scaleY:-1;
                     image: Image{url:"{__DIR__}resources/frame.png"}
                 },
 
                 ButtonNode{
                     translateX: 400;
-                    translateY: this.height - 75;
+                    translateY: this.height - 105;
                     title:"Download";
                     imageURL:"{__DIR__}resources/download.png";
                     action:function():Void{

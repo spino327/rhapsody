@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import org.u2u.gui.scene.ButtonNode;
+import org.u2u.app.U2UFXApp;
 
 
 
@@ -244,7 +245,7 @@ import org.u2u.gui.scene.ButtonNode;
                          ButtonNode{
                             translateY:385;
                             translateX: 170;
-                            title:"Apply Configuration";
+                            title:"Apply Changes";
                             imageURL:"{__DIR__}resources/ok.png";
                             action: function():Void{
                                 applyChanges();
@@ -256,6 +257,18 @@ import org.u2u.gui.scene.ButtonNode;
                             translateX: 80;
                             text:"Return to default configuration";
                             selected: bind returnDefConfig with inverse;
+                        },
+
+                        ButtonNode{
+
+                            translateY:365;
+                            translateX: 30;
+                            imageURL:"{__DIR__}resources/configure.png";
+                            title:"Reconfig this peer"
+                            action: function():Void{
+
+                                U2UFXApp.APP.peerConfig();
+                            }
                         },
                         
                         Text{

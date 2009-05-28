@@ -47,7 +47,7 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                     width:380;
                     height:bind this.height;
                     translateX:230;
-                    translateY:150;
+                    translateY:120;
                     columns: [
                         SwingTable.TableColumn{ text: "File" },
                          SwingTable.TableColumn{ text: "Size" },
