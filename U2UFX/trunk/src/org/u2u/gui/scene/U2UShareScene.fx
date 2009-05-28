@@ -30,7 +30,7 @@ public class U2UShareScene extends U2UAbstractMain{
     //table that shows the files shared for the user
     var table:U2UShareFilesTable;
 
-init {
+    init {
         imgBackground = Image{
             url:"{__DIR__}resources/content2.png";
         }
@@ -49,6 +49,14 @@ init {
             ]
         };
     }
+
+    /**
+    * Return the shared listener
+    */
+    public function getShareListener():U2UShareFilesTable{
+        return table;
+    }
+
 
     override function updateButtons() {
 

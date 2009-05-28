@@ -27,12 +27,15 @@ import javafx.ext.swing.SwingTextField;
 import javafx.ext.swing.SwingButton;
 import javax.swing.JOptionPane;
 import org.u2u.app.U2UFXApp;
+import org.u2u.filesharing.U2UFileSharingServiceListener;
+import org.u2u.filesharing.U2UFileSharingServiceEvent;
+import java.util.ArrayList;
 
 
 /**
  * @author Irene
  */
-public class U2UShareFilesTable extends CustomNode {
+public class U2UShareFilesTable extends CustomNode, U2UFileSharingServiceListener {
     public var selection: Integer;
     public var shared:SharedFile[];
     public var inputDialog:JFXDialog;
@@ -129,11 +132,14 @@ public class U2UShareFilesTable extends CustomNode {
      * This function does the ckeckups necesary for insert the file as shared file
     */
     function insertFile():Void{
+
         var fileChooser:JFileChooser;
         var swing:SwingComponent;
         var selectedFile:File;
         var desc:String;
+
         fileChooser = new JFileChooser();
+
         if ( fileChooser.showOpenDialog(swing.getRootJComponent()) == JFileChooser.APPROVE_OPTION){
             selectedFile = fileChooser.getSelectedFile();
 
@@ -145,7 +151,8 @@ public class U2UShareFilesTable extends CustomNode {
 
             if(not res){
                 var sharedFile:SharedFile =
-                SharedFile{name:selectedFile.getName();
+                SharedFile{
+                           name:selectedFile.getName();
                            path: selectedFile.getPath();
                            type: selectedFile.getName();
                 }
@@ -161,7 +168,7 @@ public class U2UShareFilesTable extends CustomNode {
              }
             else{
                 //show a dialog that says that the file is already sahred
-                JOptionPane.showMessageDialog(null, "El archivo ya esta siendo compartido en la red!");
+                JOptionPane.showMessageDialog(null, "The file is already being shared in the P2P network!");
             }
         }
     }
@@ -181,9 +188,38 @@ public class U2UShareFilesTable extends CustomNode {
         }
         return false;
     }
+    
+    override function serviceEvent(event:U2UFileSharingServiceEvent ):Void {
+        
+        if(event.getType()== U2UFileSharingServiceEvent.SHARED)
+        {
+            var obj:Object[]  = event.getInformation();
+            var nameF:ArrayList  = obj[0] as ArrayList;
+            var local:ArrayList  = obj[1] as ArrayList ;
+            var name:String ;
+            var ext:String ;
+            
+            for(i in [0 .. < nameF.size()])
+            {
+                name = nameF.get(i) as String;
+                ext = name.substring(name.indexOf('.')+1);
+                
+                var newShared: SharedFile =
+                    SharedFile {
+                        name: name;
+                        path: local.get(i) as String;
+                        type: name;
+                    };
+                    
+               insert newShared into shared;
+            }
+        }
+     }
+
 }
 
 protected class SharedFile{
+
     public-read var name: String;
     public-read var path: String;
     public-read var type:String;

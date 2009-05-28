@@ -101,26 +101,25 @@ public class U2UContentStage extends Stage {
     */
     public function registerListeners():Void{
 
-        //Obtenemos el listener del panel de descargas, el modelo de la tabla de descargas
+        //	We get the listener to the scene downloads
         var lis:U2UFileSharingServiceListener  = downScene.getDownloadListener();
-//        //U2UFileSharingServiceListener lisUp = infoUp;
-//        U2UFileSharingServiceListener lisS = shared.getModel();
-//
-        //Creamos la variable de entorno que contenga la referencia la objeto listener
+        var lisShare:U2UFileSharingServiceListener  = shareScene.getShareListener();
+
+        //We create the environment variable containing the reference objects listener
         U2UFXApp.APP.shell.createVarEnvServiceListener("downlistener", lis);
-        //Registramos el listner con el comando u2ufss
+        //We recorded the dowload listener with the command u2ufss
         U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener downlistener");
-//        
-//         //Creamos la variable de entorno que contenga la referencia la objeto listener
-//        U2U4UApp.shell.createVarEnvServiceListener("sharedlistener", lisS);
-//        //Registramos el listner con el comando u2ufss
-//        U2U4UApp.shell.executeCmd("u2ufss -addlistener sharedlistener");
-//
-        //It creates a new enviroment variable that corresponds to the listener
+        
+         //We create the environment variable containing the reference objects listener
+        U2UFXApp.APP.shell.createVarEnvServiceListener("sharedlistener", lisShare);
+        //We recorded the shared listener with the command u2ufss
+        U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener sharedlistener");
+
+         //We create the environment variable containing the reference objects listener
         U2UFXApp.APP.shell.createVarEnvSearchListener(searchScene.getSearchListener());
         //runs the command to register the search listener
         U2UFXApp.APP.shell.executeCmd("u2ufss -register");
-        println("register for search listener ready");
+        println("\nregister for search listener ready");
     }
 
 

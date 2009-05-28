@@ -118,7 +118,6 @@ public class U2UFXApp {
     protected function ready():Void
     {
         println("Hi ready");
-        stage.registerListeners();
         //init the intro animation
         var inStage: Stage = Stage {
             title: "File Sharing P2P App"
@@ -269,6 +268,7 @@ public class U2UFXApp {
 
                     //registerSearchListener();
                     //registerServiceListeners();
+                    stage.registerListeners();
                     //Show the sharedfiles
                     shell.executeCmd("u2ufss -showsf ");
                 }
