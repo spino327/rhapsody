@@ -41,19 +41,24 @@ public class U2UList extends Group {
         this.updateUI();
     };
 
+    override var content = [] on replace {
+        println("the U2UList content change, now it have {sizeof this.content} elements");
+    };
+
+
     /** group of nodes*/
-    var groupList:Group = Group {
-
-        cache: true;
-        cursor: Cursor.HAND;
-
+//    var groupList:Group = Group {
+//
+//        cache: true;
+//        cursor: Cursor.HAND;
+//
 //        onMouseClicked:function(me:MouseEvent) {
 //            this.click(me);
 //        }
 //        onMouseDragged:function(me:MouseEvent) {
 //            this.dragg(me);
 //        }
-    };
+//    };
 
     /** drag variables*/
     var memoryDragPoint: Number = 0;
@@ -228,8 +233,9 @@ public class U2UList extends Group {
                 insert node into cont;
             }
 
-            this.groupList.content = cont;
-            this.content = this.groupList.content;
+//            this.groupList.content = cont;
+//            this.content = this.groupList.content;
+            this.content = cont;
 
         }
 
@@ -237,7 +243,8 @@ public class U2UList extends Group {
 
     function dragg(me:MouseEvent): Void {
         //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
-        var g:Node[] = this.groupList.content;
+        var g:Node[] = this.content;
+        println("g have {sizeof g} elements");
         var delta:Number = 0;
 
         //println("new = {me.dragY} and old = {this.memoryDragLength}");

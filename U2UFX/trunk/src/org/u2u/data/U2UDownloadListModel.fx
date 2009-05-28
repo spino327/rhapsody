@@ -174,6 +174,11 @@ public class U2UDownloadListModel extends U2UAbstractListModel, U2UFileSharingSe
             //decide about active downloads
             //if we have already active downloads, if((countDownTmp - countNoActTmp) > 0) so go on!
             this.numActDown = countDownTmp - countNoActTmp;
+            //if we have finsihed downloads so we show it in the Shared Scene
+            if(countNoActTmp > 0) {
+                U2UFXApp.APP.shell.executeCmd("u2ufss -showsf ");
+            }
+
         }
       
     }
