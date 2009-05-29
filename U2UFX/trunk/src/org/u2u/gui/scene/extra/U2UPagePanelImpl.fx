@@ -29,9 +29,6 @@ import javafx.util.Bits;
 
 import java.lang.Math;
 
-/**
- * @author sergio
- */
 
 /*
  * $Id: PagePanel.java,v 1.2 2007/12/20 18:33:33 rbair Exp $
@@ -183,6 +180,17 @@ public class U2UPagePanelImpl extends JPanel, ImageObserver, MouseListener, Mous
 	//	lruPages.clear();
 	//	nextPage= null;
 	//	nextImage= null;
+    }
+
+
+
+    public function zoomInPage():Void{
+
+         setClip(new Rectangle2D.Double(650- offx, 500 - offy,
+                                       650, 500));
+
+            zoomRect= null;
+
     }
 
     /**
@@ -401,6 +409,7 @@ public class U2UPagePanelImpl extends JPanel, ImageObserver, MouseListener, Mous
 	    }
 	}
     }
+
 
 }
 

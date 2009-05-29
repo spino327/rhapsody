@@ -45,6 +45,10 @@ public class U2UPagePanel extends SwingComponent{
         
     }
 
+    public function zoomInP():Void{
+
+        panel.zoomInPage();
+    }
 
 
 

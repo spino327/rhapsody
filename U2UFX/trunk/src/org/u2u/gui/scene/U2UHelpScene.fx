@@ -30,10 +30,10 @@ import org.u2u.gui.scene.extra.*;
  * @author sergio
  */
 
-public class U2UPdfViewerScene extends U2UAbstractScene{
+public class U2UHelpScene extends U2UAbstractScene{
 
     
-    var userGuide:File  = new File("conf/u2uguide.pdf");
+    var userGuide:File  = new File("conf/u2ufxguide.pdf");
     //println("The file is :{userGuide.getName()}");
     var raf:RandomAccessFile ;
     var current:Integer;
@@ -48,8 +48,9 @@ public class U2UPdfViewerScene extends U2UAbstractScene{
     var butNext:SwingButton;
     var butPrev:SwingButton;
 
+
     init{
-      
+
         this.content = [
 
             mainPanel = U2UJPanel{
@@ -82,14 +83,6 @@ public class U2UPdfViewerScene extends U2UAbstractScene{
                             showNext();
                         };
                     },
-
-//                    SwingButton{
-//
-//                        text:"Zoom +";
-//                        action:function():Void{
-//                            showZoom();
-//                        }
-//                    }
                 ];
 
                 center: pdfPagePanel = U2UPagePanel {};
@@ -108,10 +101,9 @@ public class U2UPdfViewerScene extends U2UAbstractScene{
                     }
                 ];
             }
-       ];
+        ];
 
-       initComponents();
-
+        initComponents();
     }
 
     function initComponents():Void{
@@ -126,9 +118,9 @@ public class U2UPdfViewerScene extends U2UAbstractScene{
             pdfFile = new PDFFile(buf);
 
             // show the first page
-            page = pdfFile.getPage(0);
+            page = pdfFile.getPage(1);
             pdfPagePanel.showPagePdf(page);
-//            jB_pre.setEnabled(false);
+
             current = 1;
             numPages = pdfFile.getNumPages();
             
@@ -179,14 +171,19 @@ public class U2UPdfViewerScene extends U2UAbstractScene{
         }
     }
 
+    function zoomIn():Void{
+
+        pdfPagePanel.zoomInP();
+    }
 
     /**
     * Exit from the Help Scene
     */
-
     function exitHelp():Void{
-        current = 1 ;
-        this.contentStage.showSearch();
+//        current = 1 ;
+//        this.contentStage.showShare();
+        zoomIn();
+        
     }
 
 }

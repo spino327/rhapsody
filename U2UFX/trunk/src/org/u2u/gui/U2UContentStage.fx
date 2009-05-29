@@ -23,9 +23,8 @@ public class U2UContentStage extends Stage {
     var shareScene: U2UShareScene = U2UAbstractScene.getU2UShareScene(this);
     var searchScene: U2USearchScene = U2UAbstractScene.getU2USearchScene(this);
     var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
-    var helpScene:U2UPdfViewerScene = U2UAbstractScene.getU2UHelpScene(this);
+    var helpScene:U2UHelpScene = U2UAbstractScene.getU2UHelpScene(this);
     var preferScene: U2UPreferencesScene = U2UAbstractScene.getU2UPreferencesScene(this);
-
     var conDown:Integer = 0;
 
     var currentScene: U2UAbstractScene = null on replace {
@@ -79,6 +78,7 @@ public class U2UContentStage extends Stage {
     public function showHelp():Void{
         //show the U2UStagePdfViewer
         currentScene = helpScene;
+       
     }
 
     /**
