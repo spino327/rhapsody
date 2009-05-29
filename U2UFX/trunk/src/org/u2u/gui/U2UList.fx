@@ -19,6 +19,9 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.Flood;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import java.lang.Math;
+import javafx.animation.Interpolator;
+import javafx.animation.Timeline;
 
 import org.memefx.popupmenu.*;
 import javafx.scene.text.Font;
@@ -41,8 +44,12 @@ public class U2UList extends Group {
     var cachedPos: HashMap = new HashMap();
     /** represents the current position in the model of the first node of the this list*/
     var firstPos: Integer = 0 on replace {
-        println("firstPos change");
+        println("firstPos change {this.firstPos}");
         this.updateUI();
+    };
+    /** the nodes can be move?*/
+    var canMove: Boolean = false on replace {
+        println("canMove change {this.canMove}");
     };
 
     override var content = [] on replace {
@@ -69,6 +76,9 @@ public class U2UList extends Group {
     var memoryDragLength: Float = 0;
     /** memory of the factor dY/height*/
     var memoryDyH: Float = 0;
+    /** time line for the transitions in the drag method*/
+    var transition: Timeline = Timeline{};
+
     /** this varibale handle the Selected node's position in the U2UList*/
     var selectedNodeIndex: Integer = -1;
     /** this variable handle the previous Selected node's reference*/
@@ -145,17 +155,17 @@ public class U2UList extends Group {
             //fixing the first
             firstPos = if(firstPos >= size) then (firstPos - size) else firstPos;
             var i: Integer = 0;
+            //can be move
             if(size > numOfNodes) {
 
-                //System.out.println("se mueven");
-                if(size - firstPos >= numOfNodes) {
+                this.canMove = true;
 
-                    println("size - firstPos >= numOfNodes");
+                if(size - firstPos >= numOfNodes) {
 
                     for(x in [firstPos..<(numOfNodes + firstPos)])
                     {
                         var itmp: Integer = i++;
-                        println("valor de x[{itmp}] = {x}");
+                        println("value of x[{itmp}] = {x}");
                         cachedPos.put("{itmp}", x);
                     }
                     //(firstPos - 1 >= 0 ? (firstPos - 1) : (size - 1))
@@ -169,19 +179,18 @@ public class U2UList extends Group {
                 }
                 else
                 {
-                    println("size - firstPos < numOfNodes");
 
                     for(x in [firstPos..<size])
                     {
                         var itmp: Integer = i++;
-                        println("valor de x[{itmp}] = {x}");
+                        println("value of x[{itmp}] = {x}");
                         cachedPos.put("{itmp}", x);
                     }
 
                     for(x in [0..<(numOfNodes - (size - firstPos))])
                     {
                         var itmp: Integer = i++;
-                        println("valor de x[{itmp}] = {x}");
+                        println("value of x[{itmp}] = {x}");
                         cachedPos.put("{itmp}", x);
                     }
 
@@ -196,12 +205,12 @@ public class U2UList extends Group {
             }
             else
             {
-                println("no se mueven");
+                this.canMove = false;
 
                 for(x in [0..<size])
                 {
                     var itmp: Integer = i++;
-                    println("valor de x[{itmp}] = {x}");
+                    println("value of x[{itmp}] = {x}");
                     cachedPos.put("{itmp}", x);
                 }
             }
@@ -274,24 +283,61 @@ public class U2UList extends Group {
     function drag(me:MouseEvent): Void {
 
         //1. calculating the DeltaY/render.height factor, know how many positions move
-        var factor: Float; //how many coins move
-        var deltaY:Number = 0;
-
+        
         if(this.memoryDragPoint == me.dragAnchorY)
         {
+      
+            var deltaMove: Float = me.dragY - this.memoryDragLength;;//delta between y2 and y1
+            var factor: Float; //how many coins move
+            var factorFix: Float;//factorFix = dY/height - memory
+
             println("equals");
-            deltaY = me.dragY - this.memoryDragLength;
-            this.memoryDragLength = me.dragY;
+
+            if(this.canMove) {
+//            var tmpsign: Boolean = if(deltaMove > 0) then (true) else (false); //to down true, and to up false
+            //change the move's sign?
+//            if(tmpsign != this.memorySign) {
+//                this.memoryDyH = 0;
+//            }
+                //this.memoryDragLength = me.dragY;
+                factor = me.dragY/render.height;//new
+                factorFix = factor - this.memoryDyH;
+                if(Math.abs(factorFix) > 0.5) {
+                    this.memoryDyH = this.memoryDyH + factorFix ;
+                    println("memoryDyH change to {this.memoryDyH}");
+                }
+
+                println("deltaY = {me.dragY}, render.heigth = {render.height}");
+                println("dy/heigth new = {factor}, dy/h memory = {this.memoryDyH}, dy/h FIX = {factorFix}");
+
+            }
+            else {
+                //2. move and play
+                for(element in this.content) {
+
+                        var tmpNode: Node = element as Node;
+                        tmpNode.translateY = tmpNode.translateY + deltaMove;
+                }
+
+                //3. fixing
+                
+                
+
+            }
+
+            
+            
         }
         else
         {
             println("differents");
             this.memoryDragPoint = me.dragAnchorY;
-            this.memoryDragLength = me.dragY;
+            //this.memoryDragLength = me.dragY;
+            this.memoryDyH = 0;
         }
+        this.memoryDragLength = me.dragY;
 
-        factor = deltaY/render.height;
-        println("deltaY = {deltaY}, render.heigth = {render.height}, dy/heigth = {factor}");
+        
 
         //2.
 
