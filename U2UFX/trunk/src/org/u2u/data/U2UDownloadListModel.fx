@@ -68,7 +68,7 @@ public class U2UDownloadListModel extends U2UAbstractListModel, U2UFileSharingSe
         
         if(this.existNode(adv)){
             //The file exists in the list model
-            JOptionPane.showConfirmDialog(null, "This File is already downloading");
+            JOptionPane.showMessageDialog(null, "This File is already downloading");
             return false;
         }
         else {

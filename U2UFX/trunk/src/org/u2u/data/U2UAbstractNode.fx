@@ -41,6 +41,7 @@ public abstract class U2UAbstractNode {
     /** Shell's environment variable name*/
     protected var shellEnv: String;
 
+
     /** return the name of the advertisment*/
     public abstract function getName(): String;
     /** return the cid in string format*/

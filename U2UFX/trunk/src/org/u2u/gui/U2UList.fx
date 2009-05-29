@@ -20,6 +20,10 @@ import javafx.scene.effect.Flood;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import org.memefx.popupmenu.*;
+import javafx.scene.text.Font;
+import javafx.scene.effect.Shadow;
+
 /**
  * @author sergio
  */
@@ -76,6 +80,7 @@ public class U2UList extends Group {
     /** Number of pixels for the horizontal margins with the settings*/
     //var marginH: Integer;
 
+
     /** spacing between nodes*/
     public-init var spacingNodes: Integer = 4;
     /** the specific render*/
@@ -107,6 +112,7 @@ public class U2UList extends Group {
 
         println("final hasmap size = {cachedNodes.size()}");
 
+
     }
   
     //instance functions
@@ -130,6 +136,7 @@ public class U2UList extends Group {
 //
 //            this.content = this.groupList;
 //        }
+        this.selectedNodeIndex = -1;
 
         if(model != null) {
 
@@ -220,13 +227,35 @@ public class U2UList extends Group {
                 }
                 node.onMouseEntered = function(me: MouseEvent) {
 
-                    me.node.effect = Glow {
-                        level: 0.5;
+                    println("onMouseEntered within the node");
+
+                    //FIXME must be a class for it
+                    for(element in (me.node as Group).content) {
+                        var ntmp = element as Node;
+                        if(ntmp.id.equals("background")) {
+                            (ntmp as Rectangle).effect = Glow {
+                                level: 0.5;
+                            }
+                            break;
+                        }
                     }
+//                    me.node.effect = Glow {
+//                        level: 0.5;
+//                    }
+                    
                 };
                 node.onMouseExited = function(me: MouseEvent) {
 
-                    me.node.effect = null;
+                    println("onMouseExited within the node");
+                    //me.node.effect = null;
+                    //FIXME must be a class for it
+                    for(element in (me.node as Group).content) {
+                        var ntmp = element as Node;
+                        if(ntmp.id.equals("background")) {
+                            (ntmp as Rectangle).effect = null;
+                            break;
+                        }
+                    }
                 };
 
                 node.translateY = render.height*x + spacingNodes*(x+1);
@@ -235,8 +264,6 @@ public class U2UList extends Group {
                 insert node into cont;
             }
 
-//            this.groupList.content = cont;
-//            this.content = this.groupList.content;
             this.content = cont;
 
         }
@@ -339,6 +366,7 @@ public class U2UList extends Group {
                         var ntmp = element as Node;
                         if(ntmp.id.equals("background")) {
                             (ntmp as Rectangle).fill = Color.GREY;
+                            break;
                         }
                     }
                 }
@@ -347,6 +375,7 @@ public class U2UList extends Group {
                     var ntmp = element as Node;
                     if(ntmp.id.equals("background")) {
                         (ntmp as Rectangle).fill = Color.BLUEVIOLET;
+                        break;
                     }
                 }
 

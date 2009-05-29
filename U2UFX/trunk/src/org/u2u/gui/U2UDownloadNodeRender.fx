@@ -23,6 +23,7 @@ import javafx.scene.effect.InnerShadow;
 
 import org.u2u.data.U2UAbstractNode;
 import org.u2u.data.U2UDownloadNode;
+import javafx.scene.image.Image;
 
 /**
  * Implementation for DownloadNOdes
@@ -90,6 +91,11 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
                         translateY:10;
                         effect: DropShadow { offsetY: 3 color: Color.color(0.4, 0.4, 0.4) };
                     },
+                    ImageView {
+                        image: bind changeStatus(node.status);
+                        translateX:325;
+                        translateY:60;
+                    },
                     recProgress = Rectangle {
                         x: 20
                         y: 65
@@ -124,4 +130,13 @@ public class U2UDownloadNodeRender extends U2UAbstractNodeRender {
 
         return nodeView;
     };
+
+    bound function changeStatus(status: String): Image {
+        return Image{
+            url:"{__DIR__}resources/{status}.png";
+        };
+
+    }
+
+
 }

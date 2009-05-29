@@ -12,13 +12,22 @@ import org.u2u.filesharing.U2UContentAdvertisementImpl;
  * @author sergio
  */
 
+public def DOWNLOAD:String = "download";
+public def PAUSE:String = "pause";
+public def OK:String = "ok";
+
 public class U2UDownloadNode extends U2UAbstractNode {
 
     /** level of download of this node [max:200- min:0] */
     public-read var level:Float on replace {
-        println("the level changet to {level}")
+        println("the level changet to {level}");
+        if(level == 200)
+        {
+            this.status = U2UDownloadNode.OK;
+        }
     };
-
+    /**status for this file: DOWNLOAD or PAUSE*/
+    public-read var status:String = U2UDownloadNode.DOWNLOAD;
 
     //instance methods
     override function getName(): String {
@@ -68,6 +77,19 @@ public class U2UDownloadNode extends U2UAbstractNode {
         {
             this.level = lev;
         }
+    }
+
+    /**
+    * Set the estatus of this file: DOWNLOAD or PAUSE
+    */
+    public function setStatus(status:String):Void{
+
+        if(status.equals(U2UDownloadNode.DOWNLOAD)
+            or status.equals(U2UDownloadNode.PAUSE) )
+        {
+            this.status = status;
+        }
+
     }
 
 //    function getTypeFile():Image {

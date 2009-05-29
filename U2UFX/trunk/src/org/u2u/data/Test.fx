@@ -42,7 +42,7 @@ var gro:Node = null;
 var desc = "111112222233333111112222233333111112222233333111112222233333";
 var name: String = null;//"111112222233333111112222233333111112222233333111112222233333.mp3";
 var level = 50;
-
+var status = "download";
 Stage {
     height: 200;
     width: 400;
@@ -100,6 +100,13 @@ gro = Group {
                         effect: DropShadow { offsetY: 3 color: Color.color(0.4, 0.4, 0.4) };
 
                     },
+                    ImageView {
+                        image: getImageStatus(status);
+                        translateX:325;
+                        translateY:60;
+                        //
+                        
+                    },
                     recProgress = Rectangle {
                         x: 20
                         y: 65
@@ -138,4 +145,16 @@ gro = Group {
         var imgType:Image = TypeFile.getImageTypeFile(type);
 
         return imgType;
+    }
+
+    function getImageStatus(status:String):Image{
+
+         if(status.equals("download"))
+         {
+             return Image {url:"{__DIR__}resources/download.png"};
+         }else
+         {
+             return Image {url:"{__DIR__}resources/pause.png"};
+         }
+
     }
