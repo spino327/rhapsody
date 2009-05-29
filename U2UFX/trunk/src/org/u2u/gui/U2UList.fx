@@ -61,8 +61,10 @@ public class U2UList extends Group {
 //    };
 
     /** drag variables*/
-    var memoryDragPoint: Number = 0;
-    var memoryDragLength: Number = 0;
+    var memoryDragPoint: Float = 0;
+    var memoryDragLength: Float = 0;
+    /** memory of the factor dY/height*/
+    var memoryDyH: Float = 0;
     /** this varibale handle the Selected node's position in the U2UList*/
     var selectedNodeIndex: Integer = -1;
     /** this variable handle the previous Selected node's reference*/
@@ -214,7 +216,7 @@ public class U2UList extends Group {
                 };
                 node.onMouseDragged = function(me: MouseEvent) {
 
-                    this.dragg(me);
+                    this.drag(me);
                 }
                 node.onMouseEntered = function(me: MouseEvent) {
 
@@ -241,18 +243,17 @@ public class U2UList extends Group {
 
     }
 
-    function dragg(me:MouseEvent): Void {
-        //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
-        var g:Node[] = this.content;
-        println("g have {sizeof g} elements");
-        var delta:Number = 0;
+    /** this method manage the drag event of all the Nodes*/
+    function drag(me:MouseEvent): Void {
 
-        //println("new = {me.dragY} and old = {this.memoryDragLength}");
+        //1. calculating the DeltaY/render.height factor, know how many positions move
+        var factor: Float; //how many coins move
+        var deltaY:Number = 0;
 
         if(this.memoryDragPoint == me.dragAnchorY)
         {
             println("equals");
-            delta = me.dragY - this.memoryDragLength;
+            deltaY = me.dragY - this.memoryDragLength;
             this.memoryDragLength = me.dragY;
         }
         else
@@ -262,42 +263,59 @@ public class U2UList extends Group {
             this.memoryDragLength = me.dragY;
         }
 
-        if(g[0].translateY + delta <= 0)
-        {
-            var deltaFactor: Float = (1.0 * (delta/2)) / (107/2);
-            println("deltaFactor = {deltaFactor}, delta = {delta}, scaleYant = {g[0].scaleY}");
-            g[0].scaleY = g[0].scaleY + deltaFactor;
-            println("new scaleY = {g[0].scaleY}");
+        factor = deltaY/render.height;
+        println("deltaY = {deltaY}, render.heigth = {render.height}, dy/heigth = {factor}");
 
-            if(g[0].scaleY <= 0.2)
-            {
-                var tmp = g[0];
-                tmp.scaleY = 1.0;
-                g[0] = g[1];
-                g[1] = g[2];
-                g[2] = g[3];
-                g[3] = g[4];
-                g[4] = tmp;
-            }
-            else
-            {
-                g[1].translateY = g[1].translateY + delta;
-                g[2].translateY = g[2].translateY + delta;
-                g[3].translateY = g[3].translateY + delta;
-                g[4].translateY = g[4].translateY + delta;
-            }
-        }
-        else
-        {
-            g[0].translateY = g[0].translateY + delta;
-            g[1].translateY = g[1].translateY + delta;
-            g[2].translateY = g[2].translateY + delta;
-            g[3].translateY = g[3].translateY + delta;
-            g[4].translateY = g[4].translateY + delta;
-        }
-        println("fig({g[0].translateX}, {g[0].translateY}),  nodo({g[1].translateX}, {g[1].translateY})");
+        //2.
+
+        //3.
+
+        //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
+//        var g:Node[] = this.content;
+//        println("g have {sizeof g} elements");
+//
+//
+//        //println("new = {me.dragY} and old = {this.memoryDragLength}");
+//
+//
+//
+//        if(g[0].translateY + delta <= 0)
+//        {
+//            var deltaFactor: Float = (1.0 * (delta/2)) / (107/2);
+//            println("deltaFactor = {deltaFactor}, delta = {delta}, scaleYant = {g[0].scaleY}");
+//            g[0].scaleY = g[0].scaleY + deltaFactor;
+//            println("new scaleY = {g[0].scaleY}");
+//
+//            if(g[0].scaleY <= 0.2)
+//            {
+//                var tmp = g[0];
+//                tmp.scaleY = 1.0;
+//                g[0] = g[1];
+//                g[1] = g[2];
+//                g[2] = g[3];
+//                g[3] = g[4];
+//                g[4] = tmp;
+//            }
+//            else
+//            {
+//                g[1].translateY = g[1].translateY + delta;
+//                g[2].translateY = g[2].translateY + delta;
+//                g[3].translateY = g[3].translateY + delta;
+//                g[4].translateY = g[4].translateY + delta;
+//            }
+//        }
+//        else
+//        {
+//            g[0].translateY = g[0].translateY + delta;
+//            g[1].translateY = g[1].translateY + delta;
+//            g[2].translateY = g[2].translateY + delta;
+//            g[3].translateY = g[3].translateY + delta;
+//            g[4].translateY = g[4].translateY + delta;
+//        }
+//        println("fig({g[0].translateX}, {g[0].translateY}),  nodo({g[1].translateX}, {g[1].translateY})");
     }
 
+    /** this method manage the click event of all the Nodes*/
     function click(me:MouseEvent): Void {
         println("****click function execute on the U2UList");
         //incoming Node
@@ -316,7 +334,7 @@ public class U2UList extends Group {
                 this.selectedNodeIndex = this.cachedPos.get(key) as Integer;
                 //changing the look of the node
                 if(this.previousSelectedNodeReference != null) {
-                    
+                    //FIXME must be a class for it
                     for(element in (this.previousSelectedNodeReference as Group).content) {
                         var ntmp = element as Node;
                         if(ntmp.id.equals("background")) {
@@ -324,7 +342,7 @@ public class U2UList extends Group {
                         }
                     }
                 }
-
+                //FIXME must be a class for it
                 for(element in (innode as Group).content) {
                     var ntmp = element as Node;
                     if(ntmp.id.equals("background")) {
@@ -341,5 +359,16 @@ public class U2UList extends Group {
         }
 
     }
+
+    /**
+     * return the current selected node in the U2UList, if there isn any node selected so return -1,
+     * otherwise return 0..n-1
+     */
+    public function getSelectedIndex(): Integer {
+
+        return this.selectedNodeIndex;
+    }
+
+
 
 }
