@@ -37,6 +37,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
 
     public var active:Boolean = false;
 
+    var butPreview:ButtonNode;
     var butConfig:ButtonNode;
     var butHelp:ButtonNode;
 
@@ -78,7 +79,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             },
                             butSearch = ButtonNode{
                                 translateX:5;
-                                translateY:125;
+                                translateY:108;//90;//125;
                                 imageURL: "{__DIR__}resources/search-button3.png";
                                 action:function():Void{
                                     println("imgSearchView");
@@ -88,13 +89,25 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                             },
                             butDown = ButtonNode{
                                 translateX:5;
-                                translateY:234;
+                                translateY:199;//234;
                                 imageURL:"{__DIR__}resources/download-button3.png";
                                 action:function():Void{
                                     println("imgDownView");
                                     this.contentStage.showDownload();
                                 }
                                 aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
+                            },
+                            butPreview = ButtonNode{
+                                translateX:50;
+                                translateY:273;//234;
+                                title:"Preview";
+                                imageURL:"{__DIR__}resources/preview2.png";
+                                action:function():Void{
+                                    println("imgPreview");
+                                    this.contentStage.showPreview();
+                                }
+                                aplyEffect: DropShadow { color:Color.LIGHTGREY offsetX:5 offsetY:5 radius:20}
+
                             },
                             Group {
                                 translateX:2.5;
@@ -107,8 +120,7 @@ public abstract class U2UAbstractMain extends U2UAbstractScene {
                                         onMouseClicked:function(me:MouseEvent):Void{
                                             this.contentStage.showPreferences();
                                         }
-
-                                        },
+                                     },
                                      butHelp = ButtonNode{
                                         translateX:81;
                                         title:"Help";

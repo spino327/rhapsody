@@ -13,6 +13,11 @@ import org.u2u.app.U2UFXApp;
 import org.u2u.filesharing.U2UContentAdvertisementImpl;
 import org.u2u.filesharing.U2UFileSharingServiceListener;
 
+import javafx.scene.media.*;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import java.io.File;
+
 /**
  * @author Irene
  */
@@ -25,6 +30,7 @@ public class U2UContentStage extends Stage {
     var downScene:U2UDownloadScene = U2UAbstractScene.getU2UDownloadScene(this);
     var helpScene:U2UHelpScene = U2UAbstractScene.getU2UHelpScene(this);
     var preferScene: U2UPreferencesScene = U2UAbstractScene.getU2UPreferencesScene(this);
+    var previewScene: U2UPreviewScene = U2UAbstractScene.getU2UPreviewScene(this);
     var conDown:Integer = 0;
 
     var currentScene: U2UAbstractScene = null on replace {
@@ -40,7 +46,10 @@ public class U2UContentStage extends Stage {
     init {
         this.title = "U2U FX";
         this.fullScreen = false;
-        this.resizable = false; 
+        this.resizable = false;
+
+
+
     }
     /**
     * Shows the share scene in the stage
@@ -88,6 +97,18 @@ public class U2UContentStage extends Stage {
         currentScene = preferScene;
     }
 
+
+    /**
+    * Shows the help scene in the stage
+    */
+    public function showPreview():Void{
+        //show the U2UStagePdfViewer
+        currentScene = previewScene;
+
+    }
+
+    
+
     /**
     * Change the state of the scene: disable or enable
     */
@@ -104,16 +125,22 @@ public class U2UContentStage extends Stage {
         //	We get the listener to the scene downloads
         var lis:U2UFileSharingServiceListener  = downScene.getDownloadListener();
         var lisShare:U2UFileSharingServiceListener  = shareScene.getShareListener();
+        var lisSharePreview:U2UFileSharingServiceListener  = previewScene.getShareListener();
 
         //We create the environment variable containing the reference objects listener
         U2UFXApp.APP.shell.createVarEnvServiceListener("downlistener", lis);
         //We recorded the dowload listener with the command u2ufss
         U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener downlistener");
         
-         //We create the environment variable containing the reference objects listener
+        //We create the environment variable containing the reference objects listener
         U2UFXApp.APP.shell.createVarEnvServiceListener("sharedlistener", lisShare);
         //We recorded the shared listener with the command u2ufss
         U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener sharedlistener");
+
+        //We create the environment variable containing the reference objects listener
+        U2UFXApp.APP.shell.createVarEnvServiceListener("previewlistener", lisSharePreview);
+        //We recorded the shared listener with the command u2ufss
+        U2UFXApp.APP.shell.executeCmd("u2ufss -addlistener previewlistener");
 
          //We create the environment variable containing the reference objects listener
         U2UFXApp.APP.shell.createVarEnvSearchListener(searchScene.getSearchListener());

@@ -24,9 +24,11 @@ import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.u2u.data.U2UDownloadNode;
+import org.u2u.data.TypeFile;
 import org.u2u.gui.U2UDownloadNodeRender;
 import org.u2u.app.U2UFXApp;
 import javax.swing.JOptionPane;
+import java.io.File;
 
 
 /**
@@ -88,7 +90,9 @@ public class U2UDownloadScene extends U2UAbstractMain{
             content: [
                 MenuItem { text: "Pause Download", call: pauseDownload },
                  MenuItem { text: "Restart Download", call: restartDownload },
-                  MenuItem { text: "Delete Download", call: stopDownload }
+                  MenuItem { text: "Delete Download", call: stopDownload },
+                   MenuItem { text:"Find Sources", call:findSourcesDownload}
+
             ];
        };
 
@@ -150,7 +154,16 @@ public class U2UDownloadScene extends U2UAbstractMain{
 
             if(nameVarEnv != null)
             {
-                if(nodeSel.status.equals(U2UDownloadNode.PAUSE)){
+                if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+
+                    //it must pause download for this file
+                    pauseDownload();
+                    //it must restart download for this file
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
+                    //Cambiar el estado de la fila de la descarga pausada
+                    nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+
+                }else if(nodeSel.status.equals(U2UDownloadNode.PAUSE)){
 
                     //it must pause download for this file
                     U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
@@ -198,6 +211,42 @@ public class U2UDownloadScene extends U2UAbstractMain{
 
 
     }
+
+    function findSourcesDownload():Void{
+
+        //u2ufss -findsources
+        var selIndex:Integer = listNodes.getSelectedIndex();
+        var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
+        var nameVarEnv:String;
+
+        if(not (nodeSel.equals(null))){
+            println("find more sources to node {nodeSel.getName()}");
+            nameVarEnv = nodeSel.getShellEnv();
+            println("enviroment variable is {nodeSel.getShellEnv()}");
+
+            if(nameVarEnv != null)
+            {
+                if(nodeSel.status.equals(U2UDownloadNode.PAUSE)){
+
+                    //it must restart download for this file
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
+                    //Cambiar el estado de la fila de la descarga pausada
+                    nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+                    //it must find more sources for this file
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -findsources {nameVarEnv}");
+
+                }else if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+
+                    //it must find more sources for this file
+                    U2UFXApp.APP.shell.executeCmd("u2ufss -findsources {nameVarEnv}");
+                }
+            }
+        }
+
+        println("find more surces for this node");
+    }
+
+    
 
     override function updateButtons() {
 

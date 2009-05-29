@@ -82,3 +82,12 @@ public function getU2UPreferencesScene(cont:U2UContentStage):U2UPreferencesScene
         height:500
     }
 }
+
+public function getU2UPreviewScene(cont:U2UContentStage):U2UPreviewScene{
+
+    return U2UPreviewScene{
+        contentStage:cont;
+        width:650;
+        height:500
+    }
+}
