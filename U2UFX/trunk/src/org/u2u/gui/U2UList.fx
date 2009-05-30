@@ -3,7 +3,41 @@
  *
  * Created on 19-may-2009, 12:21:26
  */
-
+/**
+ * Copyright (c) 2009, Sergio Pino and Irene Manotas
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - Neither the name of Sergio Pino and Irene Manotas. nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author: Sergio Pino and Irene Manotas
+ * Website: http://osum.sun.com/profile/sergiopino, http://osum.sun.com/profile/IreneLizeth
+ * emails  : spino327@gmail.com - irenelizeth@gmail.com
+ * Date   : March, 2009
+ * This license is based on the BSD license adopted by the Apache Foundation.
+ *
+ */
 package org.u2u.gui;
 
 import javafx.scene.Group;
@@ -26,6 +60,7 @@ import javafx.animation.Timeline;
 import org.memefx.popupmenu.*;
 import javafx.scene.text.Font;
 import javafx.scene.effect.Shadow;
+import java.lang.System;
 
 /**
  * @author sergio
@@ -45,7 +80,7 @@ public class U2UList extends Group {
     /** represents the current position in the model of the first node of the this list*/
     var firstPos: Integer = 0 on replace {
         println("firstPos change {this.firstPos}");
-        this.updateUI();
+        //this.updateUI();
     };
     /** the nodes can be move?*/
     var canMove: Boolean = false on replace {
@@ -76,6 +111,8 @@ public class U2UList extends Group {
     var memoryDragLength: Float = 0;
     /** memory of the factor dY/height*/
     var memoryDyH: Float = 0;
+    /** must execute the fixing algorithm?*/
+    var mustFix: Boolean = false;
     /** time line for the transitions in the drag method*/
     var transition: Timeline = Timeline{};
 
@@ -84,7 +121,7 @@ public class U2UList extends Group {
     /** this variable handle the previous Selected node's reference*/
     var previousSelectedNodeReference: Node = null;
     /** Number of nodes to render with the settings*/
-    var numOfNodes: Integer;
+    public-read var numOfNodes: Integer;
     /** Number of pixels for the vertical margins with the settings*/
     //var marginV: Integer;
     /** Number of pixels for the horizontal margins with the settings*/
@@ -111,16 +148,22 @@ public class U2UList extends Group {
 
         println("numOfNOdes = {numOfNodes}, heigh={render.height}, spacing = {spacingNodes}");
 
-        cachedNodes.put("prev", null);
-        cachedPos.put("prev", null);
+        //cachedNodes.put("prev", null);
+        //cachedPos.put("prev", null);
         for(i in [0..<numOfNodes]) {
             cachedNodes.put("{i}", null);
             cachedPos.put("{i}", null);
         }
-        cachedNodes.put("next", null);
-        cachedPos.put("next", null);
+        //cachedNodes.put("next", null);
+        //cachedPos.put("next", null);
 
         println("final hasmap size = {cachedNodes.size()}");
+
+        onMouseReleased = function(me: MouseEvent) {
+
+            println("onMouseReleased");
+            this.released(me);
+        };
 
 
     }
@@ -169,13 +212,13 @@ public class U2UList extends Group {
                         cachedPos.put("{itmp}", x);
                     }
                     //(firstPos - 1 >= 0 ? (firstPos - 1) : (size - 1))
-                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
-                    println("cached down[-1] = {down}");
-                    cachedPos.put("prev", down);
+//                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
+//                    println("cached down[-1] = {down}");
+//                    cachedPos.put("prev", down);
 
-                    var up = if(firstPos + numOfNodes < size) then (firstPos + numOfNodes) else (size - (firstPos + numOfNodes));
-                    println("cached up[4] = {up}");
-                    cachedPos.put("next", up);
+//                    var up = if(firstPos + numOfNodes < size) then (firstPos + numOfNodes) else (size - (firstPos + numOfNodes));
+//                    println("cached up[4] = {up}");
+//                    cachedPos.put("next", up);
                 }
                 else
                 {
@@ -194,13 +237,13 @@ public class U2UList extends Group {
                         cachedPos.put("{itmp}", x);
                     }
 
-                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
-                    println("cached down[-1] = {down}");
-                    cachedPos.put("prev", down);
+//                    var down = if(firstPos - 1 >= 0) then (firstPos - 1) else (size - 1);
+//                    println("cached down[-1] = {down}");
+//                    cachedPos.put("prev", down);
 
-                    var up = (numOfNodes - (size - firstPos));
-                    println("cached up[4] = {up}");
-                    cachedPos.put("next", up);
+//                    var up = (numOfNodes - (size - firstPos));
+//                    println("cached up[4] = {up}");
+//                    cachedPos.put("next", up);
                 }
             }
             else
@@ -218,7 +261,7 @@ public class U2UList extends Group {
             //drawing
             var cont: Node[] = [];
             //without prev and next
-            var to: Integer = if(size <= (cachedPos.size()-2)) then (size) else (cachedPos.size()-2);
+            var to: Integer = if(size <= (cachedPos.size())) then (size) else (cachedPos.size());
             for(x in [0..<to]) {
 
                 println("{x}, {cachedPos.get("{x}")}");
@@ -236,7 +279,7 @@ public class U2UList extends Group {
                 }
                 node.onMouseEntered = function(me: MouseEvent) {
 
-                    println("onMouseEntered within the node");
+                    //println("onMouseEntered within the node");
 
                     //FIXME must be a class for it
                     for(element in (me.node as Group).content) {
@@ -255,7 +298,7 @@ public class U2UList extends Group {
                 };
                 node.onMouseExited = function(me: MouseEvent) {
 
-                    println("onMouseExited within the node");
+                    //println("onMouseExited within the node");
                     //me.node.effect = null;
                     //FIXME must be a class for it
                     for(element in (me.node as Group).content) {
@@ -268,124 +311,140 @@ public class U2UList extends Group {
                 };
 
                 node.translateY = render.height*x + spacingNodes*(x+1);
-                //node.translateX = 0;
+                node.cursor = Cursor.HAND;
                 cachedNodes.put("{x}", node);
                 insert node into cont;
             }
 
             this.content = cont;
 
+            System.gc();
         }
 
     }
 
+
+    /** This event is partner with the drag method, mouse released*/
+    function released(me:MouseEvent): Void {
+
+        println("released, must do the algorithm = {mustFix}");
+
+        if(this.mustFix) {
+
+            if(this.canMove) {
+
+                this.updateUI();
+            }
+            else {
+                
+                var delta: Float = (-1)*this.content[0].translateY;
+                for(element in this.content) {
+
+                        var tmpNode: Node = element as Node;
+                        tmpNode.translateY = tmpNode.translateY + delta;
+                }
+            }
+
+
+            this.mustFix = false;
+        }
+        
+    }
+
+
     /** this method manage the drag event of all the Nodes*/
     function drag(me:MouseEvent): Void {
-
-        //1. calculating the DeltaY/render.height factor, know how many positions move
         
         if(this.memoryDragPoint == me.dragAnchorY)
         {
-      
+            //1. calculating the DeltaY/render.height factor, know how many positions move
             var deltaMove: Float = me.dragY - this.memoryDragLength;;//delta between y2 and y1
             var factor: Float; //how many coins move
             var factorFix: Float;//factorFix = dY/height - memory
 
-            println("equals");
-
             if(this.canMove) {
-//            var tmpsign: Boolean = if(deltaMove > 0) then (true) else (false); //to down true, and to up false
-            //change the move's sign?
-//            if(tmpsign != this.memorySign) {
-//                this.memoryDyH = 0;
-//            }
-                //this.memoryDragLength = me.dragY;
+
                 factor = me.dragY/render.height;//new
                 factorFix = factor - this.memoryDyH;
+
                 if(Math.abs(factorFix) > 0.5) {
                     this.memoryDyH = this.memoryDyH + factorFix ;
                     println("memoryDyH change to {this.memoryDyH}");
+
+                    //add coins to the content
+                    var size: Integer = model.getSize();
+                    var facFixRound: Integer = Math.round(factorFix);
+                    
+                    if(factorFix > 0) {
+                        println("down");
+
+                        for(x in [1..facFixRound]) {
+
+                            var pos: Integer = firstPos - x;
+                            //fixing the post
+                            pos = if(pos < 0) then (pos + size) else (pos);
+                            pos = if(pos >= size) then (pos - size) else (pos);
+                            println("pos = {pos}");
+                            
+                            var ntmp: Node = render.getNodeView(model.getNodeAt(pos));
+                            ntmp.translateY = this.content[0].translateY - (render.height + spacingNodes);
+                            insert ntmp before content[0];
+                        }
+
+                    }
+                    else if (factorFix < 0) {
+                        println("up, abs({Math.abs(facFixRound)})");
+
+                        for(x in [1..Math.abs(facFixRound)]) {
+
+                            var pos: Integer = firstPos + numOfNodes + x;
+                            //fixing the post
+                            pos = if(pos < 0) then (pos + size) else (pos);
+                            pos = if(pos >= size) then (pos - size) else (pos);
+                            println("pos = {pos}");
+
+                            var ntmp: Node = render.getNodeView(model.getNodeAt(pos));
+                            ntmp.translateY = this.content[(sizeof this.content) - 1].translateY + (render.height + spacingNodes);
+                            insert ntmp into this.content;
+                        }
+                    }
+
+                    firstPos = firstPos - facFixRound;
+                    println("facFixRound = {facFixRound}, firstPos = {firstPos}");
+                    //fixing the first
+                    firstPos = if(firstPos < 0) then (firstPos + size) else (firstPos);
+                    println("firstPos = {firstPos}");
+                    firstPos = if(firstPos >= size) then (firstPos - size) else (firstPos);
+                    println("firstPos = {firstPos}");
+
+
                 }
 
-                println("deltaY = {me.dragY}, render.heigth = {render.height}");
-                println("dy/heigth new = {factor}, dy/h memory = {this.memoryDyH}, dy/h FIX = {factorFix}");
-
-            }
-            else {
-                //2. move and play
-                for(element in this.content) {
-
-                        var tmpNode: Node = element as Node;
-                        tmpNode.translateY = tmpNode.translateY + deltaMove;
-                }
-
-                //3. fixing
-                
-                
-
             }
 
-            
+            //2. move and play
+            for(element in this.content) {
+
+                    var tmpNode: Node = element as Node;
+                    tmpNode.translateY = tmpNode.translateY + deltaMove;
+            }
+
+            //3. fixing
+            //the fixing is do by the released method in this class
+            this.mustFix = true;
             
         }
         else
         {
             println("differents");
+
             this.memoryDragPoint = me.dragAnchorY;
-            //this.memoryDragLength = me.dragY;
             this.memoryDyH = 0;
+            this.mustFix = false;
         }
         this.memoryDragLength = me.dragY;
 
-        
 
-        //2.
-
-        //3.
-
-        //println("dragg function execute desde:{me.dragAnchorY} longitud:{me.dragY}");
-//        var g:Node[] = this.content;
-//        println("g have {sizeof g} elements");
-//
-//
-//        //println("new = {me.dragY} and old = {this.memoryDragLength}");
-//
-//
-//
-//        if(g[0].translateY + delta <= 0)
-//        {
-//            var deltaFactor: Float = (1.0 * (delta/2)) / (107/2);
-//            println("deltaFactor = {deltaFactor}, delta = {delta}, scaleYant = {g[0].scaleY}");
-//            g[0].scaleY = g[0].scaleY + deltaFactor;
-//            println("new scaleY = {g[0].scaleY}");
-//
-//            if(g[0].scaleY <= 0.2)
-//            {
-//                var tmp = g[0];
-//                tmp.scaleY = 1.0;
-//                g[0] = g[1];
-//                g[1] = g[2];
-//                g[2] = g[3];
-//                g[3] = g[4];
-//                g[4] = tmp;
-//            }
-//            else
-//            {
-//                g[1].translateY = g[1].translateY + delta;
-//                g[2].translateY = g[2].translateY + delta;
-//                g[3].translateY = g[3].translateY + delta;
-//                g[4].translateY = g[4].translateY + delta;
-//            }
-//        }
-//        else
-//        {
-//            g[0].translateY = g[0].translateY + delta;
-//            g[1].translateY = g[1].translateY + delta;
-//            g[2].translateY = g[2].translateY + delta;
-//            g[3].translateY = g[3].translateY + delta;
-//            g[4].translateY = g[4].translateY + delta;
-//        }
-//        println("fig({g[0].translateX}, {g[0].translateY}),  nodo({g[1].translateX}, {g[1].translateY})");
     }
 
     /** this method manage the click event of all the Nodes*/
