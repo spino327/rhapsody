@@ -2,6 +2,8 @@
  * MediaPlayerControls.fx
  *
  * Created on 29-may-2009, 16:09:58
+ *
+ * based on james weaver code
  */
 
 package org.u2u.gui.scene.extra;
@@ -14,8 +16,9 @@ import javafx.scene.*;
 import javafx.scene.shape.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.*;
+
 /**
- * @author sergio
+ * Take of the Pro JAVA FX book James 
  */
 
 public class MediaPlayerControls extends CustomNode {
