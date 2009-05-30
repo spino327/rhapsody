@@ -2,6 +2,8 @@
  * U2UJPanel.fx
  *
  * Created on 26-may-2009, 23:46:43
+ *
+ * based on code from http://jfx.wikia.com/wiki/SwingComponents
  */
 
 package org.u2u.gui.scene.extra;

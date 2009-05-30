@@ -2,6 +2,8 @@
  * U2UPagePanel.fx
  *
  * Created on 27-may-2009, 9:59:50
+ *
+ * based on code from PDFRender project at java.net
  */
 
 package org.u2u.gui.scene.extra;
