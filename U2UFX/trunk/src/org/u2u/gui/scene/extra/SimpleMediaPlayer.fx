@@ -2,6 +2,8 @@
  * SimpleMediaPlayer.fx
  *
  * Created on 29-may-2009, 16:18:40
+ *
+ * based on james weaver code
  */
 
 package org.u2u.gui.scene.extra;
@@ -18,14 +20,13 @@ import javafx.scene.media.Media;
 
 public class SimpleMediaPlayer extends Control {
 
-  public var source: String on replace {
-    player.media.source = source;
-  }
+  public var source: String;
 
-  var player: MediaPlayer = MediaPlayer {
-    autoPlay:true;
+  public var player: MediaPlayer = MediaPlayer {
+    
+  autoPlay:true;
     media: Media {
-      source: source
+        source: source;
     }
 
     onError: function( me:MediaError ) {
