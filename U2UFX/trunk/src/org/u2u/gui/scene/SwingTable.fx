@@ -2,6 +2,8 @@
  * PruebaTabla.fx
  *
  * Created on 21-may-2009, 20:58:04
+ *
+ * based on code from http://jfx.wikia.com/wiki/SwingComponents
  */
 
 package org.u2u.gui.scene;

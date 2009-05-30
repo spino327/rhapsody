@@ -3,7 +3,41 @@
  *
  * Created on 29-may-2009, 14:30:32
  */
-
+/**
+ * Copyright (c) 2009, Sergio Pino and Irene Manotas
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - Neither the name of Sergio Pino and Irene Manotas. nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author: Sergio Pino and Irene Manotas
+ * Website: http://osum.sun.com/profile/sergiopino, http://osum.sun.com/profile/IreneLizeth
+ * emails  : spino327@gmail.com - irenelizeth@gmail.com
+ * Date   : March, 2009
+ * This license is based on the BSD license adopted by the Apache Foundation.
+ *
+ */
 package org.u2u.gui.scene;
 
 /**
@@ -52,14 +86,38 @@ import org.u2u.gui.scene.extra.SimpleMediaPlayer;
  */
 public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
 
-    public var selection: Integer;
-    public var shared:SharedFile[];
+    public var selec: Integer = -1 on replace {
+        println("selection change {selec}")
+    };
+    public var shared:SharedFile[] = null on replace {
+    
+        println("share change, now have {sizeof shared} elements");
+        if((shared != null) and (table != null)) {
+            
+            table.rows = for(s in shared) {
+                        SwingTable.TableRow{
+                            cells: [
+                                SwingTable.TableCell{
+                                    text: s.name;
+                                },
+                                SwingTable.TableCell{
+                                    text: s.path;
+                                },
+                                 SwingTable.TableCell{
+                                    text: s.type;
+                                },
+                            ]
+                        }
+                    };
+        }
+        
+    
+    };
     public var inputDialog:JFXDialog;
     //public var sourceMedia:String;
-    var mediaAudio:MediaPlayer;
     var group:Group;
-    var mediaPlayer:SimpleMediaPlayer;
-    var src:String;
+    var player:SimpleMediaPlayer;
+    var table: SwingTable;
 
     override function create():Node{
         group = Group{
@@ -70,7 +128,7 @@ public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
                     content:"PREVIEW DOWNLOADED FILES";
                     font: Font.font("Arial",FontWeight.BOLD,20);
                 },
-                SwingTable{
+                table = SwingTable{
                     width:380;
                     height:200;
                     translateX:230;
@@ -87,21 +145,23 @@ public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
                             }
                     ];
 
-                    rows: bind  for(s in shared)
-                        SwingTable.TableRow{
-                            cells: [
-                                SwingTable.TableCell{
-                                    text: s.name;
-                                },
-                                SwingTable.TableCell{
-                                    text: s.path;
-                                },
-                                 SwingTable.TableCell{
-                                    text: s.type;
-                                },
-                            ]
-                        }
-                    selection: bind selection with inverse
+//                    rows: bind  for(s in shared) {
+//                        SwingTable.TableRow{
+//                            cells: [
+//                                SwingTable.TableCell{
+//                                    text: s.name;
+//                                },
+//                                SwingTable.TableCell{
+//                                    text: s.path;
+//                                },
+//                                 SwingTable.TableCell{
+//                                    text: s.type;
+//                                },
+//                            ]
+//                        }
+//                    };
+                    selection : bind selec with inverse;
+
                 },
 
                 ImageView{
@@ -132,32 +192,44 @@ public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
 
     function previewFile():Void{
         
-        println("Preview the file {selection} llamado: {shared[selection].name}");
-        var typeFile:String = TypeFile.getTypeFile(shared[selection].name);
+        println("Preview the file {selec} llamado: {shared[selec].name}");
 
-        if(typeFile.equals(TypeFile.MUSIC) or typeFile.equals(TypeFile.VIDEO) )
-        {
-            if(typeFile.equals(TypeFile.MUSIC)){
+        if(this.selec >= 0) {
+            var typeFile:String = TypeFile.getTypeFile(shared[selec].name);
 
-                //delete group.content[2];
+            if(typeFile.equals(TypeFile.MUSIC) or typeFile.equals(TypeFile.VIDEO) )
+            {
+                if(typeFile.equals(TypeFile.MUSIC)){
 
-                println("tipo de archivo: {TypeFile.getTypeFile(shared[selection].name)}");
+                    //delete group.content[2];
 
-                var player:SimpleMediaPlayer = SimpleMediaPlayer {
-                  translateX:240;
-                  translateY:330;
-                  source: ((new File("Shared/{shared[selection].name}")).toURI()).toString();
-                  width: 350
-                  height: bind 100
+                    println("tipo de archivo: {TypeFile.getTypeFile(shared[selec].name)}");
+
+                    if(this.player != null) {
+                        this.player.player.stop();
+                        this.player.source = null;
+                        delete this.player from group.content;
+                    }
+
+                    this.player = SimpleMediaPlayer {
+                      translateX:240;
+                      translateY:330;
+                      source : ((new File("Shared/{shared[selec].name}")).toURI()).toString();
+                      width: 350
+                      height: bind 100
+                    }
+
+                    insert player into group.content;
+                    
                 }
 
-                insert player before group.content[3];
-            }
+            }else{
 
-        }else{
-           
-            JOptionPane.showMessageDialog(null,"Sorry, only preview for audio and video files!");
+                JOptionPane.showMessageDialog(null,"Sorry, only preview for audio and video files!");
+            }
         }
+
+
     }
 
     /**
@@ -185,6 +257,7 @@ public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
             var local:ArrayList  = obj[1] as ArrayList ;
             var name:String ;
             var ext:String ;
+            var tmpShared: SharedFile[] = [];
 
             for(i in [0 .. < nameF.size()])
             {
@@ -198,8 +271,12 @@ public class U2UPreviewTable extends CustomNode, U2UFileSharingServiceListener {
                         type: name;
                     };
 
-               insert newShared into shared;
+               insert newShared into tmpShared;
             }
+
+            this.shared = tmpShared;
+
+            this.selec = -1;
         }
      }
 

@@ -3,7 +3,41 @@
  *
  * Created on 18-may-2009, 10:51:53
  */
-
+/**
+ * Copyright (c) 2009, Sergio Pino and Irene Manotas
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - Neither the name of Sergio Pino and Irene Manotas. nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author: Sergio Pino and Irene Manotas
+ * Website: http://osum.sun.com/profile/sergiopino, http://osum.sun.com/profile/IreneLizeth
+ * emails  : spino327@gmail.com - irenelizeth@gmail.com
+ * Date   : March, 2009
+ * This license is based on the BSD license adopted by the Apache Foundation.
+ *
+ */
 package org.u2u.gui.scene;
 
 import javafx.scene.image.Image;
@@ -28,7 +62,7 @@ import org.u2u.data.TypeFile;
 import org.u2u.gui.U2UDownloadNodeRender;
 import org.u2u.app.U2UFXApp;
 import javax.swing.JOptionPane;
-import java.io.File;
+import javafx.scene.text.Text;
 
 
 /**
@@ -108,7 +142,19 @@ public class U2UDownloadScene extends U2UAbstractMain{
                 Group{
                     content: bind listNodes
                 },
+                Text {
+                    content: bind "[{
+                        if(listNodes.numOfNodes > model.getSize()) then {
+                            "{model.getSize()}-{model.getSize()}";
+                        }
+                        else {
+                            "{listNodes.numOfNodes}-{model.getSize()}"
+                        }
+                    }]";
+                    x: 25;
+                    y: imgBackView.fitHeight - 25;
 
+                },
                 popupMenu.activateMenus()
            ];
            
@@ -119,58 +165,68 @@ public class U2UDownloadScene extends U2UAbstractMain{
     function pauseDownload():Void{
 
         var selIndex:Integer = listNodes.getSelectedIndex();
-        var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
-        var nameVarEnv:String;
 
-        if(not (nodeSel.equals(null))){
-            println("pause node {nodeSel.getName()}");
-            nameVarEnv = nodeSel.getShellEnv();
-            println("enviroment variable is {nodeSel.getShellEnv()}");
+        if(selIndex >= 0) {
 
-            if(nameVarEnv != null)
-            {
-                if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+            var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
+            var nameVarEnv:String;
 
-                    //it must pause download for this file
-                    U2UFXApp.APP.shell.executeCmd("u2ufss -pausedownload {nameVarEnv}");
-                    //Cambiar el estado de la fila de la descarga pausada
-                    nodeSel.setStatus(U2UDownloadNode.PAUSE);
+            if(not (nodeSel.equals(null))){
+                println("pause node {nodeSel.getName()}");
+                nameVarEnv = nodeSel.getShellEnv();
+                println("enviroment variable is {nodeSel.getShellEnv()}");
+
+                if(nameVarEnv != null)
+                {
+                    if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+
+                        //it must pause download for this file
+                        U2UFXApp.APP.shell.executeCmd("u2ufss -pausedownload {nameVarEnv}");
+                        //Cambiar el estado de la fila de la descarga pausada
+                        nodeSel.setStatus(U2UDownloadNode.PAUSE);
+                    }
                 }
             }
         }
+  
     }
 
     function restartDownload():Void{
 
 
         var selIndex:Integer = listNodes.getSelectedIndex();
-        var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
-        var nameVarEnv:String;
 
-        if(not (nodeSel.equals(null))){
-            println("restart node {nodeSel.getName()}");
-            nameVarEnv = nodeSel.getShellEnv();
-            println("enviroment variable is {nodeSel.getShellEnv()}");
+        if(selIndex >= 0) {
 
-            if(nameVarEnv != null)
-            {
-                if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+            var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
+            var nameVarEnv:String;
 
-                    //it must pause download for this file
-                    pauseDownload();
-                    //it must restart download for this file
-                    U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
-                    //Cambiar el estado de la fila de la descarga pausada
-                    nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+            if(not (nodeSel.equals(null))){
+                println("restart node {nodeSel.getName()}");
+                nameVarEnv = nodeSel.getShellEnv();
+                println("enviroment variable is {nodeSel.getShellEnv()}");
 
-                }else if(nodeSel.status.equals(U2UDownloadNode.PAUSE)){
+                if(nameVarEnv != null)
+                {
+                    if(nodeSel.status.equals(U2UDownloadNode.PAUSE)){
 
-                    //it must pause download for this file
-                    U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
-                    //Cambiar el estado de la fila de la descarga pausada
-                    nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+                        //it must pause download for this file
+                        U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
+                        //Cambiar el estado de la fila de la descarga pausada
+                        nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+                    }
+                    else if(nodeSel.status.equals(U2UDownloadNode.DOWNLOAD)){
+
+                        pauseDownload();
+                        //it must pause download for this file
+                        U2UFXApp.APP.shell.executeCmd("u2ufss -restartdownload {nameVarEnv}");
+                        //Cambiar el estado de la fila de la descarga pausada
+                        nodeSel.setStatus(U2UDownloadNode.DOWNLOAD);
+                    }
+
                 }
             }
+
         }
 
         println("restart node");
@@ -182,33 +238,36 @@ public class U2UDownloadScene extends U2UAbstractMain{
         this.pauseDownload();
 
         var selIndex:Integer = listNodes.getSelectedIndex();
-        var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
-        var nameVarEnv:String;
 
-        var res:Integer = JOptionPane.showConfirmDialog(null, "Do you want to delete this file?","Delete download file",JOptionPane.OK_CANCEL_OPTION);
-        if(res==JOptionPane.OK_OPTION)
-        {
+        if(selIndex >= 0) {
 
-            if(not (nodeSel.equals(null))){
-                println("delete node {nodeSel.getName()}");
-                nameVarEnv= nodeSel.getShellEnv();
-                println("enviroment variable is {nodeSel.getShellEnv()}");
+            var nodeSel:U2UDownloadNode=  model.getNodeAt(selIndex) as U2UDownloadNode;
+            var nameVarEnv:String;
 
-                if(nameVarEnv != null)
-                {
-                    //it must delete download for this file
-                    U2UFXApp.APP.shell.executeCmd("u2ufss -stopdownload {nameVarEnv}");
-                    println("stop and delete node");
-                    model.deleteFileOfModel(selIndex);
-                    listNodes.updateUI();
+            var res:Integer = JOptionPane.showConfirmDialog(null, "Do you want to delete this file?","Delete download file",JOptionPane.OK_CANCEL_OPTION);
+            if(res==JOptionPane.OK_OPTION)
+            {
+
+                if(not (nodeSel.equals(null))){
+                    println("delete node {nodeSel.getName()}");
+                    nameVarEnv= nodeSel.getShellEnv();
+                    println("enviroment variable is {nodeSel.getShellEnv()}");
+
+                    if(nameVarEnv != null)
+                    {
+                        //it must delete download for this file
+                        U2UFXApp.APP.shell.executeCmd("u2ufss -stopdownload {nameVarEnv}");
+                        println("stop and delete node");
+                        model.deleteFileOfModel(selIndex);
+                        listNodes.updateUI();
+                    }
                 }
             }
+            else
+            {
+                restartDownload();
+            }
         }
-        else
-        {
-            restartDownload();
-        }
-
 
     }
 

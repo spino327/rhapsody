@@ -2,6 +2,8 @@
  * HelpButtonNode.fx
  *
  * Created on 21-may-2009, 7:32:37
+ *
+ * based on James weaver code
  */
 
 package org.u2u.gui.scene;

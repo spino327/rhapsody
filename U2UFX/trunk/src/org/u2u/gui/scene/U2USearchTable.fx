@@ -3,7 +3,41 @@
  *
  * Created on 23-may-2009, 9:53:13
  */
-
+/**
+ * Copyright (c) 2009, Sergio Pino and Irene Manotas
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - Neither the name of Sergio Pino and Irene Manotas. nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author: Sergio Pino and Irene Manotas
+ * Website: http://osum.sun.com/profile/sergiopino, http://osum.sun.com/profile/IreneLizeth
+ * emails  : spino327@gmail.com - irenelizeth@gmail.com
+ * Date   : March, 2009
+ * This license is based on the BSD license adopted by the Apache Foundation.
+ *
+ */
 package org.u2u.gui.scene;
 
 import javafx.scene.Node;
@@ -24,12 +58,38 @@ import net.jxta.share.ContentId;
 
 public class U2USearchTable extends CustomNode, U2USearchListener{
 
-    public var results:ResultFile[];
+    public var results:ResultFile[] = null on replace {
+
+
+        println("results change now have {sizeof results} elements");
+
+        if((results != null) and (table != null)) {
+
+            this.table.rows = for (f in results) {
+                [SwingTable.TableRow{
+                        cells:[
+                            SwingTable.TableCell{text: f.name },
+                                SwingTable.TableCell{text: String.valueOf(f.size) },
+                                   SwingTable.TableCell{text: String.valueOf(f.containers) },
+                                     SwingTable.TableCell{adv: f.adv }
+                                       SwingTable.TableCell{text: (f.cid).toString() }
+                          ]
+                      }
+                ]
+            };
+
+
+        }
+
+
+    };
     public var resArray:ArrayList;
-    public var selection:Integer on replace {
-        println("-------------- selection is: {selection} ---------------------------")
+    public var selec:Integer on replace {
+        println("-------------- selection is: {selec} ---------------------------")
     };
     public var height:Number = 260;
+
+    var table: SwingTable;
 
     override function create():Node{
 
@@ -43,7 +103,7 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                     font: Font.font("Arial",FontWeight.BOLD,20);
                 },
 
-                SwingTable{
+                table = SwingTable{
                     width:380;
                     height:bind this.height;
                     translateX:230;
@@ -54,19 +114,19 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
                           SwingTable.TableColumn{ text: "Nº" },
                     ],
 
-                    rows: bind for (f in results)
-                    [
-                          SwingTable.TableRow{
-                            cells:[
-                                SwingTable.TableCell{text: f.name },
-                                    SwingTable.TableCell{text: String.valueOf(f.size) },
-                                       SwingTable.TableCell{text: String.valueOf(f.containers) },
-                                         SwingTable.TableCell{adv: f.adv }
-                                           SwingTable.TableCell{text: (f.cid).toString() }
-                              ]
-                          }
-                    ]
-                    selection: bind selection with inverse
+//                    rows: bind for (f in results)
+//                    [
+//                          SwingTable.TableRow{
+//                            cells:[
+//                                SwingTable.TableCell{text: f.name },
+//                                    SwingTable.TableCell{text: String.valueOf(f.size) },
+//                                       SwingTable.TableCell{text: String.valueOf(f.containers) },
+//                                         SwingTable.TableCell{adv: f.adv }
+//                                           SwingTable.TableCell{text: (f.cid).toString() }
+//                              ]
+//                          }
+//                    ]
+                    selection: bind selec with inverse
                 }  
             ]
         }
@@ -128,7 +188,7 @@ public class U2USearchTable extends CustomNode, U2USearchListener{
     */
     public function getAdvertismentFileSelected():U2UContentAdvertisementImpl{
 
-        return results[this.selection].adv;
+        return results[this.selec].adv;
 
     }
 
