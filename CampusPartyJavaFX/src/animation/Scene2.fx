@@ -18,10 +18,10 @@ import javafx.scene.Node;
 
 public class Scene2 extends AbstractScene {
 
-    var mitHeadImg: Image;
+    
     var fanHeadImg:Image;
     var fanBodyImg:Image;
-    var otherHeadImg:Image;
+
     var mitBodyImg:Image;
     var otherBodyImg:Image;
 
@@ -30,26 +30,22 @@ public class Scene2 extends AbstractScene {
     var bodyOthers:Node;
     var fanBody:ImageView;
 
+    var contScene:Node;
+
     init {
-        mitHeadImg = Image{ url:"{__DIR__}resources/mitnick.png"};
+        
         fanHeadImg = Image{ url:"{__DIR__}resources/hoover-left.png"};
         
         mitBodyImg = Image{ url:"{__DIR__}resources/bodyMit.png" };
         otherBodyImg = Image{ url:"{__DIR__}resources/bodyOther.png" };
         fanBodyImg = Image{ url:"{__DIR__}resources/body.png" };
-        //this.title = "7:00 PM Campus Party, Colombia..."
-    }
 
+        this.titleScene = "Scene 2";
+        this.textScene = "I'm thinking about How I get a sign of Kevin Mitnick?";
 
-    override function start() {
-
-        //
-        this.fill = Color.DARKGRAY;
-        this.content = Group {
-
+        contScene = Group {
+                    
                     content: [
-
-                          
                            ImageView {
 
                                 translateX:140
@@ -80,7 +76,7 @@ public class Scene2 extends AbstractScene {
                                     }
                                 ]
                            },
-                           
+
                            ImageView{
                                 translateX:200
                                 translateY:125
@@ -95,7 +91,15 @@ public class Scene2 extends AbstractScene {
                     ]
 
                 }
-         }
 
+    }
+
+
+    override function start() {
+
+        //
+        this.fill = Color.DARKGRAY;
+        this.content = contScene;
+    }
 }
 
