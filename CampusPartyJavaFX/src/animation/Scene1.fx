@@ -30,9 +30,21 @@ import javafx.scene.media.MediaPlayer;
 public class Scene1 extends AbstractScene {
 
     init {
-        this.title = "7:00 PM Campus Party, Colombia..."
+        this.titleScene = "Scene 1:";
+        this.textScene =  "7:00 PM Campus Party, Colombia...";
     }
 
+    function kevinAppear(): Group {
+
+        var group: Group = Group {
+            
+        }
+
+
+
+        return group;
+
+    }
 
     override function start() {
 
@@ -54,6 +66,10 @@ public class Scene1 extends AbstractScene {
                 keyFrames: [
                     KeyFrame{
                         time:0s;
+                        action:function() {
+                            println("init");
+                            content = showTitle();
+                        }
 
                     },
                     KeyFrame{
@@ -62,6 +78,15 @@ public class Scene1 extends AbstractScene {
                         action:function() {
                             println("termino");
                             player.stop();
+                            player = MediaPlayer {
+                                media : Media {
+                                    source: "{__DIR__}resources/OutdoorCheer.mp3";
+                                }
+                                volume: 300;
+                                rate: 5;
+                                fader: 2;
+                            }
+                            player.play();
                         }
 
                     },
@@ -70,6 +95,7 @@ public class Scene1 extends AbstractScene {
 
                         action:function(){
                             println("termino 2");
+                            player.stop();
                         }
 
                     }
@@ -77,44 +103,8 @@ public class Scene1 extends AbstractScene {
                 ]
             }
 
-        this.content = Group {
+        timeline.play();         
 
-             content: [
-                Text {
-                    content: "Scena 1:";
-                    font: Font.font("Papyrus", 30);
-                    fill: Color.WHITESMOKE;
-                    effect: Glow {
-                            level: 1
-                        }
-                    
-                    translateX: 20;
-                    translateY: 60;
-                    textOrigin: TextOrigin.BOTTOM;
-                    textAlignment: TextAlignment.LEFT;
-
-                },
-
-                Text {
-                    content: this.title;
-
-                    font: Font.font("Papyrus", 30);
-                    fill: Color.BLACK;
-                    effect: Glow {
-                            level: 1
-                        }
-
-                    translateX: 20;
-                    translateY: 250;
-                    textOrigin: TextOrigin.BOTTOM;
-                    textAlignment: TextAlignment.LEFT;
-                }
-
-
-             ];
-         }
-
-         timeline.play();
     }
 
 }
