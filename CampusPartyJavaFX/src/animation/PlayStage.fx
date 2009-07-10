@@ -30,7 +30,8 @@ public class PlayStage extends Stage {
         //creando las scenas de la pelicula
         var arrayScene: ArrayList = new ArrayList();
         arrayScene.add(AbstractScene.getScene1(this));
-
+        arrayScene.add(AbstractScene.getScene2(this));
+        
         iteratorScene = arrayScene.listIterator();
         
     }
