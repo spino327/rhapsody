@@ -8,8 +8,6 @@ package animation;
 
 import javafx.scene.paint.Color;
 
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -39,7 +37,7 @@ public class Scene2 extends AbstractScene {
         mitBodyImg = Image{ url:"{__DIR__}resources/bodyMit.png" };
         otherBodyImg = Image{ url:"{__DIR__}resources/bodyOther.png" };
         fanBodyImg = Image{ url:"{__DIR__}resources/body.png" };
-        this.title = "7:00 PM Campus Party, Colombia..."
+        //this.title = "7:00 PM Campus Party, Colombia..."
     }
 
 

@@ -7,21 +7,13 @@
 package animation;
 
 import javafx.scene.paint.Color;
-import javafx.animation.Interpolator;
-import javafx.scene.layout.VBox;
-import javafx.geometry.HPos;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
-import javafx.scene.effect.Glow;
 import javafx.scene.Group;
-import javafx.scene.text.TextOrigin;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.image.*;
 
 /**
  * @author sergio
@@ -37,6 +29,46 @@ public class Scene1 extends AbstractScene {
     function kevinAppear(): Group {
 
         var group: Group = Group {
+
+            content: [
+
+                Rectangle {
+                    height: 300;
+                    width: 100;
+                    fill: Color.BLUE;
+                },
+                Rectangle {
+                    height: 300;
+                    width: 100;
+                    fill: Color.BLUE;
+                    translateX: 500;
+                },
+                ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/campusCol.jpg";
+                    }
+                    translateX: 200;
+                    translateY: 20;
+                    fitHeight: 200;
+                    fitWidth: 200;
+                },
+                Rectangle {
+                    height: 20;
+                    width: 600;
+                    translateY: 300;
+                    fill: Color.BROWN;
+                },
+                Rectangle {
+                    height: 80;
+                    width: 600;
+                    translateY: 320;
+                    fill: Color.BLACK;
+                }
+
+
+
+
+            ]
             
         }
 
@@ -87,6 +119,7 @@ public class Scene1 extends AbstractScene {
                                 fader: 2;
                             }
                             player.play();
+                            content = kevinAppear();
                         }
 
                     },
@@ -96,6 +129,7 @@ public class Scene1 extends AbstractScene {
                         action:function(){
                             println("termino 2");
                             player.stop();
+                            this.playStage.next();
                         }
 
                     }
