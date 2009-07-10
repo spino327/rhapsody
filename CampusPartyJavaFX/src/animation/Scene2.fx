@@ -67,13 +67,18 @@ public class Scene2 extends AbstractScene {
                                     },
                                     ImageView{
                                         image:otherBodyImg
-                                        translateX:30
+                                        translateX:40
                                         translateY:60
                                     },
                                     ImageView{
                                         image:otherBodyImg
-                                        translateX:50
+                                        translateX:55
                                         translateY:60
+                                    },
+                                    ImageView{
+                                        image:otherBodyImg
+                                        translateX:65
+                                        translateY:50
                                     }
                                 ]
                            },

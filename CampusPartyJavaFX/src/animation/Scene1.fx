@@ -115,9 +115,6 @@ public class Scene1 extends AbstractScene {
          }
 
          timeline.play();
-
-         
-
     }
 
 }
