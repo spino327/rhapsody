@@ -14,6 +14,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.*;
+import javafx.animation.transition.TranslateTransition;
 
 /**
  * @author sergio
@@ -21,13 +22,30 @@ import javafx.scene.image.*;
 
 public class Scene1 extends AbstractScene {
 
+    var transKevin: TranslateTransition;
+    var transPeople: TranslateTransition;
+    var kevin:ImageView;
+    var people: ImageView;
+
     init {
         this.titleScene = "Scene 1:";
         this.textScene =  "7:00 PM Campus Party, Colombia...";
+        transKevin = TranslateTransition{
+                byX:10 toX:200
+                duration:5s autoReverse:false
+                repeatCount:1
+                node: bind kevin
+            }
+        transPeople = TranslateTransition{
+                byY:-5 toX:15
+                duration:1s autoReverse:true
+                repeatCount:5
+                node: bind people
+            }
     }
 
     function kevinAppear(): Group {
-
+        
         var group: Group = Group {
 
             content: [
@@ -63,10 +81,24 @@ public class Scene1 extends AbstractScene {
                     width: 600;
                     translateY: 320;
                     fill: Color.BLACK;
+                },
+                people = ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/grupoGente.png";
+                    }
+                    id: "grupoGente";
+                    translateX: 50;
+                    translateY: 320;
+                    
+                },
+                kevin = ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/bodyMit.png";
+                    }
+                    id: "kevin"
+                    translateY: 180
+
                 }
-
-
-
 
             ]
             
@@ -120,6 +152,8 @@ public class Scene1 extends AbstractScene {
                             }
                             player.play();
                             content = kevinAppear();
+                            transKevin.play();
+                            transPeople.play();
                         }
 
                     },
@@ -129,7 +163,7 @@ public class Scene1 extends AbstractScene {
                         action:function(){
                             println("termino 2");
                             player.stop();
-                            this.playStage.next();
+                            //this.playStage.next();
                         }
 
                     }
