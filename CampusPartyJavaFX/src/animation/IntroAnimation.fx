@@ -64,15 +64,15 @@ public class IntroAnimation extends AbstractScene {
 
             timeline  = Timeline{
                 autoReverse:true;
-                repeatCount:1.65;
+                repeatCount:2;
                 keyFrames: [
                     KeyFrame{
                         time:1s;
-                        values:[ scale=>1.0 ]
+                        values:[ scale=>1.5 ]
                     },
                     KeyFrame{
-                        time:3s;
-                        values:[ scale=>0.0 tween Interpolator.LINEAR ]
+                        time:10s;
+                        values:[ scale=>1.0 tween Interpolator.LINEAR ]
                         action:function() {
                             this.playStage.next();
                         }
@@ -113,7 +113,7 @@ public class IntroAnimation extends AbstractScene {
 
                     tittle = Text{
 
-                        content: "The book of the Blue band\n\n"
+                        content: "The book of the Blue tag\n\n"
                                  "By Hoover Rueda"
                         fill: Color.BLUE;
                         font: Font.font("Verdana",14)

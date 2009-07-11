@@ -1,52 +1,58 @@
 /*
- * Scene1.fx
+ * Scene2.fx
  *
- * Created on 10-jul-2009, 6:43:17
+ * Created on 10-jul-2009, 8:31:54
  */
 
 package animation;
 
 import javafx.scene.paint.Color;
-import javafx.scene.Group;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.image.*;
-import javafx.animation.transition.TranslateTransition;
-import javafx.scene.effect.DropShadow;
 
+import javafx.scene.Group;
+import javafx.scene.image.*;
+import javafx.scene.media.*;
+import javafx.animation.*;
+import javafx.scene.shape.Rectangle;
+import javafx.animation.transition.*;
+import javafx.scene.effect.Glow;
+import javafx.scene.transform.Scale;
+import javafx.scene.effect.DropShadow;
 /**
  * @author sergio
  */
 
-public class Scene1 extends AbstractScene {
+public class Scene3 extends AbstractScene {
 
-    var transKevin: TranslateTransition;
+
+    var transKevinPen: TranslateTransition;
     var transPeople: TranslateTransition;
-    var kevin:ImageView;
+    var kevinPen:ImageView;
     var people: ImageView;
+    
 
     init {
-        this.titleScene = "Scene 1:";
-        this.textScene =  "7:00 PM Campus Party, Colombia...";
-        transKevin = TranslateTransition{
-                byX:10 toX:200
-                duration:5s autoReverse:false
-                repeatCount:1
-                node: bind kevin
-            }
+
         transPeople = TranslateTransition{
                 byY:-5 toX:15
                 duration:1s autoReverse:true
                 repeatCount:15
                 node: bind people
             }
+        transKevinPen = TranslateTransition{
+                byX:-4
+                duration:1s autoReverse:true
+                repeatCount:15
+                node: bind kevinPen
+            }
+        
+
+        this.titleScene = "Scene 3:";
+        this.textScene = "Kevin picked up the books to sign it, \namong these was the book \nof blue tag that I had";
+
     }
 
     function kevinAppear(): Group {
-        
+
         var group: Group = Group {
 
             content: [
@@ -55,12 +61,14 @@ public class Scene1 extends AbstractScene {
                     height: 300;
                     width: 100;
                     fill: Color.BLUE;
-                     effect:DropShadow {
+                    effect:DropShadow {
                             offsetX: 10
                             offsetY: 10
                             color: Color.BLACK
                             radius: 10
                         }
+
+
                 },
                 Rectangle {
                     height: 300;
@@ -102,21 +110,53 @@ public class Scene1 extends AbstractScene {
                     id: "grupoGente";
                     translateX: 50;
                     translateY: 320;
-                    
+
                 },
-                kevin = ImageView {
+                ImageView {
                     image: Image {
                         url: "{__DIR__}resources/bodyMit.png";
                     }
-                    id: "kevin"
-                    translateY: 180
+                    id: "kevin";
+                    translateX: 200;
+                    translateY: 180;
+
+
+                },
+                ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/books.png";
+                    }
+                    translateX: 230;
+                    translateY: 180;
+
+                },
+                kevinPen = ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/pen.png";
+                    }
+                    translateX: 200;
+                    translateY: 230;
+                    effect: Glow {
+                            level: 0.5
+                        }
+
+                },
+                ImageView {
+                    image: Image {
+                        url: "{__DIR__}resources/desk.png";
+                    }
+                    translateX: 190;
+                    translateY: 260;
 
                 }
+                
 
             ]
-            
+
         }
 
+        group.scaleX = 1.6;
+        group.scaleY = 1.6;
 
 
         return group;
@@ -130,8 +170,9 @@ public class Scene1 extends AbstractScene {
             media : Media {
                 source: "{__DIR__}resources/TickingClock.mp3";
             }
+            //repeatCount: 2;
             volume: 300;
-
+            
 
         }
         println("inicia");
@@ -150,25 +191,14 @@ public class Scene1 extends AbstractScene {
                     },
                     KeyFrame{
                         time:10s;
-                        
+
                         action:function() {
                             println("termino");
-                            //player.pause();
-                            player.stop();
-                            player = MediaPlayer {
-                                media : Media {
-                                    source: "{__DIR__}resources/OutdoorCheer.mp3";
-
-                                }
-                                //repeatCount: 2;
-                                volume: 300;
-                                //rate: 5;
-                                //fader: 2;
-                            }
-                            player.play();
+                            
                             content = kevinAppear();
-                            transKevin.play();
                             transPeople.play();
+                            transKevinPen.play();
+                            
                         }
 
                     },
@@ -177,10 +207,10 @@ public class Scene1 extends AbstractScene {
 
                         action:function(){
                             println("termino 2");
-                            //player.pause();
                             player.stop();
-                            transKevin.stop();
                             transPeople.stop();
+                            transKevinPen.stop();
+                            
                             this.playStage.next();
                         }
 
@@ -189,8 +219,7 @@ public class Scene1 extends AbstractScene {
                 ]
             }
 
-        timeline.play();         
-
+        timeline.play();
     }
-
 }
+

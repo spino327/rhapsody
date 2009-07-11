@@ -50,7 +50,7 @@ public abstract class AbstractScene extends Scene {
                 Text {
                     content: this.textScene;
 
-                    font: Font.font("Papyrus", 30);
+                    font: Font.font("Papyrus", 20);
                     fill: Color.BLACK;
                     effect: Glow {
                             level: 1
@@ -99,48 +99,30 @@ public function getScene2(play: PlayStage):Scene2{
         height: 600;
     }
 }
-//
-//public function getU2USearchScene(cont:U2UContentStage):U2USearchScene{
-//
-//    return U2USearchScene{
-//        contentStage:cont;
-//        width:650;
-//        height:500
-//    }
-//}
-//
-//public function getU2UDownloadScene(cont:U2UContentStage):U2UDownloadScene{
-//
-//    return U2UDownloadScene{
-//        contentStage:cont;
-//        width:650;
-//        height:500
-//    }
-//}
-//
-//public function getU2UHelpScene(cont:U2UContentStage):U2UHelpScene{
-//
-//    return U2UHelpScene{
-//        contentStage:cont;
-//        width:800;
-//        height:600
-//    }
-//}
-//
-//public function getU2UPreferencesScene(cont:U2UContentStage):U2UPreferencesScene{
-//
-//    return U2UPreferencesScene{
-//        contentStage:cont;
-//        width:650;
-//        height:500
-//    }
-//}
-//
-//public function getU2UPreviewScene(cont:U2UContentStage):U2UPreviewScene{
-//
-//    return U2UPreviewScene{
-//        contentStage:cont;
-//        width:650;
-//        height:500
-//    }
-//}
+
+public function getScene3(play: PlayStage):Scene3{
+
+    return Scene3{
+        playStage: play;
+        width: 800;
+        height: 600;
+    }
+}
+
+public function getScene4(play: PlayStage):Scene4{
+
+    return Scene4{
+        playStage: play;
+        width: 800;
+        height: 600;
+    }
+}
+
+public function getSceneFinal(play: PlayStage):SceneFinal{
+
+    return SceneFinal{
+        playStage: play;
+        width: 800;
+        height: 600;
+    }
+}

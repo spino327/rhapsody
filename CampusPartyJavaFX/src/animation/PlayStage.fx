@@ -31,11 +31,13 @@ public class PlayStage extends Stage {
         var arrayScene: ArrayList = new ArrayList();
         arrayScene.add(AbstractScene.getScene1(this));
         arrayScene.add(AbstractScene.getScene2(this));
+        arrayScene.add(AbstractScene.getScene3(this));
+        arrayScene.add(AbstractScene.getScene4(this));
+        arrayScene.add(AbstractScene.getSceneFinal(this));
         
         iteratorScene = arrayScene.listIterator();
         
     }
-
 
     public function start(): Void {
         println("Start in PlayStage");
